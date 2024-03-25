@@ -1,5 +1,5 @@
 <script>
-	export let vertical
+	export let vertical = false
 </script>
 
 {#if vertical}

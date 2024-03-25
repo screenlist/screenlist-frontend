@@ -1,7 +1,10 @@
 <script>
 	import { PUBLIC_HOST_URL } from '$env/static/public'
+	import DonateCard from '$lib/DonateCard.svelte'
+
 	export let data
-	console.log(data)
+	// console.log(data)
+
 	const ratingColor = (factor) => {
 		const startColor = '#BF0603'
 		const endColor = '#073b4c'
@@ -16,6 +19,11 @@
 		
 		return `#${result}`;
 	}
+
+	let stillOne = data.stills.find(item => item.index === 0)
+	let stillTwo = data.stills.find(item => item.index === 1)
+	let stillThree = data.stills.find(item => item.index === 2)
+
 </script>
 
 <svelte:head>
@@ -37,9 +45,239 @@
 <div itemscope itemtype="https://schema.org/Movie">
 	<h1 itemprop="name" class="uni-pad">{data.details.name} {`(${data.details.year})`}</h1>
 	<div class="layout-progressive uni-relative">
-		<section id="details">
+		<section class="container" id="details">
+			<figure>
+				<img 
+					src={data.details.poster?.url ?? '/photos/poster.png'} 
+					alt={data.details.poster?.altText ?? 'Placeholder'} 
+					placeholder='/photo/poster.png' 
+					height="1620px"
+					width="1080px"
+					loading="lazy"
+				/>
+				<a href={`/films/${data.details.id}/poster?index=0`}>
+					<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+				</a>
+				<div class="title-band">
+					<p class="uni-pad text-small text-faded">{data.details.poster?.credit ? '© '+data.poster.credit  : "Add photo credit"}</p>
+				</div>
+			</figure>
+			<div class="inverseContainer">
+				<p class="moderationStatus">{data.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
+			</div>
+			<!-- { !currentUser && <ToEdit/> } -->
+			<div class="titleBand">
+				<h2 class="h3">Details</h2>
+				<!-- { currentUser && <EditFilmForm /> } -->
+			</div>
+			<div class="detailsContainer">
+				{#if data.details?.genres}
+					<div class="datailDataContainer">
+						<ul class="listContainer">
+							{#each data.details.genres as genre (genre) }
+								<li>{genre}</li>
+							{/each}
+						</ul>						
+					</div>
+				{/if}
 
+				<div class="datailDataContainer">
+					{#if data.details?.keyRoles.writer.length > 0}
+						<div class="keyRole">
+							<h3>{data.keyRoles.writer.length > 1 ? 'Writers' : 'Writer'}</h3>
+							<ul class="keyRoleList">
+								{#each data.details.keyRoles.writer as item (item.id)}
+									<li itemprop="author" itemscope itemtype="https://schema.org/Person">
+										<a href={`/people/${item.parentId}`}>
+											<span itemprop="name">{item.parentName}</span>
+										</a>
+									</li>
+								{/each}
+							</ul>
+						</div>
+					{/if}
+					{#if data.details?.keyRoles.director.length > 0}
+						<div class="keyRole">
+							<h3>{data.keyRoles.director.length > 1 ? 'Directors' : 'Director'}</h3>
+							<ul class="keyRoleList">
+								{#each data.details.keyRoles.director as item (item.id)}
+									<li itemprop="director" itemscope itemtype="https://schema.org/Person">
+										<a href={`/people/${item.parentId}`}>
+											<span itemprop="name">{item.parentName}</span>
+										</a>
+									</li>
+								{/each}
+							</ul>
+						</div>
+					{/if}
+					{#if data.details?.keyRoles.producer.length > 0}
+						<div class="keyRole">
+							<h3>{data.keyRoles.producer.length > 1 ? 'Producers' : 'Producer'}</h3>
+							<ul class="keyRoleList">
+								{#each data.details.keyRoles.producer as item (item.id)}
+									<li itemprop="producer" itemscope itemtype="https://schema.org/Person">
+										<a href={`/people/${item.parentId}`}>
+											<span itemprop="name">{item.parentName}</span>
+										</a>
+									</li>
+								{/each}
+							</ul>
+						</div>
+					{/if}
+					{#if data.details?.keyRoles.cast.length > 0}
+						<div class="keyRole">
+							<h3>Cast</h3>
+							<ul class="keyRoleList">
+								{#each data.details.keyRoles.cast as item (item.id)}
+									<li itemprop="actor" itemscope itemtype="https://schema.org/Person">
+										<a href={`/people/${item.parentId}`}>
+											<span itemprop="name">{item.parentName}</span>
+										</a>
+									</li>
+								{/each}
+							</ul>
+						</div>
+					{/if}
+				</div>
+				<div class="datailDataContainer">
+					<h3 class="flexible">Logline</h3>
+					<p><span itemprop="description">{data.details.logline}</span></p>
+				</div>
+				<div class="datailDataContainerFlex">
+					<div class="datailDataContainerFlexChild">
+						<h3 class="">Year</h3>
+						<p><span>{data.details.year}</span></p>
+					</div>				
+					<div class="datailDataContainerFlexChild">
+						<h3 class="">Type</h3>
+						<p><span>{data.details.type[0].toUpperCase()+data.details.type.substring(1)}</span></p>
+					</div>
+					<div class="datailDataContainerFlexChild">
+						<h3 class="">Format</h3>
+						<p><span>{data.details.format[0].toUpperCase()+data.details.format.substring(1)} Film</span></p>
+					</div>
+					{#if data.details.countries}
+						<div itemprop="countryOfOrigin" itemscope itemtype="https://schema.org/Country" class="datailDataContainerFlexChild">
+							<h3 class="">{data.details.countries.length > 1 ? 'Countries' : 'Country'}</h3>
+							<p><span itemprop='name'>{data.details.countries.join(', ')}</span></p>
+						</div>
+					{/if}
+					{#if data.details.languages }
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">{data.details.languages.length > 1 ? 'Languages' : 'Language'}</h3>
+							<p><span>{data.details.languages.join(', ')}{data.details.additionalLanguages ? ', '+data.details.additionalLanguages : ''}</span></p>
+						</div>
+					{/if}
+					{#if data.details.releaseDate}
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">Release Date</h3>
+							<p><span>{new Date(data.details.releaseDate).toLocaleDateString('en-za')}</span></p>
+						</div>
+					{/if}
+					{#if data.details.runtime}
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">Runtime</h3>
+							<p><span>{data.details.runtime} minutes</span></p>
+						</div>
+					{/if}
+					{#if data.details.budget}
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">Budget</h3>
+							<p><span>{parseFloat((+data.details.budger).toFixed(2)).toLocaleString('en-ZA', {style: 'currency', currency: 'ZAR'}).substring(2)}</span></p>
+						</div>
+					{/if}
+					{#if data.details.boxOffice}
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">Box Office</h3>
+							<p><span>{parseFloat((+data.details.boxOffice).toFixed(2)).toLocaleString('en-ZA', {style: 'currency', currency: 'ZAR'}).substring(2)}</span></p>
+						</div>
+					{/if}
+					{#if data.details.productionStage}
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">Stage</h3>
+							<p><span>{data.details.productionStage[0].toUpperCase()+data.details.productionStage.substring(1)}</span></p>
+						</div>
+					{/if}
+					{#if data.details.initialPlatform}
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">Premiere Platform</h3>
+							<p><span>{data.details.initialPlatform}</span></p>
+						</div>
+					{/if}
+				</div>
+				{#if data.details.plotSummary}
+					<div class="datailDataContainer">
+						<h3 class="">Plot Summary</h3>
+							<p class="plotSummary"><span>{data.details.plotSummary}</span></p>
+					</div>
+				{/if}
+			</div>
+			<DonateCard vertical={true} />
 		</section>
+		<div class="ad-container">
+			<section class="ad-contentMain">
+				{#if data.stills.length > 0 || data.user}
+					<section class="ad-stillsContainer">
+						<div class="ad-carousel">
+							{#if stillOne || data.user}
+								<figure class="ad-stillImage">
+									<img 
+										src={stillOne.url ?? '/photos/still.png'} 
+										alt={stillOne.altText ?? 'Placeholder'} 
+										placeholder="/photos/still.png"
+										height="1080px"
+										width="1920px"
+										loading="lazy"
+									/>
+									<a href={`/films/${data.details.id}/still?index=${stillOne.index}`}>
+										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+									</a>
+									<div class="title-band">
+										<p class="uni-pad text-small text-faded">{stillOne?.credit ? '© '+stillOne.credit  : "Add photo credit"}</p>
+									</div>
+								</figure>
+							{/if}
+							{#if stillTwo || data.user}
+								<figure class="ad-stillImage">
+									<img 
+										src={stillTwo.url ?? '/photos/still.png'} 
+										alt={stillTwo.altText ?? 'Placeholder'} 
+										placeholder="/photos/still.png"
+										height="1080px"
+										width="1920px"
+										loading="lazy"
+									/>
+									<a href={`/films/${data.details.id}/still?index=${stillTwo.index}`}>
+										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+									</a>
+									<div class="title-band">
+										<p class="uni-pad text-small text-faded">{stillTwo?.credit ? '© '+stillTwo.credit  : "Add photo credit"}</p>
+									</div>
+								</figure>
+							{/if}
+							{#if stillThree || data.user}
+								<figure class="ad-stillImage">
+									<img 
+										src={stillThree.url ?? '/photos/still.png'} 
+										alt={stillThree.altText ?? 'Placeholder'} 
+										placeholder="/photos/still.png"
+										height="1080px"
+										width="1920px"
+										loading="lazy"
+									/>
+									<a href={`/films/${data.details.id}/still?index=${stillThree.index}`}>
+										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+									</a>
+									<div class="title-band">
+										<p class="uni-pad text-small text-faded">{stillThree?.credit ? '© '+stillThree.credit  : "Add photo credit"}</p>
+									</div>
+								</figure>
+							{/if}
+						</div>
+					</section>
+				{/if}
+			</section>
+		</div>
 	</div>
 </div>
 
@@ -66,13 +304,13 @@
 		position: relative;
 	}
 
-	.container > figure > button {
+	/* .container > figure > button {
 		position: absolute;
 		right: 0;
 		top: 0;
 		width: 2.5rem;
 		height: 2.5rem;
-	}
+	} */
 
 	.detailsContainer {
 		padding: 0 0.5rem;
@@ -160,7 +398,7 @@
 		padding: 0 0.5rem;
 	}
 
-	.socialLinks {
+	/* .socialLinks {
 		display:  flex;
 		flex-direction: row;
 		width: 100%;
@@ -175,7 +413,7 @@
 		justify-content: space-between;
 		align-items: center;
 		font-size: 0.9rem;
-	}
+	} */
 
 	.plotSummary {
 		text-align: justify;
@@ -191,13 +429,13 @@
 		font-size: 0.8rem;
 	}
 
-	.middleContainer {
+	/* .middleContainer {
 		padding: 0 0.5rem;
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-	}
+	} */
 
 	.inverseContainer {
 		padding: 0 0.5rem;

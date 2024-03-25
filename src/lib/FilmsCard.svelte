@@ -26,7 +26,7 @@
 					<a class="innerShell" title={film.name} href={`/films/${film.id}`}>
 						<div class="container">
 							<figure>
-								<img src={film.posterUrl ? film.posterUrl : '/photos/poster.png'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
+								<img loading="lazy" placeholder="/photos/poster.png" src={film.posterUrl ? film.posterUrl : '/photos/poster.png'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
 							</figure>
 							<div class="info">
 								<p class="yearText">{film.year}</p>

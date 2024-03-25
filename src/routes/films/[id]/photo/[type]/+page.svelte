@@ -3,18 +3,19 @@
 	import PhotoOperations from '$lib/PhotoOperations.svelte'
 
 	export let data
+	export let form
 
 	let type = $page.params.type
 	let index = $page.url.searchParams.get('index')
 
 	let object
 
-	if(type === 'posters'){
+	if(type === 'poster'){
 		object = data.details.poster
 	}
-	if(type === 'stills'){
+	if(type === 'still'){
 		object = data.details.stills.find( item => item.index - index)
 	}
 </script>
 
-<PhotoOperations {object} />
+<PhotoOperations {object} {form} />

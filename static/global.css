@@ -400,10 +400,10 @@ input[type="search"]::-ms-clear {
 	justify-content: stretch;
 	width: 90vw;
 	max-width: 400px;
-	background: var(--base-color-alt);
-	color: var(--main-color);
+	background: var(--base-color);
+	color: var(--brand-color);
 	padding: 1rem;
-	border: 0.2rem solid var(--brand-color);
+	border: 0.15rem solid var(--base-color-alt);
 	border-radius: 0.2rem;
 }
 
@@ -511,6 +511,15 @@ input[type="search"]::-ms-clear {
 	display: grid;
 	place-items: center;
 	min-height: 70vh;
+}
+
+.form-page-new {
+	padding: 1rem 0;
+	min-height: 50vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
 }
 
 .form-popup {
