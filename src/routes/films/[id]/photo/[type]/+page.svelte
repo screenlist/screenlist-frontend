@@ -14,7 +14,7 @@
 		object = data.details.poster
 	}
 	if(type === 'still'){
-		object = data.details.stills.find( item => item.index - index)
+		object = data.stills.find( item => item.index - index)
 	}
 </script>
 

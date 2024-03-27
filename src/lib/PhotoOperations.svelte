@@ -4,6 +4,7 @@
 	import { page } from '$app/stores'
 	import { onMount } from 'svelte'
 	import { PUBLIC_SERVER } from '$env/static/public'
+	import LoadingState from '$lib/LoadingState.svelte'
 	
 	export let object
 	export let form
@@ -79,19 +80,20 @@
 	<nav>
 
 		{#if object}
-			<label class={`button-icon ${mode === 'update' ? 'selectedMode' : ''}`} for="mode">
+			<label class={`button-icon ${mode === 'update' ? 'selectedMode' : ''}`} for="update">
 				<img src="/edit-box-icon.svg" alt="Edit icon" width="30px" height="30px">
 			</label>
-			<input id="update" checked={mode === 'update'} class="hide" type="radio" name="mode" value="update" bind:group={mode} />
+			<input id="update" checked={mode === 'update'} class="hide" type="radio" name="update" value="update" bind:group={mode} />
 
-			<label class={`button-icon ${mode === 'delete' ? 'selectedMode' : ''}`} for="mode">
+			<label class={`button-icon ${mode === 'delete' ? 'selectedMode' : ''}`} for="delete">
 				<img src="/delete-icon.svg" alt="Delete icon" width="30px" height="30px">
 			</label>
-			<input id="delete" checked={mode === 'delete'}  class="hide" type="radio" name="mode" value="delete" bind:group={mode} />
+			<input id="delete" checked={mode === 'delete'}  class="hide" type="radio" name="delete" value="delete" bind:group={mode} />
 		{:else}
-			<label class={`button-icon ${mode === 'new' ? 'selectedMode' : ''}`} for="mode">
+			<label class={`button-icon ${mode === 'new' ? 'selectedMode' : ''}`} for="new">
 				<img src="/add-photo-icon.svg" alt="Add new icon" width="30px" height="30px">
 			</label>
+			<input id="new" checked={mode === 'new'}  class="hide" type="radio" name="new" value="new" bind:group={mode} />
 		{/if}
 	
 	</nav>
@@ -99,7 +101,13 @@
 
 <section class="form-page-new">
 	{#if mode === 'new'}
-		<form class="form" method="POST" action="?/create" use:enhance>
+		<form class="form" method="POST" action="?/create" use:enhance={() => {
+			loading = true
+			return async ({update}) => {
+				await update()
+				loading = false
+			}
+		}}>
 			<h2 class="h4">Add new photo</h2>
 
 			{#if form?.error}
@@ -121,7 +129,7 @@
 			{:else}
 				<div class="form-field">
 					<label for= "poster">Paste link <span aria-label='required field' class="form-field-required"></span></label>
-					<input type="text" required name="poster" id="poster" accept="image/png, image/jpeg, image/webp" on:change={(e) => {
+					<input type="text" required name="poster" id="poster" accept="image/png, image/jpeg, image/webp" on:input={(e) => {
 						token = getCookie('__session')
 						updateImageWithLink(e)
 					}}/>
@@ -154,7 +162,13 @@
 			<button type="submit" class="button-good">Upload</button>
 		</form>
 	{:else if mode === 'update'}
-		<form class="form" method="POST" action="?/update" use:enhance>
+		<form class="form" method="POST" action="?/update" use:enhance={() => {
+			loading = true
+			return async ({update}) => {
+				await update()
+				loading = false
+			}
+		}}>
 			<h2 class="h4">Edit Information</h2>
 
 			<p><span class="form-field-required"></span> Indicates a required field.</p>
@@ -174,13 +188,19 @@
 			<button type="submit" class="button-good">Submit</button>
 		</form>
 	{:else if mode === 'delete'}
-		<form class="form" method="POST" action="?/delete" use:enhance>
+		<form class="form" method="POST" action="?/delete" use:enhance={() => {
+			loading = true
+			return async ({update}) => {
+				await update()
+				loading = false
+			}
+		}}>
 			<h2 class="h4">Are you sure you want to delete the image? This is a destructive action, it cannot be undone, do you still want to continue?</h2>
 			<div class="hide">
 				<label aria-hidden="true" for="index">Source <span aria-label='required field' class="form-field-required"></span></label>
 				<input aria-hidden="true" value={object?.index ?? '0'} name="index" required type="number" />
-				<button type="submit" class="button-danger">Submit</button>
 			</div>
+			<button type="submit" class="button-danger">Delete, anyway!</button>
 		</form>
 	{/if}
 </section>

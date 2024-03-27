@@ -1,6 +1,10 @@
 <script>
 	import { PUBLIC_HOST_URL } from '$env/static/public'
 	import DonateCard from '$lib/DonateCard.svelte'
+	import EmptyState from '$lib/EmptyState.svelte'
+	import GridRoles from '$lib/GridRoles.svelte'
+	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
+	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 
 	export let data
 	// console.log(data)
@@ -55,11 +59,11 @@
 					width="1080px"
 					loading="lazy"
 				/>
-				<a href={`/films/${data.details.id}/poster?index=0`}>
+				<a class="button-edit" href={`/films/${data.details.id}/photo/poster?index=0`}>
 					<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 				</a>
 				<div class="title-band">
-					<p class="uni-pad text-small text-faded">{data.details.poster?.credit ? '© '+data.poster.credit  : "Add photo credit"}</p>
+					<p class="uni-pad text-small text-faded">{data.details.poster?.credit ? '© '+data.details.poster.credit  : "Add photo credit"}</p>
 				</div>
 			</figure>
 			<div class="inverseContainer">
@@ -222,60 +226,99 @@
 							{#if stillOne || data.user}
 								<figure class="ad-stillImage">
 									<img 
-										src={stillOne.url ?? '/photos/still.png'} 
-										alt={stillOne.altText ?? 'Placeholder'} 
+										src={stillOne?.url ?? '/photos/still.png'} 
+										alt={stillOne?.altText ?? 'Placeholder'} 
 										placeholder="/photos/still.png"
 										height="1080px"
 										width="1920px"
 										loading="lazy"
 									/>
-									<a href={`/films/${data.details.id}/still?index=${stillOne.index}`}>
+									<a class="button-edit" href={`/films/${data.details.id}/photo/still?index=0`}>
 										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 									</a>
-									<div class="title-band">
-										<p class="uni-pad text-small text-faded">{stillOne?.credit ? '© '+stillOne.credit  : "Add photo credit"}</p>
+									<div class="title-band" style="padding: 0 0.5rem;">
+										<p class="title-slim">{stillOne?.credit ? '© '+stillOne.credit  : "Add photo credit"}</p>
 									</div>
 								</figure>
 							{/if}
 							{#if stillTwo || data.user}
 								<figure class="ad-stillImage">
 									<img 
-										src={stillTwo.url ?? '/photos/still.png'} 
-										alt={stillTwo.altText ?? 'Placeholder'} 
+										src={stillTwo?.url ?? '/photos/still.png'} 
+										alt={stillTwo?.altText ?? 'Placeholder'} 
 										placeholder="/photos/still.png"
 										height="1080px"
 										width="1920px"
 										loading="lazy"
 									/>
-									<a href={`/films/${data.details.id}/still?index=${stillTwo.index}`}>
+									<a class="button-edit" href={`/films/${data.details.id}/photo/still?index=1`}>
 										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 									</a>
-									<div class="title-band">
-										<p class="uni-pad text-small text-faded">{stillTwo?.credit ? '© '+stillTwo.credit  : "Add photo credit"}</p>
+									<div class="title-band" style="padding: 0 0.5rem;">
+										<p class="title-slim">{stillTwo?.credit ? '© '+stillTwo.credit  : "Add photo credit"}</p>
 									</div>
 								</figure>
 							{/if}
 							{#if stillThree || data.user}
 								<figure class="ad-stillImage">
 									<img 
-										src={stillThree.url ?? '/photos/still.png'} 
-										alt={stillThree.altText ?? 'Placeholder'} 
+										src={stillThree?.url ?? '/photos/still.png'} 
+										alt={stillThree?.altText ?? 'Placeholder'} 
 										placeholder="/photos/still.png"
 										height="1080px"
 										width="1920px"
 										loading="lazy"
 									/>
-									<a href={`/films/${data.details.id}/still?index=${stillThree.index}`}>
+									<a class="button-edit" href={`/films/${data.details.id}/photo/still?index=2`}>
 										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 									</a>
-									<div class="title-band">
-										<p class="uni-pad text-small text-faded">{stillThree?.credit ? '© '+stillThree.credit  : "Add photo credit"}</p>
+									<div class="title-band" style="padding: 0 0.5rem;">
+										<p class="title-slim">{stillThree?.credit ? '© '+stillThree.credit  : "Add photo credit"}</p>
 									</div>
 								</figure>
 							{/if}
 						</div>
 					</section>
 				{/if}
+				<section id="cast" class={data.stills.length > 0 || data.user ? '' : 'ad-firstSection' }>
+					<div class={data.stills.length > 0 || data.user ? 'ad-titleBand ': 'ad-titleBandFirst'}>
+						<h2 class="h3">Cast</h2>
+						<SignedIn>
+							<!-- Insert the role creation link -->
+						</SignedIn>
+					</div>
+					{#if data.cast.length > 0}
+						<GridRoles data={data.cast} type="personRole" />
+					{:else}
+						<EmptyState text='No cast members.' height="20rem" fill="var(--base-color-alt)" />
+					{/if}
+				</section>
+				<section class="crew">
+					<div class="ad-titleBand">
+						<h2 class="h3">Crew</h2>
+						<SignedIn>
+							<!-- Insert the role creation link -->
+						</SignedIn>
+					</div>
+					{#if data.crew.length > 0}
+						<GridRoles data={data.crew} type="personRole" />
+					{:else}
+						<EmptyState text='No crew members.' height="20rem" fill="var(--base-color-alt)" />
+					{/if}
+				</section>
+				<section class="companies">
+					<div class="ad-titleBand">
+						<h2 class="h3">Companies</h2>
+						<SignedIn>
+							<!-- Insert the role creation link -->
+						</SignedIn>
+					</div>
+					{#if data.companies.length > 0}
+						<GridRoles data={data.companies} type="companyRole" />
+					{:else}
+						<EmptyState text='No cast members' height="20rem" fill="var(--base-color-alt)" />
+					{/if}
+				</section>
 			</section>
 		</div>
 	</div>
@@ -304,13 +347,24 @@
 		position: relative;
 	}
 
-	/* .container > figure > button {
+	.container > figure > img {
+		height: 100%;
+		width: 100%;
+	}
+
+	.container > figure > a {
 		position: absolute;
 		right: 0;
 		top: 0;
 		width: 2.5rem;
 		height: 2.5rem;
-	} */
+		display: inline-block;
+	}
+
+	.container > figure > a > img {
+		width: 100%;
+		height: 100%;
+	}
 
 	.detailsContainer {
 		padding: 0 0.5rem;
@@ -486,6 +540,102 @@
 		text-align: left;
 	}
 
+	.ad-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+		padding: 0;
+		margin-bottom: 0.5rem;
+	}
+
+	.ad-stillsContainer {
+		/* display: flex;
+		flex-direction: column; */
+		background: var(--awe-color);
+		color: var(--bright);
+		min-width: 100%;
+	}
+
+	.ad-carousel {
+		display: flex;
+		overflow-x: auto;
+	}
+
+	.ad-stillImage {
+		flex: 0 0 100%; /* Initial width, takes up the full width of the container */
+		padding: 0;
+		margin: 0 0.2rem;
+		/* width: 100%; */
+		/*border: 1px transparent solid;
+		border-radius: 250px;*/
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+		position: relative;
+	}
+
+	.ad-stillImage > img {
+		height: 100%;
+		width: 100%;
+	}
+
+	.ad-stillImage > a {
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	.ad-stillImage > a > img {
+		width: 100%;
+		height: 100%;
+	}
+
+
+	.ad-contentMain {
+		width: 100%;
+	}
+
+	/* .ad-contentSecondary {
+		width: 100%;
+		padding: 0 0.5rem;
+		background: var(--base-color-alt);
+		margin-top: 0.5rem;
+	} */
+
+	.ad-firstSection > div > h2 {
+		margin-top: 0;
+	}
+
+	.ad-titleBandFirst {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		min-width: 100%;
+		margin: 0rem 0 0.3rem 0;
+		padding: 0 0.5rem;
+	}
+
+
+	.ad-titleBand {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		min-width: 100%;
+		margin: 0.6rem 0 0.3rem 0;
+		padding: 0 0.5rem;
+	}
+
+	.ad-titleBand > h2 {
+		margin: auto 0;
+	}
+
 	@media(min-width: 600px){
 		.container {
 			max-width: 40%;
@@ -498,11 +648,32 @@
 		.detailsContainer {
 			padding: 0;
 		}
+
+		.ad-container {
+			min-width: 59%;
+			max-width: 59%;
+			align-items: flex-start;
+		}
+		.ad-titleBand {
+			padding: 0;
+		}
 	}
 
 	@media(min-width: 1000px){
 		.container {
 			max-width: 30%;
+		}
+
+		.ad-stillImage {
+			flex: 0 0 80%;
+		}
+
+		.ad-container {
+			min-width: 69%;
+			max-width: 69%;
+			flex-direction: row;
+			align-items: flex-start;
+			justify-content: space-between;
 		}
 	}
 

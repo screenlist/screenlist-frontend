@@ -12,11 +12,11 @@ export const actions = {
 		console.log(data.get('source'))
 		console.log(data.get('poster'))
 		console.log(data.get('attribution'))
-		// if( (photoType !== 'posters' && photoType !== 'stills') || !photoIndex ){
+		// if( (photoType !== 'poster' && photoType !== 'still') || !photoIndex ){
 		// 	throw error(400, 'Incomplete URL parameters')
 		// }
 
-		// const requestUrl = `${PUBLIC_SERVER}/films/${filmId}/${photoType}?index=${photoIndex}`
+		// const requestUrl = `${PUBLIC_SERVER}/films/${filmId}/${photoType+'s'}?index=${photoIndex}`
 		// const res = await fetch(url, {
 		// 	method: 'POST'
 		// })
@@ -28,11 +28,11 @@ export const actions = {
 		const photoType = params.type
 		const photoIndex = url.searchParams.get('index')
 
-		if( (photoType !== 'posters' && photoType !== 'stills') || !photoIndex ){
+		if( (photoType !== 'poster' && photoType !== 'still') || !photoIndex ){
 			throw error(400, 'Incomplete URL parameters')
 		}
 
-		const requestUrl = `${PUBLIC_SERVER}/films/${filmId}/${photoType}?index=${photoIndex}`
+		const requestUrl = `${PUBLIC_SERVER}/films/${filmId}/${photoType+'s'}?index=${photoIndex}`
 		const res = await fetch(url, {
 			method: 'PATCH',
 			headers: {
@@ -48,11 +48,11 @@ export const actions = {
 		const photoType = params.type
 		const photoIndex = url.searchParams.get('index')
 
-		if( (photoType !== 'posters' && photoType !== 'stills') || !photoIndex ){
+		if( (photoType !== 'poster' && photoType !== 'still') || !photoIndex ){
 			throw error(400, 'Incomplete URL parameters')
 		}
 
-		const requestUrl = `${PUBLIC_SERVER}/films/${filmId}/${photoType}?index=${photoIndex}`
+		const requestUrl = `${PUBLIC_SERVER}/films/${filmId}/${photoType+'s'}?index=${photoIndex}`
 		const res = await fetch(url, {
 			method: 'DELETE',
 			headers: {
