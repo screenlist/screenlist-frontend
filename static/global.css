@@ -283,10 +283,10 @@ input[type="search"]::-ms-clear {
 	transform: scale(1.2);
 }
 
-.button-edit > img {
+/* .button-edit > img {
 	width: 100%;
 	height: 100%;
-}
+} */
 
 .button-icon {
 	background: transparent;
@@ -309,10 +309,10 @@ input[type="search"]::-ms-clear {
 	transform: scale(1.2);
 }
 
-.button-icon > img {
+/* .button-icon > img {
 	width: 100%;
 	height: 100%;
-}
+} */
 
 .button-regular {
 	background: var(--base-color);

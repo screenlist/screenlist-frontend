@@ -1,6 +1,7 @@
 <script>
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
+	import UserButton from 'clerk-sveltekit/client/UserButton.svelte'
 	import { enhance } from '$app/forms'
 
 	export let onParent = false
@@ -31,7 +32,7 @@
 								<li class="actor">
 									<span>{role.characterName} {`(cast)`}</span>
 									<SignedIn>
-										<form method="POST" action={`/${item.type}/${item.id}/role/?delete`} use:enhance={() => {
+										<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
 											loading = true
 											return async ({update}) => {
 												await update()
@@ -39,7 +40,7 @@
 											}
 										}}>
 											<input class="hide" disabled type="text" name="urlPath" value={role.urlPath}>
-											<button type="submit" disabled={loading}>
+											<button class="button-icon" type="submit" disabled={loading}>
 												<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
 											</button>
 										</form>
@@ -52,7 +53,7 @@
 								<li class="crew">
 									<span>{role.role}</span>
 									<SignedIn>
-										<form method="POST" action={`/${item.type}/${item.id}/role/?delete`} use:enhance={() => {
+										<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
 											loading = true
 											return async ({update}) => {
 												await update()
@@ -81,10 +82,10 @@
 				<a href={`/people/${item.parentId}`} title={item.parentName}>
 					<figure class="imageContainer">
 						<img 
-							src={item.photoUrl ?? '/photos/pictures.png'} 
+							src={item.photoUrl ?? '/photos/picture.png'} 
 							alt={item.photoUrl ? `${item.parentName} portrait` : 'Placeholder'}
 							loading="lazy"
-							placeholder="/photos/pictures.png"
+							placeholder="/photos/picture.png"
 							height="300px"
 							weight="300px"
 						/>
@@ -93,7 +94,7 @@
 				<h3 class="text titleText">{item.parentName}</h3>
 				<p class="titleText textCenter">{item.category === 'cast' ? item.characterName : item.role}</p>
 				<SignedIn>
-					<form method="POST" action={`/${item.type}/${item.id}/role/?delete`} use:enhance={() => {
+					<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
 						loading = true
 						return async ({update}) => {
 							await update()
@@ -101,7 +102,7 @@
 						}
 					}}>
 						<input class="hide" disabled type="text" name="urlPath" value={item.urlPath}>
-						<button type="submit" disabled={loading}>
+						<button class="button-icon" type="submit" disabled={loading}>
 							<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
 						</button>
 					</form>
@@ -131,7 +132,7 @@
 									<li class="crew">
 										<span>{role.capacity}</span>
 										<SignedIn>
-											<form method="POST" action={`/${item.type}/${item.id}/role/?delete`} use:enhance={() => {
+											<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
 												loading = true
 												return async ({update}) => {
 													await update()
@@ -139,7 +140,7 @@
 												}
 											}}>
 												<input class="hide" disabled type="text" name="urlPath" value={role.urlPath}>
-												<button type="submit" disabled={loading}>
+												<button class="button-icon" type="submit" disabled={loading}>
 													<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
 												</button>
 											</form>
@@ -160,10 +161,10 @@
 				<a href={`/companies/${item.parentId}`} title={item.parentName}>
 					<figure class="imageContainer">
 						<img 
-							src={item.photoUrl ?? '/photos/pictures.png'} 
+							src={item.photoUrl ?? '/photos/picture.png'} 
 							alt={item.photoUrl ? `${item.parentName} logo` : 'Placeholder'}
 							loading="lazy"
-							placeholder="/photos/pictures.png"
+							placeholder="/photos/picture.png"
 							height="300px"
 							weight="300px"
 						/>
@@ -172,7 +173,7 @@
 				<h3 itemprop="name" class="text titleText">{item.parentName}</h3>
 				<p class="textCenter">{item.role}</p>
 				<SignedIn>
-					<form method="POST" action={`/${item.type}/${item.id}/role/?delete`} use:enhance={() => {
+					<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
 						loading = true
 						return async ({update}) => {
 							await update()
@@ -180,7 +181,7 @@
 						}
 					}}>
 						<input class="hide" disabled type="text" name="urlPath" value={item.urlPath}>
-						<button type="submit" disabled={loading}>
+						<button class="button-icon" type="submit" disabled={loading}>
 							<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
 						</button>
 					</form>
@@ -312,6 +313,11 @@
 		flex-direction: column;
 		justify-content: center;
 		/* align-items: center; */
+	}
+
+	.imageContainer > img {
+		width: 100%;
+		height: 100%;
 	}
 
 	/* .imageContainer > span {

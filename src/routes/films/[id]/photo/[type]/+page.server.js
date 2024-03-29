@@ -7,8 +7,8 @@ export const actions = {
 		const token = cookies.get('__session')
 		const data = await request.formData()
 		const filmId = params.id
-		const photoType = params.type
-		const photoIndex = url.searchParams.get('index')
+		const photoType = params.type?.split(':')[0]
+		const photoIndex = params.type?.split(':')[1]
 		console.log(data.get('source'))
 		console.log(data.get('poster'))
 		console.log(data.get('attribution'))
@@ -25,8 +25,8 @@ export const actions = {
 		const token = cookies.get('__session')
 		const data = await request.formData()
 		const filmId = params.id
-		const photoType = params.type
-		const photoIndex = url.searchParams.get('index')
+		const photoType = params.type?.split(':')[0]
+		const photoIndex = params.type?.split(':')[1]
 
 		if( (photoType !== 'poster' && photoType !== 'still') || !photoIndex ){
 			throw error(400, 'Incomplete URL parameters')
@@ -45,19 +45,19 @@ export const actions = {
 		const token = cookies.get('__session')
 		const data = await request.formData()
 		const filmId = params.id
-		const photoType = params.type
-		const photoIndex = url.searchParams.get('index')
-
+		const photoType = params.type?.split(':')[0]
+		const photoIndex = params.type?.split(':')[1]
 		if( (photoType !== 'poster' && photoType !== 'still') || !photoIndex ){
+			console.log(photoIndex, photoType)
 			throw error(400, 'Incomplete URL parameters')
 		}
 
-		const requestUrl = `${PUBLIC_SERVER}/films/${filmId}/${photoType+'s'}?index=${photoIndex}`
-		const res = await fetch(url, {
-			method: 'DELETE',
-			headers: {
-				authourization: `Bearer ${token}`
-			}
-		})
+		// const requestUrl = `${PUBLIC_SERVER}/films/${filmId}/${photoType+'s'}?index=${photoIndex}`
+		// const res = await fetch(url, {
+		// 	method: 'DELETE',
+		// 	headers: {
+		// 		authourization: `Bearer ${token}`
+		// 	}
+		// })
 	}
 }

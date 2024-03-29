@@ -138,7 +138,7 @@
 
 			<div class="hide">
 				<label aria-hidden="true" for="source">Source <span aria-label='required field' class="form-field-required"></span></label>
-				<input aria-hidden="true" value={$image} name="source" required type="text" />
+				<input aria-hidden="true" id="source" value={$image} name="source" required type="text" />
 			</div>
 
 			<p class="bold">Preview</p>
@@ -150,13 +150,13 @@
 			<div class="form-field">
 				<label for= "attribution">Copyright holder <span aria-label='required field' class="form-field-required"></span></label>
 				<p class="form-field-info">Attribution is important, not only for legal reasons but also ethically.</p>
-				<input name="attribution" required type="text" />
+				<input id="attribution" name="attribution" required type="text" />
 			</div>
 
 			<div class="form-field">
 				<label for= "description">Content description <span aria-label='required field' class="form-field-required"></span></label>
 				<p class="form-field-info">Describe the content of the image for people who use screen readers, it is important for accessibilty.</p>
-				<input name= "description" required type="text" />
+				<input id="description" name= "description" required type="text" />
 			</div>
 
 			<button type="submit" class="button-good">Upload</button>
@@ -176,13 +176,13 @@
 			<div class="form-field">
 				<label for= "attribution">Copyright Owner <span aria-label='required field' class="form-field-required"></span></label>
 				<p class="form-field-info">Attribution is important, not only for legal reasons but also ethically.</p>
-				<input name="attribution" required type="text" value={object?.credit ?? ''} />
+				<input id="attribution" name="attribution" required type="text" value={object?.credit ?? ''} />
 			</div>
 
 			<div class="form-field">
 				<label for= "description">Content Description <span aria-label='required field' class="form-field-required"></span></label>
 				<p class="form-field-info">Attribution is important, not only for legal reasons but also for ethics.</p>
-				<input name= "description" required type="text" value={object?.altText ?? ''} />
+				<input id="description" name= "description" required type="text" value={object?.altText ?? ''} />
 			</div>
 
 			<button type="submit" class="button-good">Submit</button>
@@ -198,7 +198,7 @@
 			<h2 class="h4">Are you sure you want to delete the image? This is a destructive action, it cannot be undone, do you still want to continue?</h2>
 			<div class="hide">
 				<label aria-hidden="true" for="index">Source <span aria-label='required field' class="form-field-required"></span></label>
-				<input aria-hidden="true" value={object?.index ?? '0'} name="index" required type="number" />
+				<input aria-hidden="true" value={object?.index ?? '0'} name="index" id="index" required type="number" />
 			</div>
 			<button type="submit" class="button-danger">Delete, anyway!</button>
 		</form>

@@ -5,6 +5,7 @@
 	import Typesense from 'typesense'
 	import { PUBLIC_TYPESENSE_HOST, PUBLIC_TYPESENSE_PORT, PUBLIC_TYPESENSE_PROTOCOL, PUBLIC_TYPESENSE_KEY, PUBLIC_HOST_URL } from '$env/static/public'
 	import EmptyState from '$lib/EmptyState.svelte'
+	
 
 	const client = new Typesense.Client({
 		'nodes': [{
@@ -93,7 +94,7 @@
 		<EmptyState text="We tried but found results found nothing, sorry I guess?" height="20rem" />
 	{/if}
 
-	<div class={$results.films.length === 0 && $results.people.length === 0 && $results.companies.length === 0 ? 'hide' : 'results'} >
+	<div data-sveltekit-reload class={$results.films.length === 0 && $results.people.length === 0 && $results.companies.length === 0 ? 'hide' : 'results'} >
 		{#if $results.films.length > 0 }
 			<section class="films">
 				<h2 class="just-bold">Films</h2>

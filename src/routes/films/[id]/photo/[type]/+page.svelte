@@ -5,16 +5,16 @@
 	export let data
 	export let form
 
-	let type = $page.params.type
-	let index = $page.url.searchParams.get('index')
+	let type = $page.params.type?.split(':')[0]
+	let index = +$page.params.type?.split(':')[1]
 
 	let object
-
+	
 	if(type === 'poster'){
 		object = data.details.poster
 	}
 	if(type === 'still'){
-		object = data.stills.find( item => item.index - index)
+		object = data.stills.find( item => item.index = index)
 	}
 </script>
 

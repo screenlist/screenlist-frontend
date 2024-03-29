@@ -59,7 +59,7 @@
 					width="1080px"
 					loading="lazy"
 				/>
-				<a class="button-edit" href={`/films/${data.details.id}/photo/poster?index=0`}>
+				<a class="button-edit" href={`/films/${data.details.id}/photo/poster:0`}>
 					<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 				</a>
 				<div class="title-band">
@@ -88,7 +88,7 @@
 				<div class="datailDataContainer">
 					{#if data.details?.keyRoles.writer.length > 0}
 						<div class="keyRole">
-							<h3>{data.keyRoles.writer.length > 1 ? 'Writers' : 'Writer'}</h3>
+							<h3>{data.details.keyRoles.writer.length > 1 ? 'Writers' : 'Writer'}</h3>
 							<ul class="keyRoleList">
 								{#each data.details.keyRoles.writer as item (item.id)}
 									<li itemprop="author" itemscope itemtype="https://schema.org/Person">
@@ -102,7 +102,7 @@
 					{/if}
 					{#if data.details?.keyRoles.director.length > 0}
 						<div class="keyRole">
-							<h3>{data.keyRoles.director.length > 1 ? 'Directors' : 'Director'}</h3>
+							<h3>{data.details.keyRoles.director.length > 1 ? 'Directors' : 'Director'}</h3>
 							<ul class="keyRoleList">
 								{#each data.details.keyRoles.director as item (item.id)}
 									<li itemprop="director" itemscope itemtype="https://schema.org/Person">
@@ -116,7 +116,7 @@
 					{/if}
 					{#if data.details?.keyRoles.producer.length > 0}
 						<div class="keyRole">
-							<h3>{data.keyRoles.producer.length > 1 ? 'Producers' : 'Producer'}</h3>
+							<h3>{data.details.keyRoles.producer.length > 1 ? 'Producers' : 'Producer'}</h3>
 							<ul class="keyRoleList">
 								{#each data.details.keyRoles.producer as item (item.id)}
 									<li itemprop="producer" itemscope itemtype="https://schema.org/Person">
@@ -233,7 +233,7 @@
 										width="1920px"
 										loading="lazy"
 									/>
-									<a class="button-edit" href={`/films/${data.details.id}/photo/still?index=0`}>
+									<a class="button-edit" href={`/films/${data.details.id}/photo/still:0`}>
 										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 									</a>
 									<div class="title-band" style="padding: 0 0.5rem;">
@@ -251,7 +251,7 @@
 										width="1920px"
 										loading="lazy"
 									/>
-									<a class="button-edit" href={`/films/${data.details.id}/photo/still?index=1`}>
+									<a class="button-edit" href={`/films/${data.details.id}/photo/still:1`}>
 										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 									</a>
 									<div class="title-band" style="padding: 0 0.5rem;">
@@ -269,7 +269,7 @@
 										width="1920px"
 										loading="lazy"
 									/>
-									<a class="button-edit" href={`/films/${data.details.id}/photo/still?index=2`}>
+									<a class="button-edit" href={`/films/${data.details.id}/photo/still:2`}>
 										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 									</a>
 									<div class="title-band" style="padding: 0 0.5rem;">
@@ -283,7 +283,7 @@
 				<section id="cast" class={data.stills.length > 0 || data.user ? '' : 'ad-firstSection' }>
 					<div class={data.stills.length > 0 || data.user ? 'ad-titleBand ': 'ad-titleBandFirst'}>
 						<h2 class="h3">Cast</h2>
-						<SignedIn>
+						<SignedIn let:user>
 							<!-- Insert the role creation link -->
 						</SignedIn>
 					</div>
