@@ -18,8 +18,7 @@
 	"dependencies": {
 		"@clerk/clerk-sdk-node": "^4.13.11",
 		"clerk-sveltekit": "^0.4.1",
-		"typesense": "^1.7.2",
-		"yup": "^1.4.0",
-		"zod": "^3.22.4"
+		"iso-3166-1-alpha-2": "^1.0.2",
+		"typesense": "^1.7.2"
 	}
 }

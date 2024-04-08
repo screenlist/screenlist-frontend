@@ -2,10 +2,8 @@ import { PUBLIC_SERVER } from '$env/static/public'
 import { error } from '@sveltejs/kit'
 
 export async function load(event) {
-	const limit = event.url.searchParams.get('limit')
-	const page = event.url.searchParams.get('page')
-	
-	const res = await fetch(`${PUBLIC_SERVER}/films?page=${page ? page : 1}&limit=${limit ? limit : 50}`, {
+	const id = event.params.id
+	const res = await fetch(`${PUBLIC_SERVER}/people/${id}`, {
 		headers: {
 			'Content-Type': 'application/json'
 		}

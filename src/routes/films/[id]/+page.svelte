@@ -7,9 +7,8 @@
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 
 	export let data
-	// console.log(data)
 
-	const ratingColor = (factor) => {
+	function ratingColor(factor){
 		const startColor = '#BF0603'
 		const endColor = '#073b4c'
 
@@ -59,11 +58,13 @@
 					width="1080px"
 					loading="lazy"
 				/>
-				<a class="button-edit" href={`/films/${data.details.id}/photo/poster:0`}>
-					<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
-				</a>
+				<SignedIn>
+					<a class="button-edit" href={`/films/${data.details.id}/photo/poster:0`}>
+						<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+					</a>
+				</SignedIn>				
 				<div class="title-band">
-					<p class="uni-pad text-small text-faded">{data.details.poster?.credit ? '© '+data.details.poster.credit  : "Add photo credit"}</p>
+					<p class="uni-pad text-small text-faded">{data.details.poster?.credit ? '© '+data.details.poster.credit  : "© Screen List"}</p>
 				</div>
 			</figure>
 			<div class="inverseContainer">

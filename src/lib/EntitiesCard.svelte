@@ -4,10 +4,11 @@
 
 	export let heading = ''
 	export let viewMorePath = ''
-	export let films = []
+	export let itemsPathPrefix
+	export let data = []
 
-	const firstGroupFilms = films.slice(0, 30)
-	const lastGroupFilms = films.slice(30)
+	const firstGroupData = data.slice(0, 30)
+	const lastGroupData = data.slice(30)
 </script>
 
 <section class="section">
@@ -19,18 +20,17 @@
 	{:else}
 		<h2 class="title-band heading">{heading}</h2>
 	{/if}
-	<div class={films.length > 0 ? "viewContainer" : ""}>
-		{#if films.length > 0}
-			{#each firstGroupFilms as film (film.id) }
+	<div class={data.length > 0 ? "viewContainer" : ""}>
+		{#if data.length > 0}
+			{#each firstGroupData as data (data.id) }
 				<article class="outerShell">
-					<a class="innerShell" title={film.name} href={`/films/${film.id}`}>
+					<a class="innerShell" title={data.name} href={`/${itemsPathPrefix}/${data.id}`}>
 						<div class="container">
 							<figure>
-								<img loading="lazy" placeholder="/photos/poster.png" src={film.posterUrl ? film.posterUrl : '/photos/poster.png'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
+								<img loading="lazy" placeholder="/photos/picture.png" src={data.photo?.url ? data.photo?.url : '/photos/picture.png'} alt={data.photo?.url ? `${data.name}` : 'Placeholder'} width="500px" height="500px" />
 							</figure>
 							<div class="info">
-								<p class="yearText">{film.year}</p>
-								<h3 class="specialHeading titleText" >{film.name}</h3>
+								<h3 class="specialHeading titleText" >{data.name}</h3>
 							</div>
 						</div>
 					</a>
@@ -45,19 +45,18 @@
 		{/if}
 	</div>
 
-	{#if lastGroupFilms.length > 0}
+	{#if lastGroupData.length > 0}
 		<DonateCard vertical={false} />
 		<div class="viewContainer">
-		{#each lastGroupFilms as film (film.id) }
+		{#each lastGroupData as data (data.id) }
 			<article class="outerShell">
-				<a class="innerShell" title={film.name} href={`/films/${film.id}`}>
+				<a class="innerShell" title={data.name} href={`/${itemsPathPrefix}/${data.id}`}>
 					<div class="container">
 						<figure>
-							<img src={film.posterUrl ? film.posterUrl : '/photos/poster.png'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
+							<img src={data.photo?.url ? data.photo?.url : '/photos/picture.png'} alt={data.photo?.url ? `${data.name}` : 'Placeholder'} width="500px" height="500px" />
 						</figure>
 						<div class="info">
-							<p class="yearText">{film.year}</p>
-							<h3 class="specialHeading titleText" >{film.name}</h3>
+							<h3 class="specialHeading titleText" >{data.name}</h3>
 						</div>
 					</div>
 				</a>
@@ -94,10 +93,10 @@
 		position: relative;
 	}
 
-	.container > figure > img {
-		width: 100%;
-		height: 100%;
-	}
+	/* .container > h3 {
+		text-align: left;
+		margin-top: 0.8rem 0 0 0;
+	} */
 
 	.heading {
 		margin: 0 0 0.3rem 0;
@@ -114,10 +113,27 @@
 
 	.viewContainer {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-columns: repeat(2, 1fr);
 		grid-auto-flow: row;
 		grid-gap: 0.5rem;
 	}
+
+	/* .viewContainer > div {
+		flex: 1 1 150px;
+		margin: 0.5rem 0 0 0;
+	} */
+
+	/* .pageContainer {
+		padding: 1rem 0.5rem;
+	}
+
+	.headingBand {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		min-width: 100%;
+	} */
 
 	.innerShell {
 		min-width: 100%;
@@ -146,8 +162,10 @@
 	}
 
 	.titleText {
-		word-wrap: break-word;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 		overflow: hidden;
+		width: 100px;
 		display: inline-block;
 	}
 
@@ -157,45 +175,27 @@
 		margin: 0.8rem 0 0.2rem 0;
 	}
 
-	.yearText {
-		background: var(--good-color);
-		color: var(--base-color);
-		font-weight: 500;
-		font-size: 0.8rem;
-		margin: 0;
-		height: 3rem;
-		width: 3rem;
-		display: grid;
-		place-items: center;
-		border-radius: 3rem;
-		padding: 0.5rem;
-	}
-
 	@media(min-width: 600px){
 		.viewContainer {
-			grid-template-columns: repeat(4, minmax(0, 1fr));
+			grid-template-columns: repeat(4, 1fr);
 		}
+		/* .pageContainer {
+			padding: 1rem 0;
+		} */
 	}
 
 	@media(min-width: 1000px){
 		.viewContainer {
-			grid-template-columns: repeat(6, minmax(0, 1fr));
+			grid-template-columns: repeat(6, 1fr);
 		}
 		.specialHeading {
 			font-size: 0.8rem;
-		}
-		.yearText {
-			font-size: 0.6rem;
-			height: 2rem;
-			width: 2rem;
-			border-radius: 2rem;
-			padding: 0.2rem;
 		}
 	}
 
 	@media(min-width: 1200px){
 		.viewContainer {
-			grid-template-columns: repeat(10, minmax(0, 1fr));
+			grid-template-columns: repeat(10, 1fr);
 		}
 	}
 </style>
