@@ -25,7 +25,8 @@
 		poster: '',
 		source: '',
 		attribution: '',
-		description: ''
+		description: '',
+		preview: ''
 	})
 
 	const updating = writable({
@@ -38,7 +39,8 @@
 			poster: form.poster ?? $creating.poster,
 			source: form.source ?? $creating.source,
 			attribution: form.attribution ?? $creating.attribution,
-			description: form.description ?? $creating.description
+			description: form.description ?? $creating.description,
+			preview: form.preview ?? $creating.description
 		})
 
 		updating.set({
@@ -56,11 +58,12 @@
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-				creating.set({...$creating, source: e.target.result})
+				creating.set({...$creating, preview: e.target.result})
       };
       reader.readAsDataURL(file);
+			creating.set({...$creating, source: file})
     } else {
-      image.set(null);
+      $creating.set({...$creating, source: ''});
     }
   }
 
@@ -78,9 +81,9 @@
 			if(!res.ok){ 
 				creating.set({...$creating, source:''}) 
 			} else {
-				const blob = await res.blob()
+				const blobFile = await res.blob()
 				const objectURL = URL.createObjectURL(blob)
-				creating.set({...$creating, source:objectURL})
+				creating.set({...$creating, preview: objectURL, source: blobFile})
 			}
 
 		} else {
@@ -127,7 +130,8 @@
 
 <section class="form-page-new">
 	{#if mode === 'new'}
-		<form class="form" method="POST" action="?/create" enctype="multipart/form-data" use:enhance={() => {
+		<form class="form" method="POST" action="?/create" enctype="multipart/form-data" use:enhance={({formData}) => {
+			formData.append('source', $creating.source)
 			loading = true
 			return async ({update}) => {
 				await update()
@@ -139,7 +143,7 @@
 			{/if}
 			<h2 class="h4">Add new photo</h2>
 
-			{#if form?.error}
+			{#if form?.error && !loading}
 				<p class="error">{form.error}</p>
 			{/if}
 
@@ -165,16 +169,16 @@
 				</div>
 			{/if}
 
-			<div class="hide">
+			<!-- <div class="hide">
 				<label aria-hidden="true" for="source">Source <span aria-label='required field' class="form-field-required"></span></label>
-				<input aria-hidden="true" id="source" value={$creating.source} name="source" required type="text" />
-			</div>
+				<input aria-hidden="true" id="source" value={$creating.preview} name="source" required type="text" />
+			</div> -->
 
 			<p class="bold">Preview</p>
 			{#if !$creating.source}
 				<p class="form-field-info">Note, If you have pasted a link, give it a few seconds to extract the image. I am lazy to create a loading spinner. You can do this, I believe in you!</p>
 			{/if}
-			<img id="image-preview" alt="preview" src={$creating.source || placeholderImage} />
+			<img id="image-preview" alt="preview" src={$creating.preview || placeholderImage} />
 			
 			<div class="form-field">
 				<label for= "attribution">Copyright holder <span aria-label='required field' class="form-field-required"></span></label>
@@ -192,7 +196,6 @@
 		</form>
 	{:else if mode === 'update'}
 		<form class="form" method="POST" action="?/update" use:enhance={() => {
-			console.log('here')
 			loading = true
 			return async ({update}) => {
 				await update()
@@ -203,6 +206,10 @@
 				<LoadingState context="pop" />
 			{/if}
 			<h2 class="h4">Edit Information</h2>
+
+			{#if form?.error && !loading}
+				<p class="error">{form.error}</p>
+			{/if}
 
 			<p><span class="form-field-required"></span> Indicates a required field.</p>
 
@@ -231,7 +238,13 @@
 			{#if loading}
 				<LoadingState context="pop" />
 			{/if}
+			
 			<h2 class="h4">Are you sure you want to delete the image? This is a destructive action, it cannot be undone, do you still want to continue?</h2>
+
+			{#if form?.error && !loading}
+				<p class="error">{form.error}</p>
+			{/if}
+
 			<div class="hide">
 				<label aria-hidden="true" for="index">Source <span aria-label='required field' class="form-field-required"></span></label>
 				<input aria-hidden="true" value={object?.index ?? '0'} name="index" id="index" required type="number" />
