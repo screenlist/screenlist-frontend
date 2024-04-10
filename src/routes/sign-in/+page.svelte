@@ -2,6 +2,6 @@
 	import SignIn from 'clerk-sveltekit/client/SignIn.svelte'
 </script>
 
-<section>
+<section class="form-page">
 	<SignIn redirectUrl='/' />
 </section>

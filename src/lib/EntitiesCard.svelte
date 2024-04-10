@@ -93,6 +93,11 @@
 		position: relative;
 	}
 
+	.container > figure > img {
+		width: 100%;
+		height: 100%;
+	}
+
 	/* .container > h3 {
 		text-align: left;
 		margin-top: 0.8rem 0 0 0;

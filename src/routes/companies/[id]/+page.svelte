@@ -122,10 +122,10 @@
 			<div class="title-band">
 				<h2 class="h3 uni-pad">Filmography</h2>
 			</div>
-			{#if data.production.length > 0}
-				<GridRoles data={data.production} type='companyRole'  onParent={true} />
+			{#if data.productions.length > 0}
+				<GridRoles data={data.productions} type='companyRole'  onParent={true} />
 			{:else}
-				<EmptyState text="Has not done anything, yet." height="auto" fill="var(--base-color-alt)" margins={true} />
+				<EmptyState text="Has not done anything, yet." height="20rem" fill="var(--base-color-alt)" margins={true} />
 			{/if}
 		</section>
 	</div>
@@ -167,7 +167,12 @@
 		position: relative;
 	}
 
-	/* .photo > button {
+	.photo > img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.photo > a {
 		position: absolute;
 		right: 0;
 		top: 0;
@@ -177,7 +182,7 @@
 
 	.photo > div > p {
 		margin: 0.25rem 0;
-	} */
+	}
 
 	.nameBio {
 		padding: 0.2rem 0.5rem;
@@ -311,6 +316,11 @@
 		align-items: center;
 		font-size: 1rem;
 		margin: 0 0.5rem 0 0;
+	}
+
+	.socialLinks > a > img {
+		width: 100%;
+		height: 100%;
 	}
 
 	.bio {

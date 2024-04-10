@@ -9,7 +9,7 @@
 
 	let object
 	
-	if(type === 'image'){
+	if(type === 'profile'){
 		object = data.details.photo
 	}
 </script>

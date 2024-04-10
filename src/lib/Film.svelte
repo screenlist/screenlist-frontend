@@ -1,7 +1,6 @@
 <script>
 	import iso3311a2 from 'iso-3166-1-alpha-2'
 	import { writable } from 'svelte/store'
-	import { page } from '$app/stores'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
 

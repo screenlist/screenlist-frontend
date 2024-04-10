@@ -5,9 +5,7 @@
 
 <svelte:head>
 	<script async src="/clarity.js"></script>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-2QWRCR8SB8"></script>
-	<script async src="/analytics.js"></script>
-	<script async src="https://analytics.makamuta.com/script.js" data-website-id="2a6c623c-7316-42b9-801b-763fe85693cc"></script>
+	<script defer src="https://analytics.makamuta.com/script.js" data-website-id="3c5bfe63-3e74-42d8-9247-0b42fe2775cd"></script>
 </svelte:head>
 
 <div class="layout">
