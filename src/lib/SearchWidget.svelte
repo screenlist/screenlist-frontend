@@ -3,9 +3,12 @@
 	import Typesense from 'typesense'
 	import { PUBLIC_TYPESENSE_HOST, PUBLIC_TYPESENSE_PORT, PUBLIC_TYPESENSE_PROTOCOL, PUBLIC_TYPESENSE_KEY } from '$env/static/public'
 	import EmptyState from '$lib/EmptyState.svelte'
+	import { selected } from '$lib/index.js'
 
-	export let collection = 'films'
-	export let selected = writable('')
+	export let collection = ''
+	// export let selected = {
+	// 	name: '', id: ''
+	// }
 
 	const client = new Typesense.Client({
 		'nodes': [{
@@ -39,54 +42,26 @@
 <div class="page">
 	<form on:submit|preventDefault class="form2">
 		<label class="formInputLabel">
-			<span>Search</span>
+			<!-- <span>Search</span> -->
 			<!-- svelte-ignore a11y-autofocus -->
-			<input autofocus="true" name="q" type="search" bind:value={$query} placeholder="Type to search for films, people & companies" />
+			<input autofocus="true" name="q" type="search" bind:value={$query} placeholder={"Type to search for "+collection} />
 		</label>
 	</form>
 
-	{#if $results.films.length === 0 && $results.companies.length === 0 && $results.people.length === 0}
+	{#if $results.length === 0 }
 		<EmptyState text="We tried but found results found nothing, sorry I guess?" height="20rem" />
 	{/if}
 
-	<div class={$results.films.length === 0 && $results.people.length === 0 && $results.companies.length === 0 ? 'hide' : 'results'} >
-		{#if $results.films.length > 0 }
+	<div class={$results.length === 0 ? 'hide' : 'results'} >
+		{#if $results.length > 0 }
 			<section class="searchRoles">
-				<h2 class="just-bold hide">Films</h2>
 				<ul>
-					{#each $results.films as val (val.document.id) }
+					{#each $results as val (val.document.id) }
 						<li>
-							<button on:click={() => { selected.set(val.document.name) }} >
-								<figure>
-									<img 
-										src={val.document.posterUrl ? val.document.posterUrl : '/photos/poster.png'} 
-										alt={val.document.posterUrl ? `${val.document.name} poster`: 'Poster placeholder'}
-										width="200px"
-										height="300px"
-										loading="lazy"
-									/>
-								</figure>
-								<div>
-									<h3>{val.document.name} {`(${val.document.year})`}</h3>
-									{#if val.document.directors?.length > 0}
-										<span>
-											Directed by {val.document.directors.join(', ')}
-										</span> 
-									{/if}
-								</div>
-							</button>
-						</li>
-					{/each}
-				</ul>
-			</section>
-		{/if}
-		{#if $results.people.length > 0 }
-			<section class="searchRoles">
-				<h2 class="just-bold hide">People</h2>
-				<ul>
-					{#each $results.people as val (val.document.id) }
-						<li>
-							<button on:click={() => { selected.set(val.document.name) }} >
+							<button on:click={() => { selected.set({
+								name: val.document.name,
+								id: val.document.id
+							}) }} >
 								<figure>
 									<img 
 										src={val.document.photoUrl ? val.document.photoUrl : '/photos/picture.png'} 
@@ -97,40 +72,20 @@
 									/>
 								</figure>
 								<div>
-									<h3>{val.document.name}</h3>
-									<span>{val.document.occupation}</span>
-								</div>
-							</button>
-						</li>
-					{/each}
-				</ul>
-			</section>
-		{/if}
-		{#if $results.companies.length > 0 }
-			<section class="searchRoles">
-				<h2 class="just-bold hide">Companies</h2>
-				<ul>
-					{#each $results.companies as val (val.document.id) }
-						<li>
-							<button on:click={() => { selected.set(val.document.name) }} >
-								<figure>
-									<img 
-										src={val.document.photoUrl ? val.document.photoUrl : '/photos/picture.png'} 
-										alt={val.document.photoUrl ? `${val.document.name} logo`: 'Placeholder'}
-										width="200px"
-										height="200px"
-										loading="lazy"
-									/>
-								</figure>
-								<div>
-									<h3>{val.document.name}</h3>
-									{#if val.document.city && val.document.country}
-										<span>Based in {`${val.document.city}, ${val.document.country}`}</span>
-									{:else if val.document.city && !val.document.country}
-										<span>Based in {val.document.city}</span>
-									{:else if !val.document.city && val.document.country}
-										<span>Based in {val.document.country}</span>
+									{#if collection === 'people'}
+										<h3>{val.document.name}</h3>
+										<span>{val.document.occupation}</span>
+									{:else if collection === 'companies'}
+										<h3>{val.document.name}</h3>
+										{#if val.document.city && val.document.country}
+											<span>Based in {`${val.document.city}, ${val.document.country}`}</span>
+										{:else if val.document.city && !val.document.country}
+											<span>Based in {val.document.city}</span>
+										{:else if !val.document.city && val.document.country}
+											<span>Based in {val.document.country}</span>
+										{/if}
 									{/if}
+									
 								</div>
 							</button>
 						</li>
@@ -162,13 +117,13 @@
 		width: 100%;
 	}
 
-	.formInputLabel > span {
+	/* .formInputLabel > span {
 		display: inline-flex;
 		font-weight: normal;
 		font-size: 2rem;
 		margin: 0.5rem 0;
 		color: var(--brand-color);
-	}
+	} */
 
 	.formInputLabel > input {
 		width: 100%;
@@ -202,10 +157,10 @@
 		width: 100%;
 	}
 
-	.searchRoles > h2 {
+	/* .searchRoles > h2 {
 		color: var(--brand-color);
 		width: 100%;
-	}
+	} */
 
 	.searchRoles > ul {
 		list-style: none;
@@ -255,6 +210,10 @@
 
 	.searchRoles > ul > li > button > div {
 		width: 88%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-end;
 	}
 
 	.searchRoles > ul > li > button > div > h3 {

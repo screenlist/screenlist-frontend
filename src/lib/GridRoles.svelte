@@ -3,17 +3,23 @@
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 	import UserButton from 'clerk-sveltekit/client/UserButton.svelte'
 	import { enhance } from '$app/forms'
+	import LoadingState from './LoadingState.svelte'
 
 	export let onParent = false
 	export let data
 	export let type
 
 	let loading = false
-	let shortened = false
+	let shortened = true
+
+	// console.log(data)
 
 	function toggleView(){ shortened = !shortened }
 </script>
 
+{#if loading}
+	<LoadingState context="pop" />
+{/if}
 {#if type === 'personRole' && onParent}
 	<section class={loading ? 'containerOnParent tasked' : 'containerOnParent'}>
 		{#each data as item (item.id)}
@@ -21,7 +27,7 @@
 				<div class="headerOnParent">
 					<span>{item.year}</span>
 					<span>&#11044;</span>
-					<a href={`/${item.type}/${item.id}`} title={item.name}>
+					<a href={`/${item.ownerCollection}/${item.id}`} title={item.name}>
 						<h3 class="textLeft">{item.name}</h3>
 					</a>
 				</div>
@@ -32,14 +38,15 @@
 								<li class="actor">
 									<span>{role.characterName} {`(cast)`}</span>
 									<SignedIn>
-										<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
+										<form method="POST" action={`/${item.ownerCollection}/${item.id}/role/people?/delete`} use:enhance={({formData}) => {
+											formData.append('urlPath', item.urlPath)
 											loading = true
 											return async ({update}) => {
 												await update()
 												loading = false
 											}
 										}}>
-											<input class="hide" disabled type="text" name="urlPath" value={role.urlPath}>
+											<!-- <input class="hide" disabled type="text" name="urlPath" value={role.urlPath}> -->
 											<button class="button-icon" type="submit" disabled={loading}>
 												<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
 											</button>
@@ -53,7 +60,7 @@
 								<li class="crew">
 									<span>{role.role}</span>
 									<SignedIn>
-										<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
+										<form method="POST" action={`/${item.ownerCollection}/${item.id}/role?/delete`} use:enhance={() => {
 											loading = true
 											return async ({update}) => {
 												await update()
@@ -78,7 +85,7 @@
 {:else if type === 'personRole' && !onParent}
 	<section class={loading ? 'container tasked' : 'container'}>
 		{#each data as item, index (item.id)} 
-			<article class={index > 10 && shortened === true ? 'hide' : 'itemContainer'}>
+			<article class={index > 9 && shortened === true ? 'hide' : 'itemContainer'}>
 				<a href={`/people/${item.parentId}`} title={item.parentName}>
 					<figure class="imageContainer">
 						<img 
@@ -94,14 +101,15 @@
 				<h3 class="text titleText">{item.parentName}</h3>
 				<p class="titleText textCenter">{item.category === 'cast' ? item.characterName : item.role}</p>
 				<SignedIn>
-					<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
+					<form method="POST" action={`/${item.ownerCollection}/${item.id}/role/people?/delete`} use:enhance={({formData}) => {
+						formData.append('urlPath', item.urlPath)
 						loading = true
 						return async ({update}) => {
 							await update()
 							loading = false
 						}
 					}}>
-						<input class="hide" disabled type="text" name="urlPath" value={item.urlPath}>
+						<!-- <input class="hide" disabled type="text" name="urlPath" value={item.urlPath}> -->
 						<button class="button-icon" type="submit" disabled={loading}>
 							<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
 						</button>
@@ -110,7 +118,7 @@
 			</article>
 		{/each}
 		{#if data.length > 10}
-			<button class="expandButton" on:olick={toggleView} >{shortened ? 'Show more.' : 'Show less.'}</button>
+			<button class="expandButton" on:click={toggleView} >{shortened ? 'Show more.' : 'Show less.'}</button>
 		{/if}
 	</section>
 {:else if type === 'companyRole' && onParent}
@@ -132,14 +140,15 @@
 									<li class="crew">
 										<span>{role.capacity}</span>
 										<SignedIn>
-											<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
+											<form method="POST" action={`/${item.ownerCollection}/${item.id}/role/companies?/delete`} use:enhance={({formData}) => {
+												formData.append('urlPath', item.urlPath)
 												loading = true
 												return async ({update}) => {
 													await update()
 													loading = false
 												}
 											}}>
-												<input class="hide" disabled type="text" name="urlPath" value={role.urlPath}>
+												<!-- <input class="hide" disabled type="text" name="urlPath" value={role.urlPath}> -->
 												<button class="button-icon" type="submit" disabled={loading}>
 													<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
 												</button>
@@ -157,7 +166,7 @@
 {:else if type === 'companyRole' && !onParent}
 	<section class={loading ? 'container tasked' : 'container'}>
 		{#each data as item, index (item.id) }
-			<article itemprop="productionCompany" itemscope itemtype="https://schema.org/Organization" class={index > 10 && shortened === true ? 'hide' : 'itemContainer'}>
+			<article itemprop="productionCompany" itemscope itemtype="https://schema.org/Organization" class={index > 9 && shortened === true ? 'hide' : 'itemContainer'}>
 				<a href={`/companies/${item.parentId}`} title={item.parentName}>
 					<figure class="imageContainer">
 						<img 
@@ -173,14 +182,15 @@
 				<h3 itemprop="name" class="text titleText">{item.parentName}</h3>
 				<p class="textCenter">{item.role}</p>
 				<SignedIn>
-					<form method="POST" action={`/${item.type}/${item.id}/role?/delete`} use:enhance={() => {
+					<form method="POST" action={`/${item.ownerCollection}/${item.id}/role/companies?/delete`} use:enhance={({formData}) => {
+						formData.append('urlPath', item.urlPath)
 						loading = true
 						return async ({update}) => {
 							await update()
 							loading = false
 						}
 					}}>
-						<input class="hide" disabled type="text" name="urlPath" value={item.urlPath}>
+						<!-- <input class="hide" disabled type="text" name="urlPath" value={item.urlPath}> -->
 						<button class="button-icon" type="submit" disabled={loading}>
 							<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
 						</button>
@@ -189,7 +199,7 @@
 			</article>
 		{/each}
 		{#if data.length > 10}
-			<button class="expandButton" on:olick={toggleView} >{shortened ? 'Show more.' : 'Show less.'}</button>
+			<button class="expandButton" on:click={toggleView} >{shortened ? 'Show more.' : 'Show less.'}</button>
 		{/if}
 	</section>
 {/if}

@@ -1,5 +1,5 @@
 <script>
-	import { page } from '$app/stores'
+	import { page, navigating } from '$app/stores'
 	export let data;
 </script>
 
@@ -9,6 +9,14 @@
 </svelte:head>
 
 <div class="layout">
+	<div 
+		class="progress-bar {$navigating ? 'loading' : ''}"
+		role="progressbar"
+    aria-valuenow={$navigating ? 50 : 100}
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-label="Page loading progress"
+	></div>
 	<header class="clearence">
 		<nav class="navContainer">
 			<ul class="list">
@@ -220,92 +228,109 @@
 	}
 
 	/* Footer styles */
-	.container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: auto 0 0 0;
-	width: 100%;
-}
+		.container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin: auto 0 0 0;
+		width: 100%;
+	}
 
-.brand {
-	min-width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 2rem;
-	background: var(--brand-color);
-	color: var(--base-color);
-}
+	.brand {
+		min-width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 2rem;
+		background: var(--brand-color);
+		color: var(--base-color);
+	}
 
-.brand > figure {
-	padding: 0;
-	margin: 0;
-	width: 100px;
-	height: 68px;
-}
+	.brand > figure {
+		padding: 0;
+		margin: 0;
+		width: 100px;
+		height: 68px;
+	}
 
-.brand > h2 {
-	margin: 0;
-	padding: 0;
-	font-size: 1.6rem;
-}
+	.brand > h2 {
+		margin: 0;
+		padding: 0;
+		font-size: 1.6rem;
+	}
 
-.nav {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 100%;
-	background: var(--brand-color);
-	color: var(--base-color);
-	padding: 2rem;
-	margin: 0;
-}
+	.nav {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		min-width: 100%;
+		background: var(--brand-color);
+		color: var(--base-color);
+		padding: 2rem;
+		margin: 0;
+	}
 
-.nav > ul {
-	list-style: none;
-	width: 100%;
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-auto-flow: row;
-	grid-gap: 1rem;
-	padding: 0;
-	margin: 0;
-	max-width: 500px;
-}
+	.nav > ul {
+		list-style: none;
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-auto-flow: row;
+		grid-gap: 1rem;
+		padding: 0;
+		margin: 0;
+		max-width: 500px;
+	}
 
-.nav > ul > li {
-	margin: 0;
-	padding: 0.5rem;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-}
+	.nav > ul > li {
+		margin: 0;
+		padding: 0.5rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+	}
 
-.copy {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 100%;
-	padding: 0.5rem;
-	background: var(--accent-color-alt);
-	color: var(--base-color);
-}
+	.copy {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		min-width: 100%;
+		padding: 0.5rem;
+		background: var(--accent-color-alt);
+		color: var(--base-color);
+	}
 
-.copyright {
-	font-size: 0.8rem;
-	color: var(--base-color-alt);
-}
+	.copyright {
+		font-size: 0.8rem;
+		color: var(--base-color-alt);
+	}
 
-.underline { 
-	text-decoration: underline;
-}
+	.underline { 
+		text-decoration: underline;
+	}
+
+	/* Loading Bar Styles */
+	.progress-bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 0.2rem;
+		background-color: var(--awe-color-alt); /* Customize the color */
+		visibility: hidden;
+		transition: visibility 1.5s, opacity 2s linear;
+		z-index: 10;
+	}
+	.loading {
+		visibility: visible;
+		opacity: 1;
+	}
 
 	@media(min-width: 600px){
 		.navContainer {

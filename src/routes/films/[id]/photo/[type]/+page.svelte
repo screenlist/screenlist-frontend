@@ -14,8 +14,13 @@
 		object = data.details.poster
 	}
 	if(type === 'still'){
-		object = data.stills.find( item => item.index = index)
+		object = data.stills.find( item => item.index === index)
 	}
+
+	// console.log(index)
+	// console.log(object)
+	// console.log(data.stills)
+	// console.log(data.stills.find( item => item.index = index))
 </script>
 
 <PhotoOperations {object} {form} />

@@ -16,7 +16,7 @@
 		cityOfOrigin: data?.details?.cityOfOrigin ?? '',
 		provinceOfOrigin: data?.details?.provinceOfOrigin ?? '',
 		countryOfOrigin: data?.details?.countryOfOrigin ?? '',
-		yearOfBirth: data?.details?.yearOfBirth ?? '',
+		yearOfBirth: data?.details?.yearOfBirth ?? new Date().getFullYear(),
 		dateMonthOfBirth: data?.details?.dateMonthOfBirth ? data.details.dateMonthOfBirth.split('T')[0] : '',
 		deathDate: data?.details?.deathDate ? data.details.deathDate.split('T')[0] : '',
 		nationality: data?.details?.nationality ?? ['South Africa'],
@@ -68,7 +68,10 @@
 </script>
 
 <section class="form-with-bar">
-	<form method="POST" action={data?.details ? `?/update` : '?/create'} class="form" use:enhance={() => {
+	<form method="POST" action={data?.details ? `?/update` : '?/create'} class="form" use:enhance={({formData}) => {
+		if(data?.details){
+			formData.append('init', $values.init)
+		}
 		loading = true
 		return async ({update}) => {
 			await update()
@@ -76,7 +79,7 @@
 		}
 	}}>
 		{#if loading}
-			<LoadingState pop={true} />
+			<LoadingState context="pop" />
 		{/if}
 
 		<h2 class="h4">{data.details ? `Edit ${data.details.name}` : 'Add a new person'}</h2>
@@ -170,11 +173,6 @@
 		<div class="form-field">					
 			<label for="deathDate">Death Date</label>
 			<input bind:value={$values.deathDate} disabled={loading} id="deathDate" name="deathDate" type="date" />
-		</div>
-
-		<div class="hide">					
-			<label for="init">Initial Values</label>
-			<input aria-hidden="true" bind:value={$values.init} disabled={true} id="init" name="init" type="text" />
 		</div>
 
 		<button disabled={loading} type="submit" class="form-submit">{data?.details ? 'Edit' : 'Create'}</button>

@@ -27,6 +27,10 @@
 	let stillTwo = data.stills.find(item => item.index === 1)
 	let stillThree = data.stills.find(item => item.index === 2)
 
+	// console.log(stillOne)
+	// console.log(stillTwo)
+	// console.log(stillThree)
+
 </script>
 
 <svelte:head>
@@ -61,6 +65,7 @@
 				<SignedIn>
 					<a class="button-edit" href={`/films/${data.details.id}/photo/poster:0`}>
 						<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+						<span class="hide">Image operations</span>
 					</a>
 				</SignedIn>				
 				<div class="title-band">
@@ -73,7 +78,17 @@
 			<!-- { !currentUser && <ToEdit/> } -->
 			<div class="titleBand">
 				<h2 class="h3">Details</h2>
-				<!-- { currentUser && <EditFilmForm /> } -->
+				<SignedIn>
+					<a href={`/films/${data.details.id}/edit`} class="button-icon">
+						<img 
+							src='/add-icon.svg'
+							alt='Add icon'
+							width="30px"
+							height="30px"
+						/>
+						<span class="hide">Edit details</span>
+					</a>
+				</SignedIn>
 			</div>
 			<div class="detailsContainer">
 				{#if data.details?.genres}
@@ -284,8 +299,16 @@
 				<section id="cast" class={data.stills.length > 0 || data.user ? '' : 'ad-firstSection' }>
 					<div class={data.stills.length > 0 || data.user ? 'ad-titleBand ': 'ad-titleBandFirst'}>
 						<h2 class="h3">Cast</h2>
-						<SignedIn let:user>
-							<!-- Insert the role creation link -->
+						<SignedIn>
+							<a href={`/films/${data.details.id}/role/people?categories="cast"`} class="button-icon">
+								<img 
+									src='/add-icon.svg'
+									alt='Add icon'
+									width="30px"
+									height="30px"
+								/>
+								<span class="hide">Add new role</span>
+							</a>
 						</SignedIn>
 					</div>
 					{#if data.cast.length > 0}
@@ -298,7 +321,15 @@
 					<div class="ad-titleBand">
 						<h2 class="h3">Crew</h2>
 						<SignedIn>
-							<!-- Insert the role creation link -->
+							<a href={`/films/${data.details.id}/role/people?categories="crew"`} class="button-icon">
+								<img 
+									src='/add-icon.svg'
+									alt='Add icon'
+									width="30px"
+									height="30px"
+								/>
+								<span class="hide">Add new role</span>
+							</a>
 						</SignedIn>
 					</div>
 					{#if data.crew.length > 0}
@@ -311,7 +342,15 @@
 					<div class="ad-titleBand">
 						<h2 class="h3">Companies</h2>
 						<SignedIn>
-							<!-- Insert the role creation link -->
+							<a href={`/films/${data.details.id}/role/companies`} class="button-icon">
+								<img 
+									src='/add-icon.svg'
+									alt='Add icon'
+									width="30px"
+									height="30px"
+								/>
+								<span class="hide">Add new role</span>
+							</a>
 						</SignedIn>
 					</div>
 					{#if data.companies.length > 0}

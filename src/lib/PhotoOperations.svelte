@@ -9,7 +9,7 @@
 	export let object
 	export let form
 
-	console.log(form)
+	// console.log(form)
 	// Get user session token
 	function getCookie(name) {
     const cookieArray = document.cookie.split('; ');
@@ -82,7 +82,7 @@
 				creating.set({...$creating, source:''}) 
 			} else {
 				const blobFile = await res.blob()
-				const objectURL = URL.createObjectURL(blob)
+				const objectURL = URL.createObjectURL(blobFile)
 				creating.set({...$creating, preview: objectURL, source: blobFile})
 			}
 

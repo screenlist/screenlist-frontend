@@ -17,7 +17,8 @@ export const handle = sequence(
 			'films/new',
 			'people/new',
 			'companies/new',
-			({ url }) => new URL(url).pathname.includes('roles')
+			({ url }) => new URL(url).pathname.includes('roles'),
+			'dashboard'
 		],
 		signInUrl: '/sign-in'
 	 })

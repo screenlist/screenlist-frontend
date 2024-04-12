@@ -532,6 +532,15 @@ input[type="search"]::-ms-clear {
 	align-items: center;
 }
 
+.form-page--vertical {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 2rem 0;
+	background: var(--base-color);
+}
+
 .form-popup {
 	display: grid;
 	place-items: center;

@@ -12,7 +12,7 @@
 	const values = writable({
 		init: initialData,
 		name: data?.details?.name ?? '',
-		year: data?.details?.year ?? '',
+		year: data?.details?.year ?? new Date().getFullYear(),
 		trailerUrl: data?.details?.trailerUrl ?? '',
 		type: data?.details?.type ?? '',
 		format: data?.details?.format ?? '',
@@ -25,10 +25,11 @@
 		releaseDate: data?.details?.releaseDate ? data.details.releaseDate.split('T')[0] : '',
 		initialPlatform: data?.details?.initialPlatform ?? '',
 		countries: data?.details?.countries ?? ['South Africa'],
-		languages: data?.details?.languages ?? '',
+		languages: data?.details?.languages ?? [],
 		additionalLanguages: data?.details?.additionalLanguages ?? '',
-		genres: data?.details?.genres ?? ''
+		genres: data?.details?.genres ?? []
 	})
+	
 
 	if(form){
 		values.set({
@@ -55,8 +56,9 @@
 
 	const currentDate = new Date()
 	const startYear = 1900
-	const currentYear = currentDate.getFullYear()	
-	const allYears = currentYear - startYear
+	const currentYear = currentDate.getFullYear()
+	const yearsPassed = currentYear - startYear
+	const allYears = yearsPassed+10
 	const years = []
 	for(let i = 0; i <= allYears; i++){years.push(startYear+i)}
 
@@ -80,7 +82,10 @@
 </script>
 
 <section class="form-with-bar">
-	<form method="POST" action={data?.details ? `?/update` : '?/create'} class="form" use:enhance={() => {
+	<form method="POST" action={data?.details ? `?/update` : '?/create'} class="form" use:enhance={({formData}) => {
+		if(data?.details){
+			formData.append('init', $values.init)
+		}		
 		loading = true
 		return async ({update}) => {
 			await update()
@@ -88,23 +93,27 @@
 		}
 	}}>
 		{#if loading}
-			<LoadingState pop={true} />
+			<LoadingState context="pop" />
 		{/if}
 		
 		<h2 class="h4">{data.details ? `Edit ${data.details.name}` : 'Add a new film'}</h2>
+
+		{#if form?.error && !loading}
+			<p class="error">{form.error}</p>
+		{/if}
 
 		<p><span class="form-field-required"></span> Indicates a required field.</p>
 
 		<div class="form-field" >					
 			<label for="name">Title <span aria-label='required field' class="form-field-required"></span></label>
 			<p class="form-field-info">Strictly written in title case.</p>
-			<input required id="name" name="name" type="text" />
+			<input bind:value={$values.name} required id="name" name="name" type="text" />
 			<span class="form-field-counter">{`${$values.name.length}/60 characters`}</span>
 		</div>
 
 		<div class="form-field" >
 			<label for="year">Year <span aria-label='required field' class="form-field-required"></span></label>
-			<select required="true" name="year" id="year" >
+			<select bind:value={$values.year} required="true" name="year" id="year" >
 				{#each years as item (item) }
 					<option key={item} value={item}>{item}</option>
 				{/each}
@@ -113,12 +122,12 @@
 		
 		<div class="form-field" >
 			<label for="trailerUrl">Trailer URL</label>
-			<input id="trailerUrl" name="trailerUrl" type="text" />
+			<input bind:value={$values.trailerUrl} id="trailerUrl" name="trailerUrl" type="text" />
 		</div>
 
 		<div class="form-field" >
 			<label for="type">Type <span aria-label='required field' class="form-field-required"></span></label>
-			<select required name="type" id="type" >
+			<select bind:value={$values.type} required name="type" id="type" >
 				<option value="">--Choose option--</option>
 				<option value="fiction">Fiction</option>
 				<option value="documentary">Documentary</option>
@@ -128,7 +137,7 @@
 
 		<div class="form-field" >
 			<label for="format">Format <span aria-label='required field' class="form-field-required"></span></label>
-			<select required name="format" id="format" >
+			<select bind:value={$values.format} required name="format" id="format" >
 				<option value="">--Choose option--</option>
 				<option value="feature">Feature film</option>
 				<option value="short">Short film</option>
@@ -137,7 +146,7 @@
 
 		<div class="form-field" >
 			<label for="productionStage">Stage <span aria-label='required field' class="form-field-required"></span></label>
-			<select required name="productionStage" id="productionStage">
+			<select bind:value={$values.productionStage} required name="productionStage" id="productionStage">
 				<option value="">--Choose option--</option>
 				<option value="development">Development</option>
 				<option value="pre-production">Pre-production</option>
@@ -150,41 +159,41 @@
 		<div class="form-field" >
 			<label for= "runtime">Runtime</label>
 			<p class="form-field-info">A film&apos;s duration in minutes.</p>
-			<input id="runtime" name= "runtime" type="number" />
+			<input bind:value={$values.runtime} id="runtime" name= "runtime" type="number" />
 		</div>
 
 		<div class="form-field" >
 			<label for= "budget">Budget</label>
 			<p class="form-field-info">The amount of money {`(in South African Rands)`} it cost to produce the film.</p>
-			<input id="budget" name= "budget" type="number" />
+			<input bind:value={$values.budget} id="budget" name= "budget" type="number" />
 		</div>
 
 		<div class="form-field" >
 			<label for= "boxOffice">Box Office</label>
 			<p class="form-field-info">The revenue {`(in South African Rands)`} that the film accumulated while playing in cinemas.</p>
-			<input id="boxOffice" name= "boxOffice" type="number" />
+			<input bind:value={$values.boxOffice} id="boxOffice" name= "boxOffice" type="number" />
 		</div>
 
 		<div class="form-field" >
 			<label for="logline">Logline <span aria-label='required field' class="form-field-required"></span></label>
-			<textarea required id="logline" class="form-field-texter" name="logline" on:input={autoResize}></textarea>
+			<textarea bind:value={$values.logline} required id="logline" class="form-field-texter" name="logline" on:input={autoResize}></textarea>
 			<span class="form-field-counter">{`${$values.logline.length}/300 characters`}</span>
 		</div>
 
 		<div class="form-field" >
 			<label for="plotSummary">Plot Summary</label>
-			<textarea class="form-field-texter" on:input={autoResize} name="plotSummary" id="plotEummary"></textarea>
+			<textarea bind:value={$values.plotSummary} class="form-field-texter" on:input={autoResize} name="plotSummary" id="plotEummary"></textarea>
 			<span class="form-field-counter">{`${$values.plotSummary.length}/1000 characters`}</span>
 		</div>
 
 		<div class="form-field" >
 			<label for="releaseDate">Release Date</label>
-			<input id="releaseDate" name="releaseDate" type="date" />
+			<input bind:value={$values.releaseDate} id="releaseDate" name="releaseDate" type="date" />
 		</div>
 
 		<div class="form-field" >
 			<label for="initialPlatform">Initial Platform</label>
-			<input id="initialPlatform" name="initialPlatform" type="text" />
+			<input bind:value={$values.initialPlatform} id="initialPlatform" name="initialPlatform" type="text" />
 		</div>
 
 		<div class="form-field" >
@@ -197,15 +206,16 @@
 			</ul>
 			<button on:click={() => coprod = !coprod} type="button" class="button-regular">{coprod === false ? 'Show' : 'Hide'} {'Co-Production Countries'}</button>
 			<div class={coprod === true  ? "form-checkbox-label-container" : "hide"}>	
+				<input type="hidden" name="countries" value="South Africa" />
 				{#each countries as item (item) }
-					{#if item === 'South African'}
+					{#if item === 'South Africa'}
 						<label class="form-checkbox-label">
 							<input bind:group={$values.countries} required name="countries" disabled={true} type="checkbox" value={item} />
 							<span>{item}</span>
 						</label>
 					{:else}
 						<label class="form-checkbox-label">
-							<input bind:group={$values.countries} required name="countries" disabled={coprod === true ? false : true} type="checkbox" value={item} />
+							<input bind:group={$values.countries} disabled={loading} name="countries" type="checkbox" value={item} />
 							<span>{item}</span>
 						</label>
 					{/if}
@@ -218,7 +228,7 @@
 			<div class="form-checkbox-label-container">
 				{#each languages as item (item) }
 					<label class="form-checkbox-label">
-						<input bind:group={$values.languages} required name="languages" type="checkbox" value={item} />
+						<input bind:group={$values.languages} disabled={loading} name="languages" type="checkbox" value={item} />
 						<span>{item}</span>
 					</label>
 				{/each}						
@@ -228,102 +238,102 @@
 		<div class="form-field" >
 			<label for="additionalLanguages">Additional Languages</label>
 			<p class="form-field-info">Any other languages that are not part of the 12 official languages. If there are multiple languages, separate them by commas.</p>
-			<textarea class="form-field-texter" name="additionalLanguages" id="additionalLanguages" onInput={autoResize} ></textarea>
+			<textarea bind:value={$values.additionalLanguages} class="form-field-texter" name="additionalLanguages" id="additionalLanguages" onInput={autoResize} ></textarea>
 		</div>
 
 		<div class="form-field" >
 			<div class="just-bold">Genres <span aria-label='required field' class="form-field-required"></span></div>
 			<div class="form-checkbox-label-container">
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="science fiction" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="science fiction" />
 					<span>Science Fiction</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="romance" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="romance" />
 					<span>Romance</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="action" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="action" />
 					<span>Action</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="comedy" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="comedy" />
 					<span>Comedy</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="drama" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="drama" />
 					<span>Drama</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="fantasy" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="fantasy" />
 					<span>Fantasy</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="biography" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="biography" />
 					<span>Biography</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="thriller" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="thriller" />
 					<span>Thriller</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="historical" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="historical" />
 					<span>Historical</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="musical" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="musical" />
 					<span>Musical</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="mystery" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="mystery" />
 					<span>Mystery</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="adventure" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="adventure" />
 					<span>Adventure</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="satire" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="satire" />
 					<span>Satire</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="western" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="western" />
 					<span>Western</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="arthouse" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="arthouse" />
 					<span>Arthouse</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="experimental" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="experimental" />
 					<span>Experimental</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="crime" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="crime" />
 					<span>Crime</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="horror" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="horror" />
 					<span>Horror</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="espionage" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="espionage" />
 					<span>Espionage</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="animation" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="animation" />
 					<span>Animation</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="documentary" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="documentary" />
 					<span>Documentary</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="psychological" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="psychological" />
 					<span>Psychological</span>
 				</label>
 				<label class="form-checkbox-label">
-					<input bind:group={$values.genres} disabled={loading} required name="genres" type="checkbox" value="sports" />
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="sports" />
 					<span>Sports</span>
 				</label>
 			</div>

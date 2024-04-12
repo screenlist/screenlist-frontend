@@ -13,7 +13,7 @@
 		init: initialData,
 		name: data?.details?.name ?? '',
 		description: data?.details?.description ?? '',
-		founded: data?.details?.founded ?? '',
+		founded: data?.details?.founded ?? new Date().getFullYear(),
 		city: data?.details?.city ?? '',
 		country: data?.details?.country ?? '',
 		director: data?.details?.director ?? '',
@@ -54,7 +54,10 @@
 </script>
 
 <section>
-	<form method="POST" action={data?.details ? `?/update` : '?/create'} class="form" use:enhance={() => {
+	<form method="POST" action={data?.details ? `?/update` : '?/create'} class="form" use:enhance={({formData}) => {
+		if(data?.details){
+			formData.append('init', $values.init)
+		}
 		loading = true
 		return async ({update}) => {
 			await update()
@@ -119,11 +122,6 @@
 		<div class="form-field">
 			<label for="website">Website</label>
 			<input bind:value={$values.website} id="website" disabled={loading} name="website" type="text" />
-		</div>
-
-		<div class="hide">
-			<label for="init">Initial Values</label>
-			<input aria-hidden="true" bind:value={$values.init} id="init" disabled={true} name="init" type="text" />
 		</div>
 
 		<button disabled={loading} class="form-submit" type="submit">{data?.details ? 'Edit' : 'Create'}</button>

@@ -1,61 +1,70 @@
 <script>
 	import { enhance } from '$app/forms'
 	import { page } from '$app/stores'
-	import SearchWidget, { selected } from '$lib/SearchWidget.svelte'
+	import { writable } from 'svelte/store'
+	import SearchWidget from '$lib/SearchWidget.svelte'
 	import LoadingState from '$lib/LoadingState.svelte'
+	import { selected } from '$lib/index.js'
 
-	// export let form
+	export let form
 
 	let type = $page.params.type
-	let category = $page.url.searchParams.get('category').toLowerCase()
+	let category = $page.url.searchParams.get('category')?.toLowerCase()
 
-	let contributer
-
-	selected.subscribe(value => { contributer = value })
-
+	let contributer = $selected
+	// selected.subscribe(value => { contributer = value })	
+	$: $selected, contributer = $selected, console.log($selected)
 	let newContributer = false
 	let departmentState
 	let loading = false
 	let customRole = false
+
+	const resetValues = () => { selected.set({name: '', id: ''}); newContributer = false; departmentState = null; customRole = false }
 </script>
 
-<div style="width: 100%; max-width: 100%;">
-	{#if !contributer}
+<div style="width: 100%; max-width: 100%;" class="form-page">
+	{#if !contributer.name}
 		<div style="min-width: 100%; min-height: 100vh;">
 			<div class="title-band">
-				<h2 class="h4">Search for a {type === 'companies' ? 'company' : 'person'}</h2>
 				<a href={`/films/${$page.params.id}`} class="button-icon">
-					<img src="/close-icon.svg" alt="Close icon" width="35px" height="35px">
+					<img src="/back-icon.svg" alt="Back icon" width="35px" height="35px">
 				</a>
+				<h2 class="h3" style="color: var(--brand-color);">Search for a {type === 'companies' ? 'company' : 'person'}</h2>
 			</div>
 			<SearchWidget collection={type} />
 		</div>
-	{:else if contributer && type === 'people'}
-		<form method="POST" action="?/create" class="form" use:enhance={() => {
+	{:else if contributer.name && type === 'people'}
+		<form method="POST" action="?/create" class="form" use:enhance={({formData}) => {
+			formData.append('id', contributer.id)
 			loading = true
-			return async ({update}) => {
+			return async ({update, result}) => {
+				if(result.type === 'redirect'){ resetValues() }
 				await update()
 				loading = false
 			}
 		}}
 		>
 			{#if loading}
-				<LoadingState pop={true} />
+				<LoadingState conntext="pop" />
 			{/if}
 
 			<div class="title-band">
 				<h2 class="h4">Add Role</h2>
-				<button type="button" disabled={loading} on:click={() => { selected.set(null); newContributer = false; departmentState = null; customRole = false }} class="button-icon">
+				<button type="button" disabled={loading} on:click={resetValues} class="button-icon">
 					<img src="/refresh-icon.svg" alt="Refresh icon" width="35px" height="35px">
 				</button>
 			</div>
+
+			{#if form?.error && !loading}
+				<p class="error">{form.error}</p>
+			{/if}
 				
 			<!-- {isError && <div class="danger">{isError}</div>} -->
 			<p><span class="form-field-required"></span> Indicates a requred field.</p>	
 
 			<div class="form-field">					
 				<label for="personName">Name <span aria-label='required field' class="form-field-required"></span></label>
-				<input value={$selected} name="personName" type="text" disabled={true} required />
+				<input value={contributer.name} name="personName" type="text" disabled={true} required />
 			</div>	
 
 			<div class="form-field">					
@@ -719,23 +728,36 @@
 			<button disabled={loading} class="form-submit" type="submit">Submit</button>
 		</form>
 	{:else if contributer && type === 'companies'}
-		<form method="POST" action="?/create" class="form" use:enhance={() => {
+		<form method="POST" action="?/create" class="form" use:enhance={({formData}) => {
+				formData.append('id', contributer.id)
 				loading = true
-				return async ({update}) => {
+				return async ({update, result}) => {
+					if(result.type === 'redirect'){ resetValues() }
 					await update()
 					loading = false
 				}
 			}}
 		>
 			{#if loading}
-				<LoadingState pop={true} />
+				<LoadingState conntext="pop" />
+			{/if}
+
+			<div class="title-band">
+				<h2 class="h4">Add Role</h2>
+				<button type="button" disabled={loading} on:click={resetValues} class="button-icon">
+					<img src="/refresh-icon.svg" alt="Refresh icon" width="35px" height="35px">
+				</button>
+			</div>
+
+			{#if form?.error && !loading}
+				<p class="error">{form.error}</p>
 			{/if}
 
 			<p><span class="form-field-required"></span> Indicates a required field.</p>
 
 			<div class="form-field">
 				<label for="companyName">Name <span aria-label='required field' class="form-field-required"></span></label>
-				<input value={$selected} id="companyName" disabled={true} name="companyName" type="text" />
+				<input bind:value={$selected.name} id="companyName" disabled={loading} name="companyName" type="text" />
 			</div>
 
 			<div class="form-field" >
