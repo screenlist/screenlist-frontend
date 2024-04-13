@@ -321,8 +321,11 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 0.2rem;
-		background-color: var(--awe-color-alt); /* Customize the color */
+		height: 0.3rem;
+		/* background-color: var(--awe-color-alt);  */
+		background: linear-gradient(to right, var(--brand-color) 0%, var(--base-color-alt) 50%, var(--brand-color) 100%);
+		background-size: 200% 100%;
+		animation: shift 5s linear infinite;
 		visibility: hidden;
 		transition: visibility 1.5s, opacity 2s linear;
 		z-index: 10;
@@ -330,6 +333,15 @@
 	.loading {
 		visibility: visible;
 		opacity: 1;
+	}
+
+	@keyframes shift {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -100% 0;
+		}
 	}
 
 	@media(min-width: 600px){

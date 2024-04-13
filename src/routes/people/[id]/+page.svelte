@@ -29,9 +29,9 @@
 	<div class="photoNameBio">
 		<div class="photoBuffer">
 			<figure class="photo">
-				<img itemprop="image" src={data.photo?.url ?? '/photos/picture.png'} alt={data.photo?.url ? data.name : 'Placeholder'} width="750px" height="750px" loading="lazy" />
+				<img itemprop="image" src={data.details.photo?.url ?? '/photos/picture.png'} alt={data.details.photo?.url ? data.name : 'Placeholder'} width="750px" height="750px" loading="lazy" />
 				<SignedIn>
-					<a class="button-edit" href={`/people/${data.details.id}/photo/image:0`}>
+					<a class="button-edit" href={`/people/${data.details.id}/photo/profile:0`}>
 						<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
 					</a>
 				</SignedIn>	
@@ -56,7 +56,17 @@
 		<div class="detailsContainer">
 			<div class="band">
 				<h2 class="h3">Details</h2>
-				<!-- Insert edit link here -->
+				<SignedIn>
+					<a href={`/people/${data.details.id}/edit`} class="button-icon">
+						<img 
+							src='/add-icon.svg'
+							alt='Add icon'
+							width="30px"
+							height="30px"
+						/>
+						<span class="hide">Edit details</span>
+					</a>
+				</SignedIn>
 			</div>
 			<div class="detailDataContainerFlex">
 				{#if data.details.occupation}

@@ -203,7 +203,7 @@
 					{#if data.details.budget}
 						<div class="datailDataContainerFlexChild">
 							<h3 class="">Budget</h3>
-							<p><span>{parseFloat((+data.details.budger).toFixed(2)).toLocaleString('en-ZA', {style: 'currency', currency: 'ZAR'}).substring(2)}</span></p>
+							<p><span>R{parseFloat((+data.details.budget).toFixed(2)).toLocaleString('en-ZA', {style: 'currency', currency: 'ZAR'}).substring(2)}</span></p>
 						</div>
 					{/if}
 					{#if data.details.boxOffice}
@@ -300,7 +300,7 @@
 					<div class={data.stills.length > 0 || data.user ? 'ad-titleBand ': 'ad-titleBandFirst'}>
 						<h2 class="h3">Cast</h2>
 						<SignedIn>
-							<a href={`/films/${data.details.id}/role/people?categories="cast"`} class="button-icon">
+							<a href={`/films/${data.details.id}/role/people?category=cast`} class="button-icon">
 								<img 
 									src='/add-icon.svg'
 									alt='Add icon'
@@ -321,7 +321,7 @@
 					<div class="ad-titleBand">
 						<h2 class="h3">Crew</h2>
 						<SignedIn>
-							<a href={`/films/${data.details.id}/role/people?categories="crew"`} class="button-icon">
+							<a href={`/films/${data.details.id}/role/people?category=crew`} class="button-icon">
 								<img 
 									src='/add-icon.svg'
 									alt='Add icon'

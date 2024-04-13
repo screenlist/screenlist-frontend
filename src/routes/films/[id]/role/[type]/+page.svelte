@@ -1,4 +1,5 @@
 <script>
+	import { onDestroy } from 'svelte';
 	import { enhance } from '$app/forms'
 	import { page } from '$app/stores'
 	import { writable } from 'svelte/store'
@@ -9,17 +10,19 @@
 	export let form
 
 	let type = $page.params.type
-	let category = $page.url.searchParams.get('category')?.toLowerCase()
-
+	let category = $page.url.searchParams.get('category')?.toLowerCase().replace(/"/g, '')
+	console.log(category)
 	let contributer = $selected
 	// selected.subscribe(value => { contributer = value })	
 	$: $selected, contributer = $selected, console.log($selected)
 	let newContributer = false
-	let departmentState
+	let department = ''
 	let loading = false
 	let customRole = false
 
-	const resetValues = () => { selected.set({name: '', id: ''}); newContributer = false; departmentState = null; customRole = false }
+	onDestroy(() => { resetValues() })
+
+	const resetValues = () => { selected.set({name: '', id: ''}); newContributer = false; department = null; customRole = false }
 </script>
 
 <div style="width: 100%; max-width: 100%;" class="form-page">
@@ -36,11 +39,13 @@
 	{:else if contributer.name && type === 'people'}
 		<form method="POST" action="?/create" class="form" use:enhance={({formData}) => {
 			formData.append('id', contributer.id)
+			formData.append('personName', contributer.name)
+			formData.append('category', category)
 			loading = true
 			return async ({update, result}) => {
-				if(result.type === 'redirect'){ resetValues() }
 				await update()
 				loading = false
+				if(result.type === 'redirect'){ resetValues() }
 			}
 		}}
 		>
@@ -84,93 +89,93 @@
 				<div class="form-checkbox-label-container">
 					{#if category === 'cast'}
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Leading Cast" />
+							<input bind:group={department} required name="department" type="radio" value="Leading Cast" />
 							<span>Main cast</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input name="department" type="radio" value="Supporting Cast" />
+							<input bind:group={department} name="department" type="radio" value="Supporting Cast" />
 							<span>Additional Cast</span>
 						</label>
 					{/if}
 					{#if category === 'crew'}
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Above Line" />
+							<input bind:group={department} required name="department" type="radio" value="Above Line" />
 							<span>Main Crew</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Production" />
+							<input bind:group={department} required name="department" type="radio" value="Production" />
 							<span>Production</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Direction" />
+							<input bind:group={department} required name="department" type="radio" value="Direction" />
 							<span>Direction</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Locations" />
+							<input bind:group={department} required name="department" type="radio" value="Locations" />
 							<span>Locations</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Transportation" />
+							<input bind:group={department} required name="department" type="radio" value="Transportation" />
 							<span>Transportation</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Sound" />
+							<input bind:group={department} required name="department" type="radio" value="Sound" />
 							<span>Sound</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Script" />
+							<input bind:group={department} required name="department" type="radio" value="Script" />
 							<span>Script</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Camera" />
+							<input bind:group={department} required name="department" type="radio" value="Camera" />
 							<span>Camera</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Grip" />
+							<input bind:group={department} required name="department" type="radio" value="Grip" />
 							<span>Grip</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Electrical" />
+							<input bind:group={department} required name="department" type="radio" value="Electrical" />
 							<span>Electrical</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Art" />
+							<input bind:group={department} required name="department" type="radio" value="Art" />
 							<span>Art</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Property" />
+							<input bind:group={department} required name="department" type="radio" value="Property" />
 							<span>Property</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Costume and Wardrobe" />
+							<input bind:group={department} required name="department" type="radio" value="Costume and Wardrobe" />
 							<span>Costume and Wardrobe</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Hair and Makeup" />
+							<input bind:group={department} required name="department" type="radio" value="Hair and Makeup" />
 							<span>Hair and Makeup</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Stunts" />
+							<input bind:group={department} required name="department" type="radio" value="Stunts" />
 							<span>Stunts</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Visual Effects" />
+							<input bind:group={department} required name="department" type="radio" value="Visual Effects" />
 							<span>Visual Effects</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Special Effects" />
+							<input bind:group={department} required name="department" type="radio" value="Special Effects" />
 							<span>Special Effects</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Catering" />
+							<input bind:group={department} required name="department" type="radio" value="Catering" />
 							<span>Catering and Food</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Safety" />
+							<input bind:group={department} required name="department" type="radio" value="Safety" />
 							<span>Safety</span>
 						</label>
 						<label class="form-checkbox-label">
-							<input required name="department" type="radio" value="Post Production" />
+							<input bind:group={department} required name="department" type="radio" value="Post Production" />
 							<span>Post Production</span>
 						</label>
 					{/if}
@@ -185,18 +190,18 @@
 			{/if}
 
 			<div class="form-field" >
-				{#if category === 'crew' && departmentState}
+				{#if category === 'crew' && department}
 					<div class="title-band">
 						<h3 class="just-bold"><span>Title</span> <span aria-label='required field' class="form-field-required"></span></h3>
 						<button class="button-regular" on:click={() => customRole = !customRole} type="button">{customRole === true ? "Use Provided Options" : "Write Custom Title"}</button>
 					</div>
 				{/if}
 
-				{#if departmentState && customRole}
+				{#if department && customRole}
 					<input name="title" type="text" disabled={customRole ? false : true} />
 				{/if}
 
-				{#if departmentState === 'Above Line' && !customRole}
+				{#if department === 'Above Line' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Director" />
@@ -225,7 +230,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Production' && !customRole}
+				{#if department === 'Production' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Line Producer" />
@@ -254,7 +259,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Direction' && !customRole}
+				{#if department === 'Direction' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="First Assistant Director" />
@@ -279,7 +284,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Locations' && !customRole}
+				{#if department === 'Locations' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Location Manager" />
@@ -292,7 +297,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Transportation' && !customRole}
+				{#if department === 'Transportation' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Transportation Captain" />
@@ -309,7 +314,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Sound' && !customRole}
+				{#if department === 'Sound' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Production Sound Mixer" />
@@ -346,7 +351,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Script' && !customRole}
+				{#if department === 'Script' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Script Supervisor" />
@@ -367,7 +372,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Camera' && !customRole}
+				{#if department === 'Camera' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Cinematographer" />
@@ -408,7 +413,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Grip' && !customRole}
+				{#if department === 'Grip' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Key Grip" />
@@ -429,7 +434,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Electrical' && !customRole}
+				{#if department === 'Electrical' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Gaffer" />
@@ -462,7 +467,7 @@
 					</div>
 				{/if}
 				
-				{#if departmentState === 'Art' && !customRole}
+				{#if department === 'Art' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Production Designer" />
@@ -515,7 +520,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Property' && !customRole}
+				{#if department === 'Property' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Property Master" />
@@ -544,7 +549,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Costume and Wardrobe' && !customRole}
+				{#if department === 'Costume and Wardrobe' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Costume Designer" />
@@ -581,7 +586,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Hair and Makeup' && !customRole}
+				{#if department === 'Hair and Makeup' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Hair Department Head" />
@@ -606,7 +611,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Stunts' && !customRole}
+				{#if department === 'Stunts' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Stunt Coordinator" />
@@ -623,7 +628,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Visual Effect' && !customRole}
+				{#if department === 'Visual Effect' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Visual Effects Supervisor" />
@@ -636,7 +641,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Special Effects' && !customRole}
+				{#if department === 'Special Effects' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Special Effects Coordinator" />
@@ -661,7 +666,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Catering' && !customRole}
+				{#if department === 'Catering' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Production Caterer" />
@@ -674,7 +679,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Safety' && !customRole}
+				{#if department === 'Safety' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Set Medic" />
@@ -691,7 +696,7 @@
 					</div>
 				{/if}
 
-				{#if departmentState === 'Post Production' && !customRole}
+				{#if department === 'Post Production' && !customRole}
 					<div class="form-checkbox-label-container">
 						<label class="form-checkbox-label">
 							<input name="title" type="radio" value="Post Production Coordinator" />
@@ -732,8 +737,8 @@
 				formData.append('id', contributer.id)
 				loading = true
 				return async ({update, result}) => {
-					if(result.type === 'redirect'){ resetValues() }
 					await update()
+					if(result.type === 'redirect'){ resetValues() }
 					loading = false
 				}
 			}}

@@ -101,7 +101,7 @@
 
 <div class="topButtonBand uni-pad">
 	<div>
-		<a href={`/films/${$page.params.id}`} class="button-icon">
+		<a href={`/${$page.url.pathname.split('/')[1]}/${$page.params.id}`} class="button-icon">
 			<img src="/back-icon.svg" alt="Back icon" width="35px" height="35px">
 		</a>
 	</div>
