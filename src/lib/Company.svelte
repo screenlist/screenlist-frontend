@@ -65,7 +65,7 @@
 		}
 	}}>
 		{#if loading}
-			<LoadingState pop={true} />
+			<LoadingState context="pop" />
 		{/if}
 
 		<h2 class="h4">{data.details ? `Edit ${data.details.name}` : 'Add a new company'}</h2>

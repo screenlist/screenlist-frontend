@@ -41,7 +41,7 @@
 								<p>{film.year}</p>
 								<div class="grouped-buttons">
 									<a href={`/films/${film.id}`} class="button-regular" >View</a>
-									<form method="POST" action="/?approve-film" use:enhance={({formData}) => {
+									<form method="POST" action="/?approve" use:enhance={({formData}) => {
 										formData.append('id', film.id)
 										loading = true
 										return async ({update}) => {
@@ -74,7 +74,7 @@
 								<h3 class="h4">{company.name}</h3>
 								<div class="grouped-buttons">
 									<a href={`/companies/${company.id}`} class="button-regular" >View</a>
-									<form method="POST" action="/?approve-company" use:enhance={({formData}) => {
+									<form method="POST" action="/?approve" use:enhance={({formData}) => {
 										formData.append('id', company.id)
 										loading = true
 										return async ({update}) => {
@@ -108,7 +108,7 @@
 								<p>{person.occupation}</p>
 								<div class="grouped-buttons">
 									<a href={`/people/${person.id}`} class="button-regular" >View</a>
-									<form method="POST" action="/?approve-person" use:enhance={({formData}) => {
+									<form method="POST" action="/?approve" use:enhance={({formData}) => {
 										formData.append('id', person.id)
 										loading = true
 										return async ({update}) => {
@@ -148,7 +148,7 @@
 								<p>Link Text: {review.reviewLink}</p>
 								<div class="grouped-buttons">
 									<a class="button-regular" href={review.reviewLink} target="_blank" rel="noreferrer" >Full Review</a>
-									<form method="POST" action="/?approve-review" use:enhance={({formData}) => {
+									<form method="POST" action="/?approve" use:enhance={({formData}) => {
 										formData.append('id', review.id)
 										formData.append('parentId', review.parentId)
 										loading = true
@@ -184,7 +184,7 @@
 								</a>								
 								<p>{item.notes}</p>
 								<div class="grouped-buttons">
-									<form method="POST" action="/?reject-critic" use:enhance={({formData}) => {
+									<form method="POST" action="/?reject" use:enhance={({formData}) => {
 										formData.append('id', item.id)
 										loading = true
 										return async ({update}) => {
@@ -194,7 +194,7 @@
 									}}>
 										<button type="submit" class="button-danger" >Reject</button>
 									</form>
-									<form method="POST" action="/?approve-critic" use:enhance={({formData}) => {
+									<form method="POST" action="/?approve" use:enhance={({formData}) => {
 										formData.append('id', item.id)
 										loading = true
 										return async ({update}) => {
