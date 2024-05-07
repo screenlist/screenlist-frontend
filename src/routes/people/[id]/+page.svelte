@@ -5,6 +5,7 @@
 	import GridRoles from '$lib/GridRoles.svelte'
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
+	import ToEdit from '$lib/ToEdit.svelte'
 
 	export let data
 </script>
@@ -159,7 +160,7 @@
 				</div>
 			{/if}
 			<SignedOut>
-				<!-- insert ToEdit -->
+				<ToEdit />
 			</SignedOut>
 			<div class="inverseContainer">
 				<p class={`moderationStatus ${data.details.editVerified === true ? 'm' : 'tbm'}`}>{data.details.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
@@ -170,7 +171,7 @@
 			<div class="title-band">
 				<h2 class="h3 uni-pad">Filmography</h2>
 			</div>
-			{#if data.filmography.length > 0}
+			{#if data.filmography?.length > 0}
 				<GridRoles data={data.filmography} type='personRole'  onParent={true} />
 			{:else}
 				<EmptyState text="Has not done anything, yet." height="20rem" fill="var(--base-color-alt)" margins={true} />

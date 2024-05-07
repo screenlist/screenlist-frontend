@@ -5,6 +5,7 @@
 	import GridRoles from '$lib/GridRoles.svelte'
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
+	import ToEdit from '$lib/ToEdit.svelte'
 
 	export let data
 
@@ -75,7 +76,7 @@
 			<div class="inverseContainer">
 				<p class="moderationStatus">{data.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
 			</div>
-			<!-- { !currentUser && <ToEdit/> } -->
+			<SignedOut><ToEdit /></SignedOut>
 			<div class="titleBand">
 				<h2 class="h3">Details</h2>
 				<SignedIn>
@@ -237,7 +238,7 @@
 		<div class="ad-container">
 			<section class="ad-contentMain">
 				{#if data.stills.length > 0 || data.user}
-					<section class="ad-stillsContainer">
+					<section id="stills" class="ad-stillsContainer">
 						<div class="ad-carousel">
 							{#if stillOne || data.user}
 								<figure class="ad-stillImage">
@@ -317,7 +318,7 @@
 						<EmptyState text='No cast members.' height="20rem" fill="var(--base-color-alt)" />
 					{/if}
 				</section>
-				<section class="crew">
+				<section id="crew">
 					<div class="ad-titleBand">
 						<h2 class="h3">Crew</h2>
 						<SignedIn>
@@ -338,7 +339,7 @@
 						<EmptyState text='No crew members.' height="20rem" fill="var(--base-color-alt)" />
 					{/if}
 				</section>
-				<section class="companies">
+				<section id="companies">
 					<div class="ad-titleBand">
 						<h2 class="h3">Companies</h2>
 						<SignedIn>
@@ -661,6 +662,10 @@
 		padding: 0 0.5rem;
 	}
 
+	.ad-titleBandFirst > h2 {
+		margin: auto 0;
+	}
+
 
 	.ad-titleBand {
 		display: flex;
@@ -674,6 +679,10 @@
 
 	.ad-titleBand > h2 {
 		margin: auto 0;
+	}
+
+	#cast, #companies, #crew, #stills {
+		margin-bottom: 1.5rem;
 	}
 
 	@media(min-width: 600px){

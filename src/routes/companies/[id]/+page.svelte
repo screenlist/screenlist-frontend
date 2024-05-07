@@ -5,6 +5,7 @@
 	import GridRoles from '$lib/GridRoles.svelte'
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
+	import ToEdit from '$lib/ToEdit.svelte'
 
 	export let data
 </script>
@@ -121,7 +122,7 @@
 				{/if}
 			</div>
 			<SignedOut>
-				<!-- insert ToEdit -->
+				<ToEdit />
 			</SignedOut>
 			<div class="inverseContainer">
 				<p class={`moderationStatus ${data.details.editVerified === true ? 'm' : 'tbm'}`}>{data.details.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
