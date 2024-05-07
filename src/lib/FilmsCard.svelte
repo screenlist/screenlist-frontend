@@ -101,6 +101,7 @@
 
 	.heading {
 		margin: 0 0 0.3rem 0;
+		color: var(--brand-color);
 	}
 
 	.heading > h2 {
