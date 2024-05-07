@@ -18,11 +18,36 @@
 			<h2>Moderation</h2>
 		</div>
 		<nav class="nav">
-			<a class={$page.params.topic === 'films' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/films">Films <span>{data.length}</span></a>
-			<a class={$page.params.topic === 'companies' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/companies">Companies <span>{data.length}</span></a>
-			<a class={$page.params.topic === 'people' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/people">People <span>{data.length}</span></a>
-			<a class={$page.params.topic === 'reviews' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/reviews">Reviews <span>{data.length}</span></a>
-			<a class={$page.params.topic === 'critics' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/critics">Critics <span>{data.length}</span></a>
+			<a class={$page.params.topic === 'films' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/films">
+				Films 
+				{#if $page.params.topic === "films"}
+					<span>{data.moderation.length}</span>
+				{/if}				
+			</a>
+			<a class={$page.params.topic === 'companies' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/companies">
+				Companies 
+				{#if $page.params.topic === "companies"}
+					<span>{data.moderation.length}</span>
+				{/if}				
+			</a>
+			<a class={$page.params.topic === 'people' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/people">
+				People 
+				{#if $page.params.topic === "people"}
+					<span>{data.moderation.length}</span>
+				{/if}				
+			</a>
+			<a class={$page.params.topic === 'reviews' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/reviews">
+				Reviews 
+				{#if $page.params.topic === "reviews"}
+					<span>{data.moderation.length}</span>
+				{/if}				
+			</a>
+			<a class={$page.params.topic === 'critics' ? 'buttonOn' : 'buttonOff'} href="/dashboard/moderation/critics">
+				Critics 
+				{#if $page.params.topic === "critics"}
+					<span>{data.moderation.length}</span>
+				{/if}				
+			</a>
 		</nav>
 		{#if form?.error}
 			<p class="danger">{form.error}</p>
@@ -33,15 +58,15 @@
 				{#if loading}
 					<LoadingState context="pop" />
 				{/if}
-				{#if data.length > 0}
+				{#if data.moderation.length > 0}
 					<ul class="contentContainer">
-						{#each data as film (film.id) }
+						{#each data.moderation as film (film.id) }
 							<li class="film" >
 								<h3 class="h4">{film.name}</h3>
 								<p>{film.year}</p>
 								<div class="grouped-buttons">
 									<a href={`/films/${film.id}`} class="button-regular" >View</a>
-									<form method="POST" action="/?approve" use:enhance={({formData}) => {
+									<form method="POST" action="?/approve" use:enhance={({formData}) => {
 										formData.append('id', film.id)
 										loading = true
 										return async ({update}) => {
@@ -67,14 +92,14 @@
 				{#if loading}
 					<LoadingState context="pop" />
 				{/if}
-				{#if data.length > 0}
+				{#if data.moderation.length > 0}
 					<ul class="contentContainer">
-						{#each data as company (company.id) }
+						{#each data.moderation as company (company.id) }
 							<li class="film" >
 								<h3 class="h4">{company.name}</h3>
 								<div class="grouped-buttons">
 									<a href={`/companies/${company.id}`} class="button-regular" >View</a>
-									<form method="POST" action="/?approve" use:enhance={({formData}) => {
+									<form method="POST" action="?/approve" use:enhance={({formData}) => {
 										formData.append('id', company.id)
 										loading = true
 										return async ({update}) => {
@@ -100,15 +125,15 @@
 				{#if loading}
 					<LoadingState context="pop" />
 				{/if}
-				{#if data.length > 0}
+				{#if data.moderation.length > 0}
 					<ul class="contentContainer">
-						{#each data as person (person.id) }
+						{#each data.moderation as person (person.id) }
 							<li class="film" >
 								<h3 class="h4">{person.name}</h3>
 								<p>{person.occupation}</p>
 								<div class="grouped-buttons">
 									<a href={`/people/${person.id}`} class="button-regular" >View</a>
-									<form method="POST" action="/?approve" use:enhance={({formData}) => {
+									<form method="POST" action="?/approve" use:enhance={({formData}) => {
 										formData.append('id', person.id)
 										loading = true
 										return async ({update}) => {
@@ -134,9 +159,9 @@
 				{#if loading}
 					<LoadingState context="pop" />
 				{/if}
-				{#if data.length > 0}
+				{#if data.moderation.length > 0}
 					<ul class="contentContainer">
-						{#each data as review (review.id) }
+						{#each data.moderation as review (review.id) }
 							<li class="film" >
 								<a href={`/users/${review.author}`}>
 									<h3 class="h4">{review.author}</h3>
@@ -148,7 +173,7 @@
 								<p>Link Text: {review.reviewLink}</p>
 								<div class="grouped-buttons">
 									<a class="button-regular" href={review.reviewLink} target="_blank" rel="noreferrer" >Full Review</a>
-									<form method="POST" action="/?approve" use:enhance={({formData}) => {
+									<form method="POST" action="?/approve" use:enhance={({formData}) => {
 										formData.append('id', review.id)
 										formData.append('parentId', review.parentId)
 										loading = true
@@ -175,16 +200,16 @@
 				{#if loading}
 					<LoadingState context="pop" />
 				{/if}
-				{#if data.length > 0}
+				{#if data.moderation.length > 0}
 					<ul class="contentContainer">
-						{#each data as item (item.id) }
+						{#each data.moderation as item (item.id) }
 							<li class="film" >
 								<a href={`/users/${item.displayName}`}>
 									<h3 class="h4">{item.displayName}</h3>
 								</a>								
 								<p>{item.notes}</p>
 								<div class="grouped-buttons">
-									<form method="POST" action="/?reject" use:enhance={({formData}) => {
+									<form method="POST" action="?/reject" use:enhance={({formData}) => {
 										formData.append('id', item.id)
 										loading = true
 										return async ({update}) => {
@@ -194,7 +219,7 @@
 									}}>
 										<button type="submit" class="button-danger" >Reject</button>
 									</form>
-									<form method="POST" action="/?approve" use:enhance={({formData}) => {
+									<form method="POST" action="?/approve" use:enhance={({formData}) => {
 										formData.append('id', item.id)
 										loading = true
 										return async ({update}) => {

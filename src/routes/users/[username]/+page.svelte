@@ -50,7 +50,7 @@
 			<div class="coreInfoContainer">
 				<div class="infoBand">
 					<div class="nameAndRoleContainer">
-						{#if data.details.fullName }
+						{#if data.details.fullName && data.details.role === 'journalist' }
 							<h3 class="username">{data.details.fullName}</h3>
 						{/if}
 						<p class="role">{data.details.role}</p>
@@ -60,8 +60,7 @@
 							</div>
 						{/if}
 						<div class="repContainer">
-							<span class="rep">{data.details.reputation}</span>
-							<span> Rep</span>
+							<span class="rep">{data.details.reputation+" Reps"}</span>
 						</div>
 					</div>
 				</div>
@@ -72,7 +71,7 @@
 		<div class="uni-pad">
 			<h2 class="h3">Select contributions</h2>
 		</div>
-		<div class={data.length > 0 ? 'viewContainer-grid' : ''} >
+		<div class={bytes.length > 0 ? 'viewContainer-grid' : ''} >
 			{#if bytes.length > 0}
 				{#each bytes as item (item)}
 					{#if item.xxType === 'films'}
@@ -230,6 +229,11 @@
 		position: relative;
 	}
 
+	.profileImage > figure > img {
+		width: 100%;
+		height: 100%;
+	}
+
 	/* .profileImage > figure > button {
 		position: absolute;
 		right: 125;
@@ -269,7 +273,7 @@
 	}
 
 	.cover {
-	position: relative;
+		position: relative;
 	}
 
 	.cover > figure {
@@ -285,6 +289,12 @@
 		justify-content: center;
 		align-items: center;
 		position: relative;
+	}
+
+	.cover > figure > img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 
 	/* .cover > figure > button {

@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<script async src="/clarity.js"></script>
+	<!-- <script async src="/clarity.js"></script> -->
 	<script defer src="https://analytics.makamuta.com/script.js" data-website-id="3c5bfe63-3e74-42d8-9247-0b42fe2775cd"></script>
 </svelte:head>
 
@@ -38,7 +38,7 @@
 						</li>
 						<li>
 							<div class="mainNavLink">
-								<a href="/contribute" title="Contribute">
+								<a href="/content/contributions" title="Contribute">
 									<img src="/contribute-icon.svg" alt="Contribute icon" width="28px" height="28px" />
 								</a>
 							</div>
@@ -107,10 +107,10 @@
 					<a href="/support">Support</a>
 				</li>
 				<li>
-					<a href="/contribute">Contribute</a>
+					<a href="/content/contribute">Contribute</a>
 				</li>
 				<li>
-					<a href="/about">About</a>
+					<a href="/content/about">About</a>
 				</li>
 			</ul>
 		</nav>

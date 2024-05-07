@@ -14,9 +14,9 @@ export const handle = sequence(
 		protectedPaths: [
 			({ url }) => new URL(url).pathname.includes('photo'),
 			({ url }) => new URL(url).pathname.includes('edit'),
-			'films/new',
-			'people/new',
-			'companies/new',
+			'/films/new',
+			'/people/new',
+			'/companies/new',
 			({ url }) => new URL(url).pathname.includes('roles'),
 			'dashboard'
 		],

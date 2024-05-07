@@ -11,7 +11,7 @@
 	class="empty-state-container"
 	style="min-height: {height}; background-color: {fill}; width: {width}; margin: {margins};"
 >
-	<div>
+	<div class="empty-state-text-container">
 		{#if forError === true}
 			<img src="/photos/g-loading-failed.svg" alt="Error graphic" width="60px" height="60px" />
 		{:else}
