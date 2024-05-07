@@ -18,7 +18,7 @@ export async function load(event) {
 
 		const user = await getDetails.json()
 		const quota = await getQuota.json()
-
+		
 		if(getDetails.ok && getQuota.ok){
 			return {
 				user,

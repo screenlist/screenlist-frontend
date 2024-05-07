@@ -1,5 +1,10 @@
 <script>
 	import { page, navigating } from '$app/stores'
+  import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte';
+	import UserButton from 'clerk-sveltekit/client/UserButton.svelte'
+  // import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte';
+	import SignOutButton from 'clerk-sveltekit/client/SignOutButton.svelte'
+    import SignIn from 'clerk-sveltekit/client/SignIn.svelte';
 	export let data;
 </script>
 
@@ -31,31 +36,33 @@
 					<ul class="list nestedList">
 						<li>
 							<div>
-								<a class="mainNavLink" href="/search" title="Search">
+								<a class="mainNavLink button-icon" href="/search" title="Search">
 									<img src="/search-icon.svg" alt="Search icon" width="28" height="28" />
 								</a>
 							</div>
 						</li>
 						<li>
 							<div class="mainNavLink">
-								<a href="/content/contributions" title="Contribute">
-									<img src="/contribute-icon.svg" alt="Contribute icon" width="28px" height="28px" />
+								<a class="button-icon" href="/content/contributions" title="Contribute">
+									<img src="/add-icon.svg" alt="Contribute icon" width="28px" height="28px" />
 								</a>
 							</div>
 						</li>
 						<li>
 							<div>
-								{#if data?.user}
+								{#if data?.user && $page.url.pathname !== `/users/${data?.user?.username}`}
 									<div class="accountContainer">
 										<a href={`/users/${data.user.username}`} class="profileButton">
 											<img 
 												src={data.user.photoUrl? data.user.photoUrl : '/photos/picture.png'} 
 												alt="User profile"
-												width="30px"
-												height="30px"
+												width="28px"
+												height="28px"
 											/>
 										</a>
 									</div>
+								{:else if data?.user && $page.url.pathname === `/users/${data?.user?.username}`}
+									<UserButton afterSignOutUrl={$page.url.pathname} />
 								{:else}
 									<a href="/sign-in" class="mainNavLink" >
 										<img 
@@ -68,6 +75,15 @@
 								{/if}
 							</div>						
 						</li>
+						{#if $page.url.pathname !== `/users/${data?.user?.username}`}
+							<SignedIn>
+								<li>
+									<SignOutButton signOutCallback={() => {location.reload()}} class="button-icon">
+										<img src="/logout-icon.svg" alt="Logout icon" width="28px" height="28px" />
+									</SignOutButton>								
+								</li>
+							</SignedIn>
+						{/if}						
 					</ul>
 				</li>
 			</ul>
@@ -85,6 +101,13 @@
 				</li>
 			</ul>
 		</nav>
+		{#if data?.quota?.usage >= 0 && data?.user}
+			<SignedIn>
+				<div class="quota">
+					<span>{`${data.quota.usage}%`}</span>
+				</div>
+			</SignedIn>
+		{/if}
 	</header>
 
 	<main>
@@ -116,12 +139,36 @@
 		</nav>
 		<div class="copy">
 			<p>Made with lots of ❤ by <a href="https://alexkokobane.com" class="underline" title="Alex Kokobane" target="_blank" rel="noreferrer">Alex Kokobane</a></p>
-			<p class="copyright">&copy; {new Date().getFullYear()}, Makamuta. All rights resevered.</p>
+			<!-- <p class="copyright">&copy; {new Date().getFullYear()}, Makamuta. All rights resevered.</p> -->
 		</div>
 	</footer>
 </div>
 
 <style>
+	.quota {
+		position: fixed;
+		bottom: 2rem;
+		left: 0.5rem;
+		height: 45px;
+		width: 45px;
+		border-radius: 45px;
+		background: var(--base-color);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border: 0.15rem solid var(--base-color-alt);
+		z-index: 10;
+	}
+
+	.quota > span {
+		/* margin: 0 0 2rem 0.5rem; */
+		/* padding: 1rem; */
+		font-size: 0.9rem;
+		font-weight: 600;		
+		color: var(--brand-color);
+	}
+
 	.navContainer {
 		padding: 1rem 0.5rem;
 		margin: 0;
@@ -181,6 +228,11 @@
 	.mainNavLink {
 		display: inline-block;
 	}
+
+	/* .mainNavLink > img {
+		width: 100%;
+		height: 100%;
+	} */
 
 	.secondNavContainer {
 		padding: 0;
@@ -306,10 +358,10 @@
 		color: var(--base-color);
 	}
 
-	.copyright {
+	/* .copyright {
 		font-size: 0.8rem;
 		color: var(--base-color-alt);
-	}
+	} */
 
 	.underline { 
 		text-decoration: underline;
