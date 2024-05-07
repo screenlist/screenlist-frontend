@@ -12,9 +12,9 @@
 
 <section class="section">
 	{#if viewMorePath.length > 0}
-		<div class="title-band heading">
-			<h2 class="uni-pad">{heading}</h2>
-			<a href="{viewMorePath}">View more</a>
+		<div class="title-band heading uni-pad">
+			<h2>{heading}</h2>
+			<a class="button-regular" href="{viewMorePath}">View More</a>
 		</div>
 	{:else}
 		<h2 class="title-band heading">{heading}</h2>
@@ -39,7 +39,7 @@
 		{:else}
 			<EmptyState 
 				text="Nothing to see here, yet." 
-				height="70vh"
+				height="40vh"
 				fill="var(--base-color-alt)"
 			/>
 		{/if}
@@ -137,7 +137,7 @@
 	}
 
 	.section {
-		margin: 1rem 0;
+		margin: 2rem 0;
 		min-height: 10rem;
 	}
 
