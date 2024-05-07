@@ -12,8 +12,8 @@
 <svelte:head>
 	<title>Films - Screen List</title>
 	<meta name="description" content="A list of South African films - dramas, thrillers, sci-fi, documetaries, short films, features films and more" />
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="@OnScreenList">
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@OnScreenList" />
 	<meta property="og:title" content="Films - Screen List" />
 	<meta property="og:description" content="A list of South African films - dramas, thrillers, sci-fi, documetaries, short films, features films and more" />
 	<meta property="og:image" content="/photos/display-art.webp" />
