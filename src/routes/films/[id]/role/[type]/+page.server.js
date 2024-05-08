@@ -22,8 +22,8 @@ export const actions = {
 			body.department = data.get('department')
 			body.category = data.get('category')
 
-			if(data.get('title') === 'Actor'){
-				body.characterName === data.get('characterName')
+			if(data.get('category') === 'cast'){
+				body.characterName = data.get('characterName')
 			}
 		}
 

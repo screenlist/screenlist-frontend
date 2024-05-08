@@ -80,7 +80,7 @@
 			{#if category === 'cast'}
 				<div class="form-field">					
 					<label for="title">Title <span aria-label='required field' class="form-field-required"></span></label>
-					<input value="Actor" name="title" type="text" disabled={true} required />
+					<input value="Actor" name="title" type="text" required />
 				</div>
 			{/if}		
 
