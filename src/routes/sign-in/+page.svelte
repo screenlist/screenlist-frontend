@@ -1,7 +1,8 @@
 <script>
+	import { page } from '$app/stores'
 	import SignIn from 'clerk-sveltekit/client/SignIn.svelte'
 </script>
 
-<section>
-	<SignIn redirectUrl='/' />
+<section class="form-page">
+	<SignIn redirectUrl={$page.url.searchParams.get('redirect_url')} />
 </section>

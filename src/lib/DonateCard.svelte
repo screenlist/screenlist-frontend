@@ -1,5 +1,5 @@
 <script>
-	export let vertical
+	export let vertical = false
 </script>
 
 {#if vertical}
@@ -16,7 +16,7 @@
 				<div class="mCtaContainer">
 					<h2 class="just-bold">Support this project</h2>
 					<p>Consider donating to aid the continued development of Screen List.</p>
-					<a class="mCtaButton" href="/support" title="Support">Donate</a>
+					<a class="mCtaButton" href="/support" title="Donate">Donate</a>
 				</div>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 			<div class="ctaContainer">
 				<h2 class="just-bold">Support this project</h2>
 				<p>Consider donating to aid the continued development of Screen List.</p>
-				<a class="button-good" href="https://paystack.com/pay/alexkokobane" target="_blank" rel="noreferrer">Donate</a>
+				<a class="button-good" href="/support"  title="Donate">Donate</a>
 			</div>
 		</div>
 	</section>

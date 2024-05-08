@@ -1,16 +1,27 @@
 <script>
-	import { page } from '$app/stores'
+	import { page, navigating } from '$app/stores'
+  import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte';
+	import UserButton from 'clerk-sveltekit/client/UserButton.svelte'
+  // import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte';
+	import SignOutButton from 'clerk-sveltekit/client/SignOutButton.svelte'
+    import SignIn from 'clerk-sveltekit/client/SignIn.svelte';
 	export let data;
 </script>
 
 <svelte:head>
-	<script async src="/clarity.js"></script>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-2QWRCR8SB8"></script>
-	<script async src="/analytics.js"></script>
-	<script async src="https://analytics.makamuta.com/script.js" data-website-id="2a6c623c-7316-42b9-801b-763fe85693cc"></script>
+	<!-- <script async src="/clarity.js"></script> -->
+	<script defer src="https://analytics.makamuta.com/script.js" data-website-id="3c5bfe63-3e74-42d8-9247-0b42fe2775cd"></script>
 </svelte:head>
 
 <div class="layout">
+	<div 
+		class="progress-bar {$navigating ? 'loading' : ''}"
+		role="progressbar"
+    aria-valuenow={$navigating ? 50 : 100}
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-label="Page loading progress"
+	></div>
 	<header class="clearence">
 		<nav class="navContainer">
 			<ul class="list">
@@ -25,33 +36,35 @@
 					<ul class="list nestedList">
 						<li>
 							<div>
-								<a class="mainNavLink" href="/search" title="Search">
+								<a class="mainNavLink button-icon" href="/search" title="Search">
 									<img src="/search-icon.svg" alt="Search icon" width="28" height="28" />
 								</a>
 							</div>
 						</li>
 						<li>
 							<div class="mainNavLink">
-								<a href="/contribute" title="Contribute">
-									<img src="/contribute-icon.svg" alt="Contribute icon" width="28px" height="28px" />
+								<a class="button-icon" href="/content/contributions" title="Contribute">
+									<img src="/add-icon.svg" alt="Contribute icon" width="28px" height="28px" />
 								</a>
 							</div>
 						</li>
 						<li>
 							<div>
-								{#if data?.user}
+								{#if data?.user && $page.url.pathname !== `/users/${data?.user?.username}`}
 									<div class="accountContainer">
 										<a href={`/users/${data.user.username}`} class="profileButton">
 											<img 
 												src={data.user.photoUrl? data.user.photoUrl : '/photos/picture.png'} 
 												alt="User profile"
-												width="30px"
-												height="30px"
+												width="28px"
+												height="28px"
 											/>
 										</a>
 									</div>
+								{:else if data?.user && $page.url.pathname === `/users/${data?.user?.username}`}
+									<UserButton afterSignOutUrl={encodeURIComponent($page.url.pathname)} />
 								{:else}
-									<a href="/sign-in" class="mainNavLink" >
+									<a href={`/sign-in?redirect_url=${encodeURIComponent($page.url.pathname)}`} class="mainNavLink" >
 										<img 
 											src="/user-profile-icon.svg"
 											alt="user profile icon"
@@ -62,6 +75,15 @@
 								{/if}
 							</div>						
 						</li>
+						{#if $page.url.pathname !== `/users/${data?.user?.username}`}
+							<SignedIn>
+								<li>
+									<SignOutButton signOutCallback={() => {location.reload()}} class="button-icon">
+										<img src="/logout-icon.svg" alt="Logout icon" width="28px" height="28px" />
+									</SignOutButton>								
+								</li>
+							</SignedIn>
+						{/if}						
 					</ul>
 				</li>
 			</ul>
@@ -79,6 +101,13 @@
 				</li>
 			</ul>
 		</nav>
+		{#if data?.quota?.usage >= 0 && data?.user && data?.user?.role === 'member'}
+			<SignedIn>
+				<a href="/quota" class="quota">
+					<span>{`${data.quota.usage}%`}</span>
+				</a>
+			</SignedIn>
+		{/if}
 	</header>
 
 	<main>
@@ -101,21 +130,45 @@
 					<a href="/support">Support</a>
 				</li>
 				<li>
-					<a href="/contribute">Contribute</a>
+					<a href="/content/contribute">Contribute</a>
 				</li>
 				<li>
-					<a href="/about">About</a>
+					<a href="/content/about">About</a>
 				</li>
 			</ul>
 		</nav>
 		<div class="copy">
 			<p>Made with lots of ❤ by <a href="https://alexkokobane.com" class="underline" title="Alex Kokobane" target="_blank" rel="noreferrer">Alex Kokobane</a></p>
-			<p class="copyright">&copy; {new Date().getFullYear()}, Makamuta. All rights resevered.</p>
+			<!-- <p class="copyright">&copy; {new Date().getFullYear()}, Makamuta. All rights resevered.</p> -->
 		</div>
 	</footer>
 </div>
 
 <style>
+	.quota {
+		position: fixed;
+		bottom: 2rem;
+		left: 0.5rem;
+		height: 45px;
+		width: 45px;
+		border-radius: 45px;
+		background: var(--base-color);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border: 0.15rem solid var(--base-color-alt);
+		z-index: 10;
+	}
+
+	.quota > span {
+		/* margin: 0 0 2rem 0.5rem; */
+		/* padding: 1rem; */
+		font-size: 0.9rem;
+		font-weight: 600;		
+		color: var(--brand-color);
+	}
+
 	.navContainer {
 		padding: 1rem 0.5rem;
 		margin: 0;
@@ -176,6 +229,11 @@
 		display: inline-block;
 	}
 
+	/* .mainNavLink > img {
+		width: 100%;
+		height: 100%;
+	} */
+
 	.secondNavContainer {
 		padding: 0;
 		margin: 0;
@@ -222,92 +280,121 @@
 	}
 
 	/* Footer styles */
-	.container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: auto 0 0 0;
-	width: 100%;
-}
+		.container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin: auto 0 0 0;
+		width: 100%;
+	}
 
-.brand {
-	min-width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 2rem;
-	background: var(--brand-color);
-	color: var(--base-color);
-}
+	.brand {
+		min-width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 2rem;
+		background: var(--brand-color);
+		color: var(--base-color);
+	}
 
-.brand > figure {
-	padding: 0;
-	margin: 0;
-	width: 100px;
-	height: 68px;
-}
+	.brand > figure {
+		padding: 0;
+		margin: 0;
+		width: 100px;
+		height: 68px;
+	}
 
-.brand > h2 {
-	margin: 0;
-	padding: 0;
-	font-size: 1.6rem;
-}
+	.brand > h2 {
+		margin: 0;
+		padding: 0;
+		font-size: 1.6rem;
+	}
 
-.nav {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 100%;
-	background: var(--brand-color);
-	color: var(--base-color);
-	padding: 2rem;
-	margin: 0;
-}
+	.nav {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		min-width: 100%;
+		background: var(--brand-color);
+		color: var(--base-color);
+		padding: 2rem;
+		margin: 0;
+	}
 
-.nav > ul {
-	list-style: none;
-	width: 100%;
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-auto-flow: row;
-	grid-gap: 1rem;
-	padding: 0;
-	margin: 0;
-	max-width: 500px;
-}
+	.nav > ul {
+		list-style: none;
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-auto-flow: row;
+		grid-gap: 1rem;
+		padding: 0;
+		margin: 0;
+		max-width: 500px;
+	}
 
-.nav > ul > li {
-	margin: 0;
-	padding: 0.5rem;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-}
+	.nav > ul > li {
+		margin: 0;
+		padding: 0.5rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+	}
 
-.copy {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-width: 100%;
-	padding: 0.5rem;
-	background: var(--accent-color-alt);
-	color: var(--base-color);
-}
+	.copy {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		min-width: 100%;
+		padding: 0.5rem;
+		background: var(--accent-color-alt);
+		color: var(--base-color);
+	}
 
-.copyright {
-	font-size: 0.8rem;
-	color: var(--base-color-alt);
-}
+	/* .copyright {
+		font-size: 0.8rem;
+		color: var(--base-color-alt);
+	} */
 
-.underline { 
-	text-decoration: underline;
-}
+	.underline { 
+		text-decoration: underline;
+	}
+
+	/* Loading Bar Styles */
+	.progress-bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 0.3rem;
+		/* background-color: var(--awe-color-alt);  */
+		background: linear-gradient(to right, var(--brand-color) 0%, var(--base-color-alt) 50%, var(--brand-color) 100%);
+		background-size: 200% 100%;
+		animation: shift 5s linear infinite;
+		visibility: hidden;
+		transition: visibility 1.5s, opacity 2s linear;
+		z-index: 10;
+	}
+	.loading {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	@keyframes shift {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -100% 0;
+		}
+	}
 
 	@media(min-width: 600px){
 		.navContainer {

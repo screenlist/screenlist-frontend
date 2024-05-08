@@ -6,15 +6,15 @@
 	export let viewMorePath = ''
 	export let films = []
 
-	const firstGroupFilms = films.slice(0, 10)
-	const lastGroupFilms = films.slice(10)
+	const firstGroupFilms = films.slice(0, 30)
+	const lastGroupFilms = films.slice(30)
 </script>
 
 <section class="section">
 	{#if viewMorePath.length > 0}
-		<div class="title-band heading">
-			<h2 class="uni-pad">{heading}</h2>
-			<a href="{viewMorePath}">View more</a>
+		<div class="title-band heading uni-pad">
+			<h2>{heading}</h2>
+			<a class="button-regular" href="{viewMorePath}">View More</a>
 		</div>
 	{:else}
 		<h2 class="title-band heading">{heading}</h2>
@@ -26,7 +26,7 @@
 					<a class="innerShell" title={film.name} href={`/films/${film.id}`}>
 						<div class="container">
 							<figure>
-								<img src={film.posterUrl ? film.posterUrl : '/photos/poster.png'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
+								<img loading="lazy" placeholder="/photos/poster.png" src={film.posterUrl ? film.posterUrl : '/photos/poster.png'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
 							</figure>
 							<div class="info">
 								<p class="yearText">{film.year}</p>
@@ -39,7 +39,7 @@
 		{:else}
 			<EmptyState 
 				text="Nothing to see here, yet." 
-				height="70vh"
+				height="40vh"
 				fill="var(--base-color-alt)"
 			/>
 		{/if}
@@ -101,6 +101,7 @@
 
 	.heading {
 		margin: 0 0 0.3rem 0;
+		color: var(--brand-color);
 	}
 
 	.heading > h2 {
@@ -137,7 +138,7 @@
 	}
 
 	.section {
-		margin: 1rem 0;
+		margin: 2rem 0;
 		min-height: 10rem;
 	}
 
