@@ -4,5 +4,5 @@
 </script>
 
 <section class="form-page">
-	<SignUp redirectUrl={$page.url.pathname} />
+	<SignUp redirectUrl={$page.url.searchParams.get('redirect_url')} />
 </section>
