@@ -8,6 +8,7 @@
 	import ToEdit from '$lib/ToEdit.svelte'
 
 	export let data
+	// console.log(data)
 
 	function ratingColor(factor){
 		const startColor = '#BF0603'
@@ -74,7 +75,7 @@
 				</div>
 			</figure>
 			<div class="inverseContainer">
-				<p class="moderationStatus">{data.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
+				<p class={`moderationStatus ${data.details.editVerified === true ? 'm' : 'tbm'}`}>{data.details.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
 			</div>
 			<SignedOut><ToEdit /></SignedOut>
 			<div class="titleBand">
@@ -516,12 +517,20 @@
 
 	.moderationStatus {
 		padding: 0.3rem 0.6rem;
-		background: var(--accent-color);
 		color: var(--base-color);
 		border: 0.1rem solid transparent;
 		border-radius: 0.6rem;
 		font-weight: 600;
 		font-size: 0.8rem;
+		margin: 0;
+	}
+
+	.m {
+		background: var(--good-color);
+	}
+
+	.tbm {
+		background: var(--accent-color);
 	}
 
 	/* .middleContainer {

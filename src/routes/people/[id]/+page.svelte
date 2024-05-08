@@ -88,7 +88,7 @@
 						<p>{new Date(data.details.dateMonthOfBirth).toLocaleDateString('en-ZA')}</p>
 					</div>
 				{/if}				
-				{#if data.details.cityOfBirth || data.details.provinceOfBirth || data.details.countryOfBirth}
+				{#if data.details.cityOfOrigin || data.details.provinceOfOrigin || data.details.countryOfOrigin}
 					<div itemprop="birthPlace" itemscope itemtype="https://schema.org/Place" class="detailDataContainerFlexChild">
 						<h3 class="h4 flexible">Birth Place</h3>
 						<p><span itemprop="name">{`${data.details.cityOfOrigin ? data.details.cityOfOrigin : ''}${data.details.provinceOfOrigin ? `${data.details.cityOfOrigin ? `, ${data.details.provinceOfOrigin}` : data.details.provinceOfOrigin}` : ''}${data.details.countryOfOrigin ? `${data.details.provinceOfOrigin || data.details.cityOfOrigin ? `, ${data.details.countryOfOrigin}` : data.details.countryOfOrigin}` : ''}`}</span></p>
