@@ -62,9 +62,9 @@
 										</a>
 									</div>
 								{:else if data?.user && $page.url.pathname === `/users/${data?.user?.username}`}
-									<UserButton afterSignOutUrl={$page.url.pathname} />
+									<UserButton afterSignOutUrl={encodeURIComponent($page.url.pathname)} />
 								{:else}
-									<a href="/sign-in" class="mainNavLink" >
+									<a href={`/sign-in?redirect_url=${encodeURIComponent($page.url.pathname)}`} class="mainNavLink" >
 										<img 
 											src="/user-profile-icon.svg"
 											alt="user profile icon"
@@ -101,11 +101,11 @@
 				</li>
 			</ul>
 		</nav>
-		{#if data?.quota?.usage >= 0 && data?.user}
+		{#if data?.quota?.usage >= 0 && data?.user && data?.user?.role === 'member'}
 			<SignedIn>
-				<div class="quota">
+				<a href="/quota" class="quota">
 					<span>{`${data.quota.usage}%`}</span>
-				</div>
+				</a>
 			</SignedIn>
 		{/if}
 	</header>
