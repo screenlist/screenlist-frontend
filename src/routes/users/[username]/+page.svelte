@@ -1,6 +1,7 @@
 <script>
 	import EmptyState from '$lib/EmptyState.svelte'
 	import { PUBLIC_HOST_URL } from '$env/static/public'
+    import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte';
 	export let data
 
 	const bytes = []
@@ -34,6 +35,11 @@
 <div class="pageContainer">
 	<div class="topBand">
 		<h1 class="headingOne">{`@${data.details.username}`}</h1>
+		<SignedIn>
+			{#if data?.user?.role === 'admin'}
+				<a href="/dashboard/moderation/films" class="button-regular">Moderation</a>
+			{/if}
+		</SignedIn>
 	</div>
 	<div class="coreAndSettings">
 		<section class="container">
