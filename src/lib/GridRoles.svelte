@@ -33,50 +33,51 @@
 				</div>
 				<div class="bodyOnParent">
 					<div class="infoContainerOnParent">
-						{#if item.roles.filter(val => val.category === 'cast').length > 0}
-							{#each item.roles.filter(val => val.category === 'cast') as role (role.id)}
-								<li class="actor">
-									<span>{role.characterName} {`(cast)`}</span>
-									<SignedIn>
-										<form method="POST" action={`/${item.ownerCollection}/${item.id}/role/people?/delete`} use:enhance={({formData}) => {
-											formData.append('urlPath', item.urlPath)
-											loading = true
-											return async ({update}) => {
-												await update()
-												loading = false
-											}
-										}}>
-											<!-- <input class="hide" disabled type="text" name="urlPath" value={role.urlPath}> -->
-											<button class="button-icon" type="submit" disabled={loading}>
-												<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
-											</button>
-										</form>
-									</SignedIn>
-								</li>
-							{/each}
-						{/if}
-						{#if item.roles.filter(val => val.category === 'crew').length > 0}
-							{#each item.roles.filter(val => val.category === 'crew') as role (role.id) }
-								<li class="crew">
-									<span>{role.role}</span>
-									<SignedIn>
-										<form method="POST" action={`/${item.ownerCollection}/${item.id}/role?/delete`} use:enhance={() => {
-											loading = true
-											return async ({update}) => {
-												await update()
-												loading = false
-											}
-										}}>
-											<input class="hide" disabled type="text" name="urlPath" value={role.urlPath}>
-											<button type="submit" disabled={loading}>
-												<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
-											</button>
-										</form>
-									</SignedIn>
-								</li>
-							{/each}
-						{/if}
-						<ul class="filmmakingList"></ul>
+						<ul class="filmmakingList">
+							{#if item.roles.filter(val => val.category === 'cast').length > 0}
+								{#each item.roles.filter(val => val.category === 'cast') as role (role.id)}
+									<li class="actor">
+										<span>{role.characterName} {`(cast)`}</span>
+										<SignedIn>
+											<form method="POST" action={`/${item.ownerCollection}/${item.id}/role/people?/delete`} use:enhance={({formData}) => {
+												formData.append('urlPath', item.urlPath)
+												loading = true
+												return async ({update}) => {
+													await update()
+													loading = false
+												}
+											}}>
+												<!-- <input class="hide" disabled type="text" name="urlPath" value={role.urlPath}> -->
+												<button class="button-icon" type="submit" disabled={loading}>
+													<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
+												</button>
+											</form>
+										</SignedIn>
+									</li>
+								{/each}
+							{/if}
+							{#if item.roles.filter(val => val.category === 'crew').length > 0}
+								{#each item.roles.filter(val => val.category === 'crew') as role (role.id) }
+									<li class="crew">
+										<span>{role.role}</span>
+										<SignedIn>
+											<form method="POST" action={`/${item.ownerCollection}/${item.id}/role?/delete`} use:enhance={() => {
+												loading = true
+												return async ({update}) => {
+													await update()
+													loading = false
+												}
+											}}>
+												<!-- <input class="hide" disabled type="text" name="urlPath" value={role.urlPath}> -->
+												<button class="button-icon" type="submit" disabled={loading}>
+													<img src="/delete-icon.svg" alt="Trash icon" width="20px" height="25px" />
+												</button>
+											</form>
+										</SignedIn>
+									</li>
+								{/each}
+							{/if}
+						</ul>
 					</div>
 				</div>
 			</article>
