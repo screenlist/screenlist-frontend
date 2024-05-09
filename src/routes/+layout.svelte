@@ -10,7 +10,7 @@
 
 <svelte:head>
 	<script async src="/clarity.js"></script>
-	<script defer src="https://analytics.makamuta.com/script.js" data-website-id="e702e8bd-2b1b-4cf8-b449-60807c54fe7c"></script>
+	<script async defer src="https://analytics.makamuta.com/script.js" data-website-id="e702e8bd-2b1b-4cf8-b449-60807c54fe7c"></script>
 </svelte:head>
 
 <div class="layout">
