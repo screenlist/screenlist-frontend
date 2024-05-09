@@ -135,6 +135,7 @@
 
 		<div class="form-field" >
 			<div class="just-bold">Nationality <span aria-label='required field' class="form-field-required"></span></div>
+			<p class="form-field-info">South Africa is selected by default for convenience but make sure to select approriately for people of other nationalities.</p>
 			<div class="form-checkbox-label-container">
 				{#each countries as country (country)}
 					<label class="form-checkbox-label">
@@ -172,6 +173,7 @@
 
 		<div class="form-field">					
 			<label for="deathDate">Death Date</label>
+			<p class="form-field-info">It goes without saying that you should only fill this if the person has, factually, passed on as confirmed by reputable media outlets.</p>
 			<input bind:value={$values.deathDate} disabled={loading} id="deathDate" name="deathDate" type="date" />
 		</div>
 
