@@ -10,11 +10,11 @@
 
 <svelte:head>
 	<title>Screen List - South African films, studios, actors and filmmakers</title>
-	<meta name="description" content="The world's first database of information relating to South African cinema. Find your favourite films, actors and filmmakers, right here!" />
+	<meta name="description" content="The first database of information relating to South African cinema. Find your favourite films, actors and filmmakers, right here!" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="@OnScreenList" />
 	<meta property="og:title" content="Screen List - South African films, studios, actors and filmmakers" />
-	<meta property="og:description" content="The world's first database of information relating to South African cinema. Find your favourite films, actors and filmmakers, right here!" />
+	<meta property="og:description" content="The first database of information relating to South African cinema. Find your favourite films, actors and filmmakers, right here!" />
 	<meta property="og:image" content="/photos/display-art.webp" />
 	<meta property="og:image:width" content="1920" />
 	<meta property="og:image:height" content="1080" />
