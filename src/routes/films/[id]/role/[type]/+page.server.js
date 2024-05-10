@@ -2,10 +2,11 @@ import { PUBLIC_SERVER } from '$env/static/public'
 import { error, fail, redirect } from '@sveltejs/kit'
 
 export const actions = {
-	create: async ({cookies, request, params}) => {
+	create: async ({cookies, request, params, url}) => {
 		const token = cookies.get('__session')
 		const data = await request.formData()
 		const type = await params.type
+		const redirectUrl = url.searchParams.get('redirect_url')
 
 		if(!type || (type !== 'companies' && type !== 'people') ){ 
 			throw error(400, 'Incomplete URL parameters')
@@ -44,6 +45,10 @@ export const actions = {
 				error: err.message,
 				...Object.fromEntries(data.entries())
 			})
+		}
+
+		if(redirectUrl){
+			redirect('302', decodeURIComponent(redirectUrl))
 		}
 
 		redirect('302', `/films/${params.id}`)
