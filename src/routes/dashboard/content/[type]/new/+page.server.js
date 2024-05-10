@@ -1,5 +1,5 @@
 import { PUBLIC_SERVER } from '$env/static/public'
-import { error, redirect } from '@sveltejs/kit'
+import { error, redirect, fail } from '@sveltejs/kit'
 
 export async function load(event) {
 	const res = await fetch(`${PUBLIC_SERVER}/content/${event.params.type}`)
@@ -14,7 +14,7 @@ export const actions = {
 		const token = cookies.get('__session')		
 		const data = await request.formData()
 		const values = Object.fromEntries( Object.entries( Object.fromEntries(data.entries()) ).filter(([_, value]) => value != "") )
-		if(values.tags){ values.tags = values.tags.split(',') }
+		// if(values.tags){ values.tags = values.tags.split(',') }
 		const type = params.type
 
 		if( type !== 'about' && type !== 'privacy' && type !== 'tos' && type !== 'contributions' ){

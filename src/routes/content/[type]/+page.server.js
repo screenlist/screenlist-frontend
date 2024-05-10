@@ -6,7 +6,12 @@ export async function load(event) {
 
 	if(res.ok){
 		return { content: await res.json() }
-	} else if(!res.ok && event.params.type === 'contributions'){
+	} else if(
+		(!res.ok && event.params.type === 'contributions') ||
+		(!res.ok && event.params.type === 'about') ||
+		(!res.ok && event.params.type === 'privacy') ||
+		(!res.ok && event.params.type === 'tos')
+	){
 		return {}
 	} else {
 		throw error(400, 'So sorry for this but we encountered an error')
