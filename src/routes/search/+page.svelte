@@ -91,7 +91,7 @@
 	</form>
 
 	{#if $results.films.length === 0 && $results.companies.length === 0 && $results.people.length === 0}
-		<EmptyState text="We tried but found results found nothing, sorry I guess?" height="20rem" />
+		<EmptyState text="We tried but found nothing, sorry I guess?" height="20rem" />
 	{/if}
 
 	<div data-sveltekit-reload class={$results.films.length === 0 && $results.people.length === 0 && $results.companies.length === 0 ? 'hide' : 'results'} >

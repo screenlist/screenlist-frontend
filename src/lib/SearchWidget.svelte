@@ -1,5 +1,6 @@
 <script>
   import { writable } from 'svelte/store'
+	import { page } from '$app/stores'
 	import Typesense from 'typesense'
 	import { PUBLIC_TYPESENSE_HOST, PUBLIC_TYPESENSE_PORT, PUBLIC_TYPESENSE_PROTOCOL, PUBLIC_TYPESENSE_KEY } from '$env/static/public'
 	import EmptyState from '$lib/EmptyState.svelte'
@@ -49,7 +50,15 @@
 	</form>
 
 	{#if $results.length === 0 }
-		<EmptyState text="We tried but found results found nothing, sorry I guess?" height="20rem" />
+		<EmptyState text="We tried but found nothing, sorry I guess?" height="20rem" />
+	{/if}
+
+	{#if $results.length === 0}
+		<div class="newEntity">
+			<a href={`/${collection}/new?redirect_url=${encodeURIComponent($page.url.pathname)}`} class="button-regular">
+				Add a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : ''}`}
+			</a>
+		</div>
 	{/if}
 
 	<div class={$results.length === 0 ? 'hide' : 'results'} >
@@ -228,5 +237,14 @@
 		margin-top: 0.8rem;
 		font-size: 0.8rem;
 		color: var(--accent-color-alt);
+	}
+
+	.newEntity {
+		padding: 2rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
 	}
 </style>
