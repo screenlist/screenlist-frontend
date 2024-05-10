@@ -28,7 +28,7 @@ export const actions = {
 			}
 		}
 
-		console.log(body)
+		// console.log(body)
 
 		const response = await fetch(`${PUBLIC_SERVER}/films/${params.id}/${type}/${data.get('id')}/roles`, {
 			method: 'POST',
@@ -48,7 +48,7 @@ export const actions = {
 		}
 
 		if(redirectUrl){
-			redirect('302', decodeURIComponent(redirectUrl))
+			redirect(302, decodeURIComponent(redirectUrl))
 		}
 
 		redirect('302', `/films/${params.id}`)

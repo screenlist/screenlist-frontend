@@ -2,9 +2,10 @@ import { PUBLIC_SERVER } from '$env/static/public'
 import { fail, redirect } from '@sveltejs/kit'
 
 export const actions = {
-	create: async ({cookies, request}) => {
+	create: async ({cookies, request, url}) => {
 		const token = cookies.get('__session')
 		const data = await request.formData()
+		const redirectUrl = url.searchParams.get('redirect_url')
 		const values = Object.fromEntries( Object.entries( Object.fromEntries(data.entries()) ).filter(([_, value]) => value != "") )
 		if(values.nationality){ values.nationality = data.getAll('nationality') }
 		if(values.yearOfBirth){ values.yearOfBirth = ~~values.yearOfBirth }
@@ -32,6 +33,10 @@ export const actions = {
 				error: responseData.message || response.statusText,
 				...Object.fromEntries(data.entries())
 			})
+		}
+
+		if(redirectUrl){
+			redirect(302, decodeURIComponent(redirectUrl))
 		}
 
 		redirect(302, `/people/${responseData.id}`)
