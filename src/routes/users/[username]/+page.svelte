@@ -37,7 +37,7 @@
 		<h1 class="headingOne">{`@${data.details.username}`}</h1>
 		<SignedIn>
 			{#if data?.user?.role === 'admin'}
-				<a href="/dashboard/moderation/films" class="button-regular">Moderation</a>
+				<a href="/dashboard" class="button-regular">Dashboard</a>
 			{/if}
 		</SignedIn>
 	</div>
