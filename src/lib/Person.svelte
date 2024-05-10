@@ -17,7 +17,7 @@
 		cityOfOrigin: data?.details?.cityOfOrigin ?? '',
 		provinceOfOrigin: data?.details?.provinceOfOrigin ?? '',
 		countryOfOrigin: data?.details?.countryOfOrigin ?? '',
-		yearOfBirth: data?.details?.yearOfBirth ?? new Date().getFullYear(),
+		yearOfBirth: data?.details?.yearOfBirth ?? '',
 		dateMonthOfBirth: data?.details?.dateMonthOfBirth ? data.details.dateMonthOfBirth.split('T')[0] : '',
 		deathDate: data?.details?.deathDate ? data.details.deathDate.split('T')[0] : '',
 		nationality: data?.details?.nationality ?? ['South Africa'],
@@ -58,6 +58,7 @@
 	for(let i = 0; i <= allYears; i++){years.push(startYear+i)}
 
 	let loading = false
+	let otherNationalities = false
 
 	const countries = iso3311a2.getCountries()
 
@@ -108,7 +109,7 @@
 				{#each years as item (item) }
 					<option value={item}>{item}</option>
 				{/each}
-				<option value='' disabled={true}>No Selection</option>
+				<option value='' disabled={loading}>No Selection</option>
 			</select>
 		</div>
 
@@ -141,7 +142,13 @@
 		<div class="form-field" >
 			<div class="just-bold">Nationality <span aria-label='required field' class="form-field-required"></span></div>
 			<p class="form-field-info">South Africa is selected by default for convenience but make sure to select approriately for people of other nationalities.</p>
-			<div class="form-checkbox-label-container">
+			<ul class="form-field-list">
+				{#each $values.nationality as country (country) }
+					<li><span >{country}</span></li>
+				{/each}
+			</ul>
+			<button on:click={() => otherNationalities = !otherNationalities} type="button" class="button-regular">{otherNationalities === false ? 'Show' : 'Hide'} other nationalities</button>
+			<div class={otherNationalities === true  ? "form-checkbox-label-container" : "hide"}>
 				{#each countries as country (country)}
 					<label class="form-checkbox-label">
 						<input bind:group={$values.nationality} type="checkbox" name="nationality" disabled={loading} value={country} />

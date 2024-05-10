@@ -14,7 +14,7 @@
 		init: initialData,
 		name: data?.details?.name ?? '',
 		description: data?.details?.description ?? '',
-		founded: data?.details?.founded ?? new Date().getFullYear(),
+		founded: data?.details?.founded ?? '',
 		city: data?.details?.city ?? '',
 		country: data?.details?.country ?? '',
 		director: data?.details?.director ?? '',
@@ -95,7 +95,7 @@
 				{#each years as item (item) }
 					<option key={item} value={item}>{item}</option>
 				{/each}
-				<option value='' disabled={true}>No Selection</option>
+				<option value='' disabled={loading}>No Selection</option>
 			</select>
 		</div>
 
