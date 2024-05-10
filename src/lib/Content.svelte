@@ -3,6 +3,7 @@
 	import { writable } from 'svelte/store'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
+	import ErrorState from './ErrorState.svelte'
 	
 	export let type
 	export let data
@@ -51,7 +52,7 @@
 <div class="form-page">
 	<div class="popupContainer">
 		<div class="titleBand">
-			<h2 class="h4">{data ? 'Edit' : 'Add'} {readableType}</h2>
+			<h2 class="h4">{data.slug ? 'Edit' : 'Add'} {readableType}</h2>
 		</div>
 		<nav class="viewNav">
 			<button class={view == 'write' ? 'buttonInFocus' : 'buttonOutFocus'} on:click={() => view = 'write'} type="button">Write</button>
@@ -59,7 +60,7 @@
 		</nav>
 	</div>
 	<div class={view === 'write' ? 'shown' : 'hidden'} >
-		<form method="POST" action={data ? '/?create' : '/?update'} class="form--stretch" use:enhance={({formData}) => {
+		<form method="POST" action={data.slug ? '?/update' : '?/create'} class="form--stretch" use:enhance={({formData}) => {
 			loading = true
 			return async ({update}) => {
 				await update()
@@ -71,7 +72,7 @@
 			{/if}
 
 			{#if form?.error && !loading}
-				<p class="error">{form.error}</p>
+				<ErrorState message={form.error} />
 			{/if}
 
 			<p><span class="form-field-required"></span> Indicates a required field.</p>
@@ -107,7 +108,7 @@
 			</div>
 
 			<div class="form-field">
-				<label for="tags">Keywords</label>
+				<label for="tags">KTags</label>
 				<div class="form-field-info">
 					<p>Place commas between words to separete them.</p>
 				</div>
@@ -187,6 +188,7 @@
 		width: 100%;
 		max-width: 700px;
 		margin: 0.5rem 0;
+		display: flex;
 	}
 
 	.viewNav > button {

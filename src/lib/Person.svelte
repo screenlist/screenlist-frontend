@@ -3,6 +3,7 @@
 	import { writable } from 'svelte/store'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
+	import ErrorState from './ErrorState.svelte'
 
 	export let data
 	export let form
@@ -80,6 +81,10 @@
 	}}>
 		{#if loading}
 			<LoadingState context="pop" />
+		{/if}
+
+		{#if form?.error && !loading}
+			<ErrorState message={form.error} />
 		{/if}
 
 		<h2 class="h4">{data.details ? `Edit ${data.details.name}` : 'Add a new person'}</h2>
