@@ -2,16 +2,16 @@
 	import { onDestroy } from 'svelte';
 	import { enhance } from '$app/forms'
 	import { page } from '$app/stores'
-	import { writable } from 'svelte/store'
 	import SearchWidget from '$lib/SearchWidget.svelte'
 	import LoadingState from '$lib/LoadingState.svelte'
 	import { selected } from '$lib/index.js'
+	import ErrorState from '$lib/ErrorState.svelte'
 
 	export let form
 
 	let type = $page.params.type
 	let category = $page.url.searchParams.get('category')?.toLowerCase().replace(/"/g, '')
-	console.log(category)
+	// console.log(category)
 	let contributer = $selected
 	// selected.subscribe(value => { contributer = value })	
 	$: $selected, contributer = $selected, console.log($selected)
@@ -50,7 +50,7 @@
 		}}
 		>
 			{#if loading}
-				<LoadingState conntext="pop" />
+				<LoadingState context="pop" />
 			{/if}
 
 			<div class="title-band">
@@ -61,7 +61,7 @@
 			</div>
 
 			{#if form?.error && !loading}
-				<p class="error">{form.error}</p>
+				<ErrorState message={form.error} />
 			{/if}
 				
 			<!-- {isError && <div class="danger">{isError}</div>} -->
@@ -744,7 +744,7 @@
 			}}
 		>
 			{#if loading}
-				<LoadingState conntext="pop" />
+				<LoadingState context="pop" />
 			{/if}
 
 			<div class="title-band">

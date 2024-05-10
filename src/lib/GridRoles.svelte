@@ -4,10 +4,12 @@
 	import UserButton from 'clerk-sveltekit/client/UserButton.svelte'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
+	import ErrorState from './ErrorState.svelte'
 
 	export let onParent = false
 	export let data
 	export let type
+	export let form
 
 	let loading = false
 	let shortened = true
@@ -20,6 +22,11 @@
 {#if loading}
 	<LoadingState context="pop" />
 {/if}
+
+{#if form?.error && !loading}
+	<ErrorState message={form.error} />
+{/if}
+
 {#if type === 'personRole' && onParent}
 	<section class={loading ? 'containerOnParent tasked' : 'containerOnParent'}>
 		{#each data as item (item.id)}
@@ -37,7 +44,7 @@
 							{#if item.roles.filter(val => val.category === 'cast').length > 0}
 								{#each item.roles.filter(val => val.category === 'cast') as role (role.id)}
 									<li class="actor">
-										<span>{role.characterName} {`(cast)`}</span>
+										<span>as {role.characterName}</span>
 										<SignedIn>
 											<form method="POST" action={`/${item.ownerCollection}/${item.id}/role/people?/delete`} use:enhance={({formData}) => {
 												formData.append('urlPath', item.urlPath)

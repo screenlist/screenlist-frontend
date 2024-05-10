@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte'
 	import { PUBLIC_SERVER } from '$env/static/public'
 	import LoadingState from '$lib/LoadingState.svelte'
+	import ErrorState from './ErrorState.svelte'
 	
 	export let object
 	export let form
@@ -144,7 +145,7 @@
 			<h2 class="h4">Add new photo</h2>
 
 			{#if form?.error && !loading}
-				<p class="error">{form.error}</p>
+				<ErrorState message={form.error} />
 			{/if}
 
 			<p><span class="form-field-required"></span> Indicates a required field.</p>
@@ -208,7 +209,7 @@
 			<h2 class="h4">Edit Information</h2>
 
 			{#if form?.error && !loading}
-				<p class="error">{form.error}</p>
+				<ErrorState message={form.error} />
 			{/if}
 
 			<p><span class="form-field-required"></span> Indicates a required field.</p>
@@ -242,7 +243,7 @@
 			<h2 class="h4">Are you sure you want to delete the image? This is a destructive action, it cannot be undone, do you still want to continue?</h2>
 
 			{#if form?.error && !loading}
-				<p class="error">{form.error}</p>
+				<ErrorState message={form.error} />
 			{/if}
 
 			<div class="hide">

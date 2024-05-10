@@ -49,14 +49,14 @@
 	.popUpContainer {
 		background: var(--base-color);
 		width: 100px;
-		height: 30px;
+		height: 20px;
 		border: 0.1rem solid transparent;
-		border-radius: 0.5rem;
-		box-shadow: 0 0.045rem 0.25rem var(--accent-color-alt);
+		border-radius: 5px;
+		box-shadow: 0 4px 8px rgba(7, 59, 76, 0.6), 0 6px 20px rgba(7, 59, 76, 0.19); 
 		display: grid;
 		place-items: center;
 		position: fixed;
-		top: 5%;
+		top: 3rem;
 		left: 50%;
 		transform: translate(-60%, -95%);
 		z-index: 20;
@@ -68,13 +68,13 @@
 		display: grid;
 		place-items: center;
 		width: 80px;
-		height: 30px;
+		height: 20px;
 	/*  border: 0.1rem solid red;*/
 	}
 	.ellipFlex div {
 		position: absolute;
-		width: 13px;
-		height: 13px;
+		width: 10px;
+		height: 10px;
 		border-radius: 50%;
 		background: var(--brand-color);
 		animation-timing-function: cubic-bezier(0, 1, 1, 0);

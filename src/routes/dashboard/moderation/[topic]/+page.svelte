@@ -4,6 +4,7 @@
   import LoadingState from '$lib/LoadingState.svelte';
 	import EmptyState from '$lib/EmptyState.svelte';
 	import HistoryView from '$lib/HistoryView.svelte';
+	import ErrorState from '$lib/ErrorState.svelte'
 	export let data
 	export let form
 	let loading = false
@@ -49,8 +50,9 @@
 				{/if}				
 			</a>
 		</nav>
-		{#if form?.error}
-			<p class="danger">{form.error}</p>
+
+		{#if form?.error && !loading}
+			<ErrorState message={form.error} />
 		{/if}
 		
 		{#if $page.params.topic === 'films'}

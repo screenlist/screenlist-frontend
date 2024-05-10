@@ -3,6 +3,7 @@
 	import { writable } from 'svelte/store'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
+	import ErrorState from './ErrorState.svelte'
 
 	export let data
 	export let form
@@ -99,7 +100,7 @@
 		<h2 class="h4">{data.details ? `Edit ${data.details.name}` : 'Add a new film'}</h2>
 
 		{#if form?.error && !loading}
-			<p class="error">{form.error}</p>
+			<ErrorState message={form.error} />
 		{/if}
 
 		<p><span class="form-field-required"></span> Indicates a required field.</p>

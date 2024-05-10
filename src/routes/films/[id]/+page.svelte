@@ -251,9 +251,11 @@
 										width="1920px"
 										loading="lazy"
 									/>
-									<a class="button-edit" href={`/films/${data.details.id}/photo/still:0`}>
-										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
-									</a>
+									<SignedIn>
+										<a class="button-edit" href={`/films/${data.details.id}/photo/still:0`}>
+											<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+										</a>
+									</SignedIn>									
 									<div class="title-band" style="padding: 0 0.5rem;">
 										<p class="title-slim">{stillOne?.credit ? '© '+stillOne.credit  : "Add photo credit"}</p>
 									</div>
@@ -269,9 +271,11 @@
 										width="1920px"
 										loading="lazy"
 									/>
-									<a class="button-edit" href={`/films/${data.details.id}/photo/still:1`}>
-										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
-									</a>
+									<SignedIn>
+										<a class="button-edit" href={`/films/${data.details.id}/photo/still:1`}>
+											<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+										</a>
+									</SignedIn>									
 									<div class="title-band" style="padding: 0 0.5rem;">
 										<p class="title-slim">{stillTwo?.credit ? '© '+stillTwo.credit  : "Add photo credit"}</p>
 									</div>
@@ -287,9 +291,11 @@
 										width="1920px"
 										loading="lazy"
 									/>
-									<a class="button-edit" href={`/films/${data.details.id}/photo/still:2`}>
-										<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
-									</a>
+									<SignedIn>
+										<a class="button-edit" href={`/films/${data.details.id}/photo/still:2`}>
+											<img src="/edit-box-icon.svg" alt="Edit icon" width="100px" height="100px">
+										</a>
+									</SignedIn>						
 									<div class="title-band" style="padding: 0 0.5rem;">
 										<p class="title-slim">{stillThree?.credit ? '© '+stillThree.credit  : "Add photo credit"}</p>
 									</div>
