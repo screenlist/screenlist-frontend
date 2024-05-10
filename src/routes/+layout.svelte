@@ -117,9 +117,8 @@
 	<footer class="container">
 		<div class="brand">
 			<figure>
-				<img src="/sl-minimal-logo-light.svg" alt="logo" width="100px" height="68px" />
+				<img src="/sl-word-logo-light.svg" alt="logo" width="234px" height="45px" />
 			</figure>
-			<h2 class="h3">Screen List</h2>
 		</div>
 		<nav class="nav">
 			<ul>
@@ -303,15 +302,20 @@
 	.brand > figure {
 		padding: 0;
 		margin: 0;
-		width: 100px;
-		height: 68px;
+		width: 234px;
+		height: 45px;
 	}
 
-	.brand > h2 {
+	.brand > figure > img {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* .brand > h2 {
 		margin: 0;
 		padding: 0;
 		font-size: 1.6rem;
-	}
+	} */
 
 	.nav {
 		display: flex;
