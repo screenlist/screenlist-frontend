@@ -129,7 +129,7 @@
 					<a href="/support">Support</a>
 				</li>
 				<li>
-					<a href="/content/contribute">Contribute</a>
+					<a href="/content/contributions">Contribute</a>
 				</li>
 				<li>
 					<a href="/content/about">About</a>
