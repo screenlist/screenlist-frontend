@@ -5,8 +5,9 @@ export const actions = {
 	create: async ({cookies, request, url}) => {
 		const token = cookies.get('__session')
 		const data = await request.formData()
-		const redirectUrl = url.searchParams.get('redirect_url')
 		const values = Object.fromEntries( Object.entries( Object.fromEntries(data.entries()) ).filter(([_, value]) => value != "") )
+		delete values.redirectUrl
+
 		if(values.founded){ values.founded = ~~values.founded }
 		if(values.dateMonthFounded){ 
 			values.dateMonthFounded = new Date(values.dateMonthFounded)
@@ -29,9 +30,9 @@ export const actions = {
 				...Object.fromEntries(data.entries())
 			})
 		}
-
-		if(redirectUrl){
-			redirect(302, decodeURIComponent(redirectUrl))
+		
+		if(data.get('redirectUrl')){
+			redirect(302, decodeURIComponent(data.get('redirectUrl')))
 		}
 
 		redirect(302, `/companies/${responseData.id}`)
