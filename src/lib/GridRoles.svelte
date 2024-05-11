@@ -34,7 +34,7 @@
 				<div class="headerOnParent">
 					<span>{item.year}</span>
 					<span>&#11044;</span>
-					<a href={`/${item.ownerCollection}/${item.id}`} title={item.name}>
+					<a href={`/${item.type}/${item.id}`} title={item.name}>
 						<h3 class="textLeft">{item.name}</h3>
 					</a>
 				</div>
