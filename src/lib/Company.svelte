@@ -1,5 +1,6 @@
 <script>
 	import { writable } from 'svelte/store'
+	import { page } from '$app/stores'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
 	import ErrorState from './ErrorState.svelte'
@@ -52,12 +53,16 @@
 		textarea.style.height = 'auto'
 		textarea.style.height = textarea.scrollHeight + 'px'
 	}
+	const elsewhere = $page.url.searchParams.get('redirect_url')
 </script>
 
 <section>
-	<form method="POST" action={data?.details ? `?/update` : '?/create'} class="form" use:enhance={({formData}) => {
+	<form method="POST" action={data?.details ? `?/update` : `?/create`} class="form" use:enhance={({formData}) => {
 		if(data?.details){
 			formData.append('init', $values.init)
+		}
+		if(elsewhere){ 
+			formData.append('redirectUrl', elsewhere)
 		}
 		loading = true
 		return async ({update}) => {

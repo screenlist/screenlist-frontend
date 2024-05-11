@@ -1,6 +1,7 @@
 <script>
 	import iso3311a2 from 'iso-3166-1-alpha-2'
 	import { writable } from 'svelte/store'
+	import { page } from '$app/stores'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
 	import ErrorState from './ErrorState.svelte'
@@ -67,12 +68,19 @@
 		textarea.style.height = 'auto'
 		textarea.style.height = textarea.scrollHeight + 'px'
 	}
+
+	const elsewhere = $page.url.searchParams.get('redirect_url')
+	const elsewhereCategory = $page.url.searchParams.get('redirect_category')
 </script>
 
 <section class="form-with-bar">
-	<form method="POST" action={data?.details ? `?/update` : '?/create'} class="form" use:enhance={({formData}) => {
+	<form method="POST" action={data?.details ? `?/update` :  `?/create` } class="form" use:enhance={({formData}) => {
 		if(data?.details){
 			formData.append('init', $values.init)
+		}
+		if(elsewhere && elsewhereCategory){ 
+			formData.append('redirectUrl', elsewhere)
+			formData.append('redirectCategory', elsewhereCategory)
 		}
 		loading = true
 		return async ({update}) => {

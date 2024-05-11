@@ -46,7 +46,7 @@ export const actions = {
 				...Object.fromEntries(data.entries())
 			})
 		}
-
+		
 		if(redirectUrl){
 			redirect(302, decodeURIComponent(redirectUrl))
 		}

@@ -5,8 +5,10 @@ export const actions = {
 	create: async ({cookies, request, url}) => {
 		const token = cookies.get('__session')
 		const data = await request.formData()
-		const redirectUrl = url.searchParams.get('redirect_url')
 		const values = Object.fromEntries( Object.entries( Object.fromEntries(data.entries()) ).filter(([_, value]) => value != "") )
+
+		delete values.redirectUrl
+		delete values.redirectCategory
 		if(values.nationality){ values.nationality = data.getAll('nationality') }
 		if(values.yearOfBirth){ values.yearOfBirth = ~~values.yearOfBirth }
 		if(values.dateMonthOfBirth){ 
@@ -35,8 +37,8 @@ export const actions = {
 			})
 		}
 
-		if(redirectUrl){
-			redirect(302, decodeURIComponent(redirectUrl))
+		if(data.get('redirectUrl') && data.get('redirectCategory')){
+			redirect(302, decodeURIComponent(data.get('redirectUrl')+'?category='+data.get('redirectCategory')))
 		}
 
 		redirect(302, `/people/${responseData.id}`)
