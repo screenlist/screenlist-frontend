@@ -266,6 +266,14 @@
 					<span>Drama</span>
 				</label>
 				<label class="form-checkbox-label">
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="social" />
+					<span>Social</span>
+				</label>
+				<label class="form-checkbox-label">
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="political" />
+					<span>Political</span>
+				</label>
+				<label class="form-checkbox-label">
 					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="fantasy" />
 					<span>Fantasy</span>
 				</label>
