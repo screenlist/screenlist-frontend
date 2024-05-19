@@ -4,6 +4,8 @@
 	import Typesense from 'typesense'
 	import { PUBLIC_TYPESENSE_HOST, PUBLIC_TYPESENSE_PORT, PUBLIC_TYPESENSE_PROTOCOL, PUBLIC_TYPESENSE_KEY } from '$env/static/public'
 	import EmptyState from '$lib/EmptyState.svelte'
+	import LoadingState from '$lib/LoadingState.svelte'
+	import ErrorState from '$lib/ErrorState.svelte'
 	import { selected } from '$lib/index.js'
 
 	export let collection = ''
@@ -24,10 +26,14 @@
 	const results = writable([])
 
 	const query = writable('')
+	let loading = false
+	let error = ''
 
 	$: $query, search($query)
 
 	async function search(text){
+		loading = true
+		error = ''
 		try {
 			const response = await client.collections(collection).documents().search({ 
 				'q': text, 
@@ -35,12 +41,21 @@
 				'limit': 15
 			})
 
+			loading = false
 			results.set(response.hits)
-		} catch (err){ console.log(err)}
+		} catch (err){ 
+			error = err.message
+			loading = false
+		}
 	}
 </script>
 
 <div class="page">
+
+	{#if error && !loading}
+		<ErrorState message={error} />
+	{/if}
+
 	<form on:submit|preventDefault class="form2">
 		<label class="formInputLabel">
 			<!-- <span>Search</span> -->
@@ -49,16 +64,14 @@
 		</label>
 	</form>
 
-	{#if $results.length === 0 }
-		<EmptyState text="We tried but found nothing, sorry I guess?" height="20rem" />
+	{#if loading}
+		<div style="width: 100%; height: 15rem; display: flex; justify-content: center; align-items: center; margin: 1rem 0" >
+			<LoadingState />
+		</div>		
 	{/if}
 
-	{#if $results.length === 0}
-		<div class="newEntity">
-			<a href={`/${collection}/new?redirect_url=${encodeURIComponent($page.url.pathname)}${collection === 'people' ? `&redirect_category=${$page.url.searchParams.get('category')}` : ''}`} class="button-regular">
-				Add a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : ''}`}
-			</a>
-		</div>
+	{#if $results.length === 0 && !loading }
+		<EmptyState text="We tried but found nothing, sorry I guess?" height="20rem" />
 	{/if}
 
 	<div class={$results.length === 0 ? 'hide' : 'results'} >
@@ -103,6 +116,14 @@
 			</section>
 		{/if}
 	</div>
+
+	{#if $results.length < 15}
+		<div class="newEntity">
+			<a href={`/${collection}/new?redirect_url=${encodeURIComponent($page.url.pathname)}${collection === 'people' ? `&redirect_category=${$page.url.searchParams.get('category')}` : ''}`} class="button-regular">
+				Add a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : ''}`}
+			</a>
+		</div>
+	{/if}
 </div>
 
 <style>
