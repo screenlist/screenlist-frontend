@@ -1,4 +1,5 @@
 <script>
+	import iso3311a2 from 'iso-3166-1-alpha-2'
 	import { writable } from 'svelte/store'
 	import { page } from '$app/stores'
 	import { enhance } from '$app/forms'
@@ -17,7 +18,7 @@
 		description: data?.details?.description ?? '',
 		founded: data?.details?.founded ?? '',
 		city: data?.details?.city ?? '',
-		country: data?.details?.country ?? '',
+		country: data?.details?.country ?? 'South Africa',
 		director: data?.details?.director ?? '',
 		founder: data?.details?.founder ?? '',
 		website: data?.details?.website ?? '',
@@ -47,6 +48,9 @@
 	for(let i = 0; i <= allYears; i++){years.push(startYear+i)}
 
 	let loading = false
+	let otherBirthCountries = false
+
+	const countries = iso3311a2.getCountries()
 
 	function autoResize(event){
 		const textarea = event.target
@@ -121,7 +125,19 @@
 
 		<div class="form-field">
 			<label for="country">Country</label>
-			<input bind:value={$values.country} id="country" disabled={loading} name="country" type="text" />
+			<p class="form-field-info">South Africa is selected by default for convenience but make sure to select approriately if the company is based in a foreign country.</p>
+			<ul class="form-field-list">
+				<li><span >{$values.country}</span></li>
+			</ul>
+			<button on:click={() => otherBirthCountries = !otherBirthCountries} type="button" class="button-regular">{otherBirthCountries === false ? 'Show' : 'Hide'} other countries</button>
+			<div class={otherBirthCountries === true  ? "form-checkbox-label-container" : "hide"}>
+				{#each countries as country (country)}
+					<label class="form-checkbox-label">
+						<input bind:group={$values.country} type="radio" name="country" disabled={loading} value={country} />
+						<span>{country}</span>
+					</label>
+				{/each}
+			</div>
 		</div>
 
 		<div class="form-field">
