@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div>
-			<a href='/about' class="aboutLink" title='About Screen List'>
+			<a href='/content/about' class="aboutLink" title='About Screen List'>
 				<figure>
 					<img 
 						src='/photos/sl-socials.png'
