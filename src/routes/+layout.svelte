@@ -379,11 +379,33 @@
 		width: 100%;
 		height: 0.3rem;
 		/* background-color: var(--awe-color-alt);  */
-		background: linear-gradient(to right, var(--brand-color) 0%, var(--base-color-alt) 50%, var(--brand-color) 100%);
+		background: repeating-linear-gradient(
+			to right, 
+			var(--brand-color) 0%, 
+			var(--brand-color) 9.99%, 
+			var(--awe-color-alt) 10%, 
+			var(--awe-color-alt) 19.99%, 
+			var(--brand-color) 20%, 
+			var(--brand-color) 29.99%,
+			var(--awe-color-alt) 30%, 
+			var(--awe-color-alt) 39.99%,
+			var(--brand-color) 40%, 
+			var(--brand-color) 49.99%,
+			var(--awe-color-alt) 50%, 
+			var(--awe-color-alt) 59.99%,
+			var(--brand-color) 60%, 
+			var(--brand-color) 69.99%,
+			var(--awe-color-alt) 70%, 
+			var(--awe-color-alt) 79.99%,
+			var(--brand-color) 80%, 
+			var(--brand-color) 89.99%,
+			var(--awe-color-alt) 90%, 
+			var(--awe-color-alt) 100%
+		);
 		background-size: 200% 100%;
-		animation: shift 5s linear infinite;
+		animation: shift 3s linear infinite;
 		visibility: hidden;
-		transition: visibility 1.5s, opacity 2s linear;
+		transition: visibility 1.5s, opacity 3s linear;
 		z-index: 10;
 	}
 	.loading {
