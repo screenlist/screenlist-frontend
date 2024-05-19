@@ -6,8 +6,10 @@
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 	import ToEdit from '$lib/ToEdit.svelte'
+	import SocialCard from '$lib/SocialCard.svelte'
 
 	export let data
+	export let form
 </script>
 
 <svelte:head>
@@ -72,49 +74,49 @@
 			<div class="detailDataContainerFlex">
 				{#if data.details.occupation}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Occupation</h3>
+						<h3 class="h4">Occupation</h3>
 						<p>{data.details.occupation}</p>
 					</div>
 				{/if}
 				{#if data.details.yearOfBirth && !data.details.dateMonthOfBirth}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Birth Year</h3>
+						<h3 class="h4">Birth Year</h3>
 						<p>{data.details.yearOfBirth}</p>
 					</div>
 				{/if}
 				{#if data.details.dateMonthOfBirth}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Date of Birth</h3>
+						<h3 class="h4">Date of Birth</h3>
 						<p>{new Date(data.details.dateMonthOfBirth).toLocaleDateString('en-ZA')}</p>
 					</div>
 				{/if}				
 				{#if data.details.cityOfOrigin || data.details.provinceOfOrigin || data.details.countryOfOrigin}
 					<div itemprop="birthPlace" itemscope itemtype="https://schema.org/Place" class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Birth Place</h3>
+						<h3 class="h4">Birth Place</h3>
 						<p><span itemprop="name">{`${data.details.cityOfOrigin ? data.details.cityOfOrigin : ''}${data.details.provinceOfOrigin ? `${data.details.cityOfOrigin ? `, ${data.details.provinceOfOrigin}` : data.details.provinceOfOrigin}` : ''}${data.details.countryOfOrigin ? `${data.details.provinceOfOrigin || data.details.cityOfOrigin ? `, ${data.details.countryOfOrigin}` : data.details.countryOfOrigin}` : ''}`}</span></p>
 					</div>
 				{/if}
 				{#if data.details.deathDate}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Died</h3>
+						<h3 class="h4">Died</h3>
 						<p>{data.details.deathDate}</p>
 					</div>
 				{/if}
 				{#if data.details.nationality}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Nationality</h3>
+						<h3 class="h4">Nationality</h3>
 						<p>{data.details.nationality.join(', ')}</p>
 					</div>
 				{/if}
 				{#if data.details.gender}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Gender</h3>
+						<h3 class="h4">Gender</h3>
 						<p>{data.details.gender}</p>
 					</div>
 				{/if}
 				{#if data.details.pronouns}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Pronouns</h3>
+						<h3 class="h4">Pronouns</h3>
 						<p>{data.details.pronouns}</p>
 					</div>
 				{/if}
@@ -172,10 +174,11 @@
 				<h2 class="h3 uni-pad">Filmography</h2>
 			</div>
 			{#if data.filmography?.length > 0}
-				<GridRoles data={data.filmography} type='personRole'  onParent={true} />
+				<GridRoles {form} data={data.filmography} type='personRole'  onParent={true} />
 			{:else}
 				<EmptyState text="Has not done anything, yet." height="20rem" fill="var(--base-color-alt)" margins={true} />
 			{/if}
+			<SocialCard />
 		</section>
 	 </div>
 </section>
@@ -302,7 +305,6 @@
 
 	.detailDataContainerFlexChild > h3 {
 		background: transparent;
-		color: var(--main-color);
 		width: fit-content;
 		padding: 0.3rem 0.25rem 0 0.25rem;
 		margin-bottom: 0.1rem;

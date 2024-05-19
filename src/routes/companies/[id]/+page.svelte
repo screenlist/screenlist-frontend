@@ -6,8 +6,10 @@
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 	import ToEdit from '$lib/ToEdit.svelte'
+	import SocialCard from '$lib/SocialCard.svelte'
 
 	export let data
+	export let form
 </script>
 
 <svelte:head>
@@ -48,7 +50,7 @@
 
 	{#if data.details.description}
 		<div class="bio">
-			<h3 class="h4 flexible">About</h3>
+			<h3 class="h4">About</h3>
 			<p class="plotSummary"><span itemprop="description">{data.details.description}</span></p>
 		</div>
 	{/if}
@@ -72,37 +74,37 @@
 			<div class="detailDataContainerFlex">
 				{#if data.details.director}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Director/CEO</h3>
+						<h3 class="h4">Director/CEO</h3>
 						<p>{data.details.director}</p>
 					</div>
 				{/if}
 				{#if data.details.founded}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">{data.details.dateMonthFounded ? 'Founding Date' : 'Founding Year'}</h3>
+						<h3 class="h4">{data.details.dateMonthFounded ? 'Founding Date' : 'Founding Year'}</h3>
 						<p>{data.details.dateMonthFounded ? new Date(data.details.dateMonthFounded).toLocaleDateString('en-ZA') : data.details.founded}</p>
 					</div>
 				{/if}
 				{#if data.details.foundingPlace}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Founding City</h3>
+						<h3 class="h4">Founding City</h3>
 						<p>{data.details.foundingPlace}</p>
 					</div>
 				{/if}
 				{#if data.details.founder}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">{'Founder(s)'}</h3>
+						<h3 class="h4">{'Founder(s)'}</h3>
 						<p>{data.details.founder}</p>
 					</div>
 				{/if}
 				{#if data.details.city}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">City</h3>
+						<h3 class="h4">City</h3>
 						<p>{data.details.city}</p>
 					</div>
 				{/if}
 				{#if data.details.country}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Country</h3>
+						<h3 class="h4">Country</h3>
 						<p>{data.details.country}</p>
 					</div>
 				{/if}
@@ -134,10 +136,11 @@
 				<h2 class="h3 uni-pad">Filmography</h2>
 			</div>
 			{#if data.productions.length > 0}
-				<GridRoles data={data.productions} type='companyRole'  onParent={true} />
+				<GridRoles {form} data={data.productions} type='companyRole'  onParent={true} />
 			{:else}
 				<EmptyState text="Has not done anything, yet." height="20rem" fill="var(--base-color-alt)" margins={true} />
 			{/if}
+			<SocialCard />
 		</section>
 	</div>
 </section>
@@ -264,7 +267,6 @@
 
 	.detailDataContainerFlexChild > h3 {
 		background: transparent;
-		color: var(--main-color);
 		width: fit-content;
 		padding: 0.3rem 0.25rem 0 0.25rem;
 		margin-bottom: 0.1rem;
