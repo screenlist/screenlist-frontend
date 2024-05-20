@@ -295,6 +295,7 @@
 		align-items: center;
 		min-height: 60vh;
 		min-width: 100%;
+		margin: 1rem 0;
 	}
 
 	.nav {
