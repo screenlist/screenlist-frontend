@@ -75,7 +75,7 @@
 	</div>
 	<section class="section-grid">
 		<div class="uni-pad">
-			<h2 class="h3">Select contributions</h2>
+			<h2 class="h3" style="color: var(--accent-color-alt); margin-bottom: 0.5rem;">Select contributions</h2>
 		</div>
 		<div class={bytes.length > 0 ? 'viewContainer-grid' : ''} >
 			{#if bytes.length > 0}
@@ -88,7 +88,7 @@
 										<h3 class="specialHeading-grid titleText-grid">
 											{item.name} {`(${item.year})`}
 										</h3>
-										<span class="specialText titleText-grid" >{`${item.format[0].toUpperCase()+item.format.substring(1)} Film`}</span>
+										<span class="specialText-grid titleText-grid" >{`${item.format[0].toUpperCase()+item.format.substring(1)} Film`}</span>
 									</div>
 								</div>
 							</a>
@@ -101,7 +101,7 @@
 										<h3 class="specialHeading-grid titleText-grid">
 											{item.name}
 										</h3>
-										<span class="specialText titleText-grid" >Company</span>
+										<span class="specialText-grid titleText-grid" >Company</span>
 									</div>
 								</div>
 							</a>
@@ -114,7 +114,7 @@
 										<h3 class="specialHeading-grid titleText-grid">
 											{item.name}
 										</h3>
-										<span class="specialText titleText-grid">{item.occupation}</span>
+										<span class="specialText-grid titleText-grid">{item.occupation}</span>
 									</div>
 								</div>
 							</a>
@@ -212,20 +212,21 @@
 		padding: 0;
 		position: absolute;
 		background: transparent;
-		top: 0;
+		top: 30%;
 		left: 0;
 		bottom: 0;
 		right: 0;
+		/* transform: translate(-60%, -95%); */
 		width: 100%;
-		margin: 10% 0 0 0;
+		/* margin: 10% 0 0 0; */
 	}
 
 	.profileImage > figure {
 		padding: 0;
 		margin: 0;
-		width: 100%;
-		max-width: 450px;
-		border: 0.1rem solid var(--awe-color-alt);
+		/* width: 100%;
+		max-width: 450px; */
+		border: 0.3rem solid var(--awe-color-alt);
 		border-radius: 50%;
 		overflow: hidden;
 		display: flex;
@@ -233,6 +234,7 @@
 		justify-content: center;
 		align-items: center;
 		position: relative;
+		aspect-ratio: 1/1;
 	}
 
 	.profileImage > figure > img {
@@ -301,6 +303,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		/* filter: blur(2rem); */
 	}
 
 	/* .cover > figure > button {
@@ -360,8 +363,8 @@
 		align-items: flex-start;
 		width: 100%;
 		min-height: 100%;
-		background: var(--accent-color-alt);
-		color: var(--base-color);
+		/* background: var(--accent-color-alt);
+		color: var(--base-color); */
 		padding: 0;
 		margin: 0;
 	}
@@ -388,6 +391,8 @@
 	.info-grid {
 		padding: 0.5rem;
 		height: auto;
+		display: flex;
+		align-items: center;
 	}
 
 	/* .info-grid > p {
@@ -429,10 +434,13 @@
 		width: 100%;
 		height: 100%;
 		display: flex;
-		padding: 0;
+		padding: 1rem;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: stretch;
+		border: 0.15rem solid var(--accent-color-alt);
+		border-radius: 0.3rem;
+		color: var(--brand-color);
 	}
 
 	.section-grid {
@@ -457,11 +465,12 @@
 		margin: 0.3rem 0.5rem 0.2rem 0;
 	}
 
-	/* .specialText-grid {
+	.specialText-grid {
 		font-size: 0.8rem;
 		font-weight: 500;
 		margin: 0.3rem 0 0.2rem 0;
-	} */
+		color: var(--accent-color);
+	}
 
 	@media(min-width: 600px){
 		/*.coreAndSettings {
@@ -487,14 +496,14 @@
 			width: 100%;
 			padding: 1rem 0 0.5rem 0;
 			flex-direction: row;
-			justify-content: flex-start;
-			align-items: flex-start;
+			justify-content:center;
+			align-items: center;
 		}
 		.nameAndRoleContainer {
 	/*		align-items: flex-start;*/
-			padding: 0 0.5rem 0.5rem 0;
+			padding: 1rem;
 			width: 30%;
-			align-items: flex-start;
+			align-items: center;
 		}
 		/* .bioContainer {
 			align-items: flex-start;
@@ -533,16 +542,16 @@
 			padding-left: 0.5rem;
 			align-items: flex-end;
 		} */
-		.profileImage {
+		/* .profileImage {
 			align-items: flex-start;
-			/* padding-left: 2%; */
+			padding-left: 2%;
 			right: unset;
 			margin: 0;
 			max-width: 25vw;
-		}
-		.profileImage > figure {
+		} */
+		/* .profileImage > figure {
 			max-width: 25vw;
-		}
+		} */
 		.cover > figure {
 			aspect-ratio: 16/7;
 		}
@@ -572,9 +581,9 @@
 		.nameAndRoleContainer {
 			max-width: 30vw;
 		} */
-		.profileImage > figure {
+		/* .profileImage > figure {
 			max-width: 25vw;
-		}
+		} */
 
 		/* Profile grid */
 		.viewContainer-grid {
