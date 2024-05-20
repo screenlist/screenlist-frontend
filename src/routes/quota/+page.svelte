@@ -2,6 +2,11 @@
 	export let data
 </script>
 
+<svelte:head>
+	<title>Daily Contribution Quota - Screen List</title>
+	<meta name="description" content="The Screen List dashboard is the centre of content management" />
+</svelte:head>
+
 <div class="content-page">
 	<article class="content-wrap">
 		<h1>Quota</h1>

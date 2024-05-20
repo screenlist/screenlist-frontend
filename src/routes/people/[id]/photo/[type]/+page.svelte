@@ -14,4 +14,9 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Person Photo Operations - Screen List</title>
+	<meta name="description" content="The Screen List dashboard is the centre of content management" />
+</svelte:head>
+
 <PhotoOperations {object} {form} />

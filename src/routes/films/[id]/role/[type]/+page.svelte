@@ -25,6 +25,11 @@
 	const resetValues = () => { selected.set({name: '', id: ''}); newContributer = false; department = null; customRole = false }
 </script>
 
+<svelte:head>
+	<title>Create a Role - Screen List</title>
+	<meta name="description" content="The Screen List dashboard is the centre of content management" />
+</svelte:head>
+
 <div style="width: 100%; max-width: 100%;" class="form-page">
 	{#if !contributer.name}
 		<div style="min-width: 100%; min-height: 100vh;">

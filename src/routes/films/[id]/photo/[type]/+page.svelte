@@ -23,4 +23,9 @@
 	// console.log(data.stills.find( item => item.index = index))
 </script>
 
+<svelte:head>
+	<title>Film Photo Operations - Screen List</title>
+	<meta name="description" content="The Screen List dashboard is the centre of content management" />
+</svelte:head>
+
 <PhotoOperations {object} {form} />
