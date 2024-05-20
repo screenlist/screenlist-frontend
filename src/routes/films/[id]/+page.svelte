@@ -7,6 +7,7 @@
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 	import ToEdit from '$lib/ToEdit.svelte'
+	import SettingsOperations from '$lib/SettingsOperations.svelte'
 
 	export let data
 	export let form
@@ -79,6 +80,11 @@
 			<div class="inverseContainer">
 				<p class={`moderationStatus ${data.details.editVerified === true ? 'm' : 'tbm'}`}>{data.details.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
 			</div>
+			<SignedIn>
+				{#if data?.user?.role === 'admin'}
+					<SettingsOperations {form} isHidden={data.details.isHidden} editVerified={data.details.editVerified} editLocked={data.details.editLocked} />
+				{/if}
+			</SignedIn>
 			<SignedOut><ToEdit /></SignedOut>
 			<div class="titleBand">
 				<h2 class="h3">Details</h2>
