@@ -76,7 +76,7 @@
 				<h1>{data.content.headline}</h1>
 				<SignedIn>
 					{#if data.user?.role === 'admin'}
-						<a href={`/dashboard/moderation/${type}`} class="button-good">{data.content ? 'Edit Content' : 'Add Content'}</a>
+						<a href={`/dashboard/content/${type}/edit`} class="button-good">{data.content ? 'Edit Content' : 'Add Content'}</a>
 					{/if}
 				</SignedIn>
 				<div class="content-body"><SvelteMarkdown source={data.content.body} /></div>

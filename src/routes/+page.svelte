@@ -4,6 +4,7 @@
 	import DonateCard from '$lib/DonateCard.svelte'
 	import HeroCard from '$lib/HeroCard.svelte'
 	import IntroCard from '$lib/IntroCard.svelte'
+	import SocialCard from '$lib/SocialCard.svelte'
 
 	export let data
 </script>
@@ -28,6 +29,7 @@
 <FilmsCard films={data.trending} heading="Trending Films" viewMorePath="/list/films:trending" />
 <IntroCard />
 <FilmsCard films={data.latest} heading="Latest Films" viewMorePath="/list/films:latest" />
+<SocialCard />
 <FilmsCard films={data.upcoming} heading="Upcoming Films" viewMorePath="/list/films:upcoming" />
 <DonateCard />
 <FilmsCard films={data.recent} heading="Recently Added Films" viewMorePath="/list/films:recent" />

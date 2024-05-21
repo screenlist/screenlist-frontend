@@ -2,12 +2,15 @@
 	import { PUBLIC_HOST_URL } from '$env/static/public'
 	import DonateCard from '$lib/DonateCard.svelte'
 	import EmptyState from '$lib/EmptyState.svelte'
+	import SocialCard from '$lib/SocialCard.svelte'
 	import GridRoles from '$lib/GridRoles.svelte'
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 	import ToEdit from '$lib/ToEdit.svelte'
+	import SettingsOperations from '$lib/SettingsOperations.svelte'
 
 	export let data
+	export let form
 	// console.log(data)
 
 	function ratingColor(factor){
@@ -75,9 +78,24 @@
 				</div>
 			</figure>
 			<div class="inverseContainer">
+				{#if data.details.isHidden === true}
+					<img src='/invisibility-icon.svg' alt="Locked icon" height="30px" weight="30px" />
+				{/if}
+				{#if data.details.editLocked === true}
+					<img src='/lock-icon.svg' alt="Locked icon" height="30px" weight="30px" />
+				{/if}				
 				<p class={`moderationStatus ${data.details.editVerified === true ? 'm' : 'tbm'}`}>{data.details.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
 			</div>
-			<SignedOut><ToEdit /></SignedOut>
+			<SignedIn>
+				{#if data?.user?.role === 'admin'}
+					<SettingsOperations {form} isHidden={data.details.isHidden} editVerified={data.details.editVerified} editLocked={data.details.editLocked} />
+				{/if}
+			</SignedIn>
+			<SignedOut>
+				{#if data.details.editLocked === false}
+					<ToEdit />
+				{/if}				
+			</SignedOut>
 			<div class="titleBand">
 				<h2 class="h3">Details</h2>
 				<SignedIn>
@@ -162,7 +180,7 @@
 					{/if}
 				</div>
 				<div class="datailDataContainer">
-					<h3 class="flexible">Logline</h3>
+					<h3>Logline</h3>
 					<p><span itemprop="description">{data.details.logline}</span></p>
 				</div>
 				<div class="datailDataContainerFlex">
@@ -320,7 +338,7 @@
 						</SignedIn>
 					</div>
 					{#if data.cast.length > 0}
-						<GridRoles data={data.cast} type="personRole" />
+						<GridRoles {form} data={data.cast} type="personRole" />
 					{:else}
 						<EmptyState text='No cast members.' height="20rem" fill="var(--base-color-alt)" />
 					{/if}
@@ -341,7 +359,7 @@
 						</SignedIn>
 					</div>
 					{#if data.crew.length > 0}
-						<GridRoles data={data.crew} type="personRole" />
+						<GridRoles data={data.crew} {form} type="personRole" />
 					{:else}
 						<EmptyState text='No crew members.' height="20rem" fill="var(--base-color-alt)" />
 					{/if}
@@ -362,11 +380,12 @@
 						</SignedIn>
 					</div>
 					{#if data.companies.length > 0}
-						<GridRoles data={data.companies} type="companyRole" />
+						<GridRoles {form} data={data.companies} type="companyRole" />
 					{:else}
 						<EmptyState text='No cast members' height="20rem" fill="var(--base-color-alt)" />
 					{/if}
 				</section>
+				<SocialCard />
 			</section>
 		</div>
 	</div>
@@ -433,7 +452,6 @@
 
 	.datailDataContainer > h3 {
 		background: transparent;
-		color: var(--main-color);
 		width: fit-content;
 		padding: 0.3rem 0.5rem 0 0;
 		margin-bottom: 0.1rem;
@@ -462,7 +480,6 @@
 
 	.datailDataContainerFlexChild > h3 {
 		background: transparent;
-		color: var(--main-color);
 		width: fit-content;
 		padding: 0.3rem 0.5rem 0 0;
 		margin-bottom: 0.1rem;
@@ -551,8 +568,13 @@
 		padding: 0 0.5rem;
 		width: 100%;
 		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.inverseContainer > img {
+		margin: 0 2rem 0 0;
 	}
 
 	.keyRole {

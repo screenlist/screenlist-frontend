@@ -6,8 +6,11 @@
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 	import ToEdit from '$lib/ToEdit.svelte'
+	import SocialCard from '$lib/SocialCard.svelte'
+	import SettingsOperations from '$lib/SettingsOperations.svelte'
 
 	export let data
+	export let form
 </script>
 
 <svelte:head>
@@ -72,49 +75,49 @@
 			<div class="detailDataContainerFlex">
 				{#if data.details.occupation}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Occupation</h3>
+						<h3 class="h4">Occupation</h3>
 						<p>{data.details.occupation}</p>
 					</div>
 				{/if}
 				{#if data.details.yearOfBirth && !data.details.dateMonthOfBirth}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Birth Year</h3>
+						<h3 class="h4">Birth Year</h3>
 						<p>{data.details.yearOfBirth}</p>
 					</div>
 				{/if}
 				{#if data.details.dateMonthOfBirth}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Date of Birth</h3>
+						<h3 class="h4">Date of Birth</h3>
 						<p>{new Date(data.details.dateMonthOfBirth).toLocaleDateString('en-ZA')}</p>
 					</div>
 				{/if}				
 				{#if data.details.cityOfOrigin || data.details.provinceOfOrigin || data.details.countryOfOrigin}
 					<div itemprop="birthPlace" itemscope itemtype="https://schema.org/Place" class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Birth Place</h3>
+						<h3 class="h4">Birth Place</h3>
 						<p><span itemprop="name">{`${data.details.cityOfOrigin ? data.details.cityOfOrigin : ''}${data.details.provinceOfOrigin ? `${data.details.cityOfOrigin ? `, ${data.details.provinceOfOrigin}` : data.details.provinceOfOrigin}` : ''}${data.details.countryOfOrigin ? `${data.details.provinceOfOrigin || data.details.cityOfOrigin ? `, ${data.details.countryOfOrigin}` : data.details.countryOfOrigin}` : ''}`}</span></p>
 					</div>
 				{/if}
 				{#if data.details.deathDate}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Died</h3>
+						<h3 class="h4">Died</h3>
 						<p>{data.details.deathDate}</p>
 					</div>
 				{/if}
 				{#if data.details.nationality}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Nationality</h3>
+						<h3 class="h4">Nationality</h3>
 						<p>{data.details.nationality.join(', ')}</p>
 					</div>
 				{/if}
 				{#if data.details.gender}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Gender</h3>
+						<h3 class="h4">Gender</h3>
 						<p>{data.details.gender}</p>
 					</div>
 				{/if}
 				{#if data.details.pronouns}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Pronouns</h3>
+						<h3 class="h4">Pronouns</h3>
 						<p>{data.details.pronouns}</p>
 					</div>
 				{/if}
@@ -163,8 +166,19 @@
 				<ToEdit />
 			</SignedOut>
 			<div class="inverseContainer">
+				{#if data.details.isHidden === true}
+					<img src='/invisibility-icon.svg' alt="Locked icon" height="30px" weight="30px" />
+				{/if}
+				{#if data.details.editLocked === true}
+					<img src='/lock-icon.svg' alt="Locked icon" height="30px" weight="30px" />
+				{/if}		
 				<p class={`moderationStatus ${data.details.editVerified === true ? 'm' : 'tbm'}`}>{data.details.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
 			</div>
+			<SignedIn>
+				{#if data?.user?.role === 'admin'}
+					<SettingsOperations {form} isHidden={data.details.isHidden} editVerified={data.details.editVerified} editLocked={data.details.editLocked} />
+				{/if}
+			</SignedIn>
 			<DonateCard vertical={true} />
 		</div>
 		<section class="roles-container">
@@ -172,10 +186,11 @@
 				<h2 class="h3 uni-pad">Filmography</h2>
 			</div>
 			{#if data.filmography?.length > 0}
-				<GridRoles data={data.filmography} type='personRole'  onParent={true} />
+				<GridRoles {form} data={data.filmography} type='personRole'  onParent={true} />
 			{:else}
 				<EmptyState text="Has not done anything, yet." height="20rem" fill="var(--base-color-alt)" margins={true} />
 			{/if}
+			<SocialCard />
 		</section>
 	 </div>
 </section>
@@ -302,7 +317,6 @@
 
 	.detailDataContainerFlexChild > h3 {
 		background: transparent;
-		color: var(--main-color);
 		width: fit-content;
 		padding: 0.3rem 0.25rem 0 0.25rem;
 		margin-bottom: 0.1rem;
@@ -410,9 +424,13 @@
 		padding: 0 0.5rem;
 		width: 100%;
 		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
-		margin: 0.25rem 0;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.inverseContainer > img {
+		margin: 0 2rem 0 0;
 	}
 
 	.keyRole {

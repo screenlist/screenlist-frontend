@@ -34,8 +34,6 @@
 
 	{#if data.hasNextPage}
 		<a class="button-regular" href={`/films?page=${(batch ? +batch : 1)+1}&limit=${limit ? limit : 50}`}>Next</a>
-	{:else}
-		<span class="button-regular">The end</span>
 	{/if}
 </section>
 
@@ -54,7 +52,7 @@
 		margin: 0 1rem;
 	}
 
-	.paging > span {
+	/* .paging > span {
 		margin: 0 1rem;
-	}
+	} */
 </style>

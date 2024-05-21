@@ -17,7 +17,7 @@
 		occupation: data?.details?.occupation ?? '',
 		cityOfOrigin: data?.details?.cityOfOrigin ?? '',
 		provinceOfOrigin: data?.details?.provinceOfOrigin ?? '',
-		countryOfOrigin: data?.details?.countryOfOrigin ?? '',
+		countryOfOrigin: data?.details?.countryOfOrigin ?? 'South Africa',
 		yearOfBirth: data?.details?.yearOfBirth ?? '',
 		dateMonthOfBirth: data?.details?.dateMonthOfBirth ? data.details.dateMonthOfBirth.split('T')[0] : '',
 		deathDate: data?.details?.deathDate ? data.details.deathDate.split('T')[0] : '',
@@ -60,6 +60,7 @@
 
 	let loading = false
 	let otherNationalities = false
+	let otherBirthCountries = false
 
 	const countries = iso3311a2.getCountries()
 
@@ -138,7 +139,19 @@
 
 		<div class="form-field">
 			<label for="countryOfOrigin">Country of Origin</label>
-			<input bind:value={$values.countryOfOrigin} disabled={loading} id="countryOfOrigin" name="countryOfOrigin" type="text" />
+			<p class="form-field-info">South Africa is selected by default for convenience but make sure to select approriately if the person was born in a foreign country.</p>
+			<ul class="form-field-list">
+				<li><span >{$values.countryOfOrigin}</span></li>
+			</ul>
+			<button on:click={() => otherBirthCountries = !otherBirthCountries} type="button" class="button-regular">{otherBirthCountries === false ? 'Show' : 'Hide'} other countries</button>
+			<div class={otherBirthCountries === true  ? "form-checkbox-label-container" : "hide"}>
+				{#each countries as country (country)}
+					<label class="form-checkbox-label">
+						<input bind:group={$values.countryOfOrigin} type="radio" name="countryOfOrigin" disabled={loading} value={country} />
+						<span>{country}</span>
+					</label>
+				{/each}
+			</div>
 		</div>
 		
 		<div class="form-field">

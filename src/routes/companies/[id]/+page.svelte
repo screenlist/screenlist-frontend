@@ -6,8 +6,11 @@
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
 	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
 	import ToEdit from '$lib/ToEdit.svelte'
+	import SocialCard from '$lib/SocialCard.svelte'
+	import SettingsOperations from '$lib/SettingsOperations.svelte'
 
 	export let data
+	export let form
 </script>
 
 <svelte:head>
@@ -48,7 +51,7 @@
 
 	{#if data.details.description}
 		<div class="bio">
-			<h3 class="h4 flexible">About</h3>
+			<h3 class="h4">About</h3>
 			<p class="plotSummary"><span itemprop="description">{data.details.description}</span></p>
 		</div>
 	{/if}
@@ -72,37 +75,37 @@
 			<div class="detailDataContainerFlex">
 				{#if data.details.director}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Director/CEO</h3>
+						<h3 class="h4">Director/CEO</h3>
 						<p>{data.details.director}</p>
 					</div>
 				{/if}
 				{#if data.details.founded}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">{data.details.dateMonthFounded ? 'Founding Date' : 'Founding Year'}</h3>
+						<h3 class="h4">{data.details.dateMonthFounded ? 'Founding Date' : 'Founding Year'}</h3>
 						<p>{data.details.dateMonthFounded ? new Date(data.details.dateMonthFounded).toLocaleDateString('en-ZA') : data.details.founded}</p>
 					</div>
 				{/if}
 				{#if data.details.foundingPlace}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Founding City</h3>
+						<h3 class="h4">Founding City</h3>
 						<p>{data.details.foundingPlace}</p>
 					</div>
 				{/if}
 				{#if data.details.founder}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">{'Founder(s)'}</h3>
+						<h3 class="h4">{'Founder(s)'}</h3>
 						<p>{data.details.founder}</p>
 					</div>
 				{/if}
 				{#if data.details.city}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">City</h3>
+						<h3 class="h4">City</h3>
 						<p>{data.details.city}</p>
 					</div>
 				{/if}
 				{#if data.details.country}
 					<div class="detailDataContainerFlexChild">
-						<h3 class="h4 flexible">Country</h3>
+						<h3 class="h4">Country</h3>
 						<p>{data.details.country}</p>
 					</div>
 				{/if}
@@ -125,8 +128,19 @@
 				<ToEdit />
 			</SignedOut>
 			<div class="inverseContainer">
+				{#if data.details.isHidden === true}
+					<img src='/invisibility-icon.svg' alt="Locked icon" height="30px" weight="30px" />
+				{/if}
+				{#if data.details.editLocked === true}
+					<img src='/lock-icon.svg' alt="Locked icon" height="30px" weight="30px" />
+				{/if}		
 				<p class={`moderationStatus ${data.details.editVerified === true ? 'm' : 'tbm'}`}>{data.details.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
 			</div>
+			<SignedIn>
+				{#if data?.user?.role === 'admin'}
+					<SettingsOperations {form} isHidden={data.details.isHidden} editVerified={data.details.editVerified} editLocked={data.details.editLocked} />
+				{/if}
+			</SignedIn>
 			<DonateCard vertical={true} />
 		</div>
 		<section class="roles-container">
@@ -134,10 +148,11 @@
 				<h2 class="h3 uni-pad">Filmography</h2>
 			</div>
 			{#if data.productions.length > 0}
-				<GridRoles data={data.productions} type='companyRole'  onParent={true} />
+				<GridRoles {form} data={data.productions} type='companyRole'  onParent={true} />
 			{:else}
 				<EmptyState text="Has not done anything, yet." height="20rem" fill="var(--base-color-alt)" margins={true} />
 			{/if}
+			<SocialCard />
 		</section>
 	</div>
 </section>
@@ -264,7 +279,6 @@
 
 	.detailDataContainerFlexChild > h3 {
 		background: transparent;
-		color: var(--main-color);
 		width: fit-content;
 		padding: 0.3rem 0.25rem 0 0.25rem;
 		margin-bottom: 0.1rem;
@@ -372,9 +386,13 @@
 		padding: 0 0.5rem;
 		width: 100%;
 		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
-		margin: 0.25rem 0;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;	
+	}
+
+	.inverseContainer > img {
+		margin: 0 2rem 0 0;
 	}
 
 	.keyRole {

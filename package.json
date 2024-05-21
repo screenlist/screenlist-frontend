@@ -1,6 +1,6 @@
 {
 	"name": "screenlist-sveltekit",
-	"version": "1.0.0",
+	"version": "1.2.0",
 	"description": "The Screen List website",
   "author": "Alex Kokobane",
 	"private": true,
