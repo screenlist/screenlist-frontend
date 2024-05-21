@@ -15,6 +15,6 @@ export async function load(event) {
 	if(res.ok){
 		return await res.json()
 	} else {
-		throw error(404, 'Films not found')
+		throw error(404, 'Film not found')
 	}
 }
