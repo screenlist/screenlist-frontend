@@ -34,13 +34,15 @@
 				</li>
 				<li>
 					<ul class="list nestedList">
-						<li>
-							<div>
-								<a class="mainNavLink button-icon" href="/search" title="Search">
-									<img src="/search-icon.svg" alt="Search icon" width="28" height="28" />
-								</a>
-							</div>
-						</li>
+						{#if $page.url.pathname !== '/search'}
+							<li>
+								<div>
+									<a class="mainNavLink button-icon" href="/search" title="Search">
+										<img src="/search-icon.svg" alt="Search icon" width="28" height="28" />
+									</a>
+								</div>
+							</li>
+						{/if}						
 						<li>
 							<div class="mainNavLink">
 								<a class="button-icon" href="/content/contributions" title="Contribute">
