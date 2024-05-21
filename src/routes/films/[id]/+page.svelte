@@ -78,6 +78,12 @@
 				</div>
 			</figure>
 			<div class="inverseContainer">
+				{#if data.details.isHidden === true}
+					<img src='/invisibility-icon.svg' alt="Locked icon" height="30px" weight="30px" />
+				{/if}
+				{#if data.details.editLocked === true}
+					<img src='/lock-icon.svg' alt="Locked icon" height="30px" weight="30px" />
+				{/if}				
 				<p class={`moderationStatus ${data.details.editVerified === true ? 'm' : 'tbm'}`}>{data.details.editVerified === true ? 'Moderated' : 'To Be Moderated'}</p>
 			</div>
 			<SignedIn>
@@ -85,7 +91,11 @@
 					<SettingsOperations {form} isHidden={data.details.isHidden} editVerified={data.details.editVerified} editLocked={data.details.editLocked} />
 				{/if}
 			</SignedIn>
-			<SignedOut><ToEdit /></SignedOut>
+			<SignedOut>
+				{#if data.details.editLocked === false}
+					<ToEdit />
+				{/if}				
+			</SignedOut>
 			<div class="titleBand">
 				<h2 class="h3">Details</h2>
 				<SignedIn>
@@ -558,8 +568,13 @@
 		padding: 0 0.5rem;
 		width: 100%;
 		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.inverseContainer > img {
+		margin: 0 2rem 0 0;
 	}
 
 	.keyRole {
