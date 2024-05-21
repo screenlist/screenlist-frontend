@@ -2,7 +2,8 @@ import { PUBLIC_SERVER } from '$env/static/public'
 import { fail } from '@sveltejs/kit'
 
 export const actions = {
-	verify: async ({cookies, params}) => {
+	verify: async ({cookies, params, request}) => {
+		const data = await request.formData()
 		const token = cookies.get('__session')
 		
 		const response = await fetch(`${PUBLIC_SERVER}/companies/${params.id}/settings/verify`, {
@@ -21,7 +22,8 @@ export const actions = {
 			})
 		} else { return { status: 'success' } }
 	},
-	hide: async ({cookies, params}) => {
+	hide: async ({cookies, params, request}) => {
+		const data = await request.formData()
 		const token = cookies.get('__session')
 		
 		const response = await fetch(`${PUBLIC_SERVER}/companies/${params.id}/settings/hide`, {
@@ -40,7 +42,8 @@ export const actions = {
 			})
 		} else { return { status: 'success' } }
 	},
-	unhide: async ({cookies, params}) => {
+	unhide: async ({cookies, params, request}) => {
+		const data = await request.formData()
 		const token = cookies.get('__session')
 		
 		const response = await fetch(`${PUBLIC_SERVER}/companies/${params.id}/settings/unhide`, {
@@ -59,7 +62,8 @@ export const actions = {
 			})
 		} else { return { status: 'success' } }
 	},
-	lock: async ({cookies, params}) => {
+	lock: async ({cookies, params, request}) => {
+		const data = await request.formData()
 		const token = cookies.get('__session')
 		
 		const response = await fetch(`${PUBLIC_SERVER}/companies/${params.id}/settings/lock`, {
@@ -78,7 +82,8 @@ export const actions = {
 			})
 		} else { return { status: 'success' } }
 	},
-	unlock: async ({cookies, params}) => {
+	unlock: async ({cookies, params, request}) => {
+		const data = await request.formData()
 		const token = cookies.get('__session')
 		
 		const response = await fetch(`${PUBLIC_SERVER}/companies/${params.id}/settings/unlock`, {
