@@ -53,9 +53,12 @@
 	// Image preview
 	// const image = writable(null)
 	const placeholderImage = '/photos/picture.png'
+	let previewLoading = false
 
 	function updateImageWithFile(event) {
     const file = event.target.files[0];
+    previewLoading = true
+    creating.set({...$creating, source:'', preview: ''}) 
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -63,14 +66,18 @@
       };
       reader.readAsDataURL(file);
 			creating.set({...$creating, source: file})
+			previewLoading = false
     } else {
       $creating.set({...$creating, source: ''});
+      previewLoading = false
     }
   }
 
 	// Update source field
 	async function updateImageWithLink(event) {
 		const url = event.target.value
+		previewLoading = true
+		creating.set({...$creating, source:'', preview: ''})
 		if(url){
 			const res = await fetch(`${PUBLIC_SERVER}/extract?path=${url}`, {
 				method: 'POST',
@@ -81,14 +88,17 @@
 
 			if(!res.ok){ 
 				creating.set({...$creating, source:''}) 
+				previewLoading = false
 			} else {
 				const blobFile = await res.blob()
 				const objectURL = URL.createObjectURL(blobFile)
 				creating.set({...$creating, preview: objectURL, source: blobFile})
+				previewLoading = false
 			}
 
 		} else {
 			creating.set({...$creating, source: ''})
+			previewLoading = false
 		}
 	}
 
@@ -177,9 +187,17 @@
 
 			<p class="bold">Preview</p>
 			{#if !$creating.source}
-				<p class="form-field-info">Note, If you have pasted a link, give it a few seconds to extract the image. I am lazy to create a loading spinner. You can do this, I believe in you!</p>
+				<p class="form-field-info">Make sure the preview of the image you intend to upload is visible, otherwise you will get an error</p>
 			{/if}
-			<img id="image-preview" alt="preview" src={$creating.preview || placeholderImage} />
+
+			{#if previewLoading}
+				<div style="width: 100%;height: 10rem;display: flex;align-items: center;justify-content: center;">
+					<LoadingState />
+				</div>				
+			{:else}
+				<img id="image-preview" alt="preview" src={$creating.preview || placeholderImage} />
+			{/if}
+			
 			
 			<div class="form-field">
 				<label for= "attribution">Copyright holder <span aria-label='required field' class="form-field-required"></span></label>
