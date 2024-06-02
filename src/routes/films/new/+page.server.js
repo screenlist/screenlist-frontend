@@ -15,10 +15,13 @@ export const actions = {
 		if(values.budget){ values.budget = ~~values.budget }
 		if(values.releaseDate){ 
 			values.releaseDate = new Date(values.releaseDate)
-			if(values.year !== new Date(values.releaseDate).getFullYear()){ return fail(400, 'Year and Release Date must be the same year') }
+			if(values.year !== new Date(values.releaseDate).getFullYear()){ return fail(400, {
+				error: 'Year and Release Date must be the same year',
+				...Object.fromEntries(data.entries())
+			} }
 		}
-		console.log(Object.fromEntries(data.entries()))
-		console.log(values)
+		// console.log(Object.fromEntries(data.entries()))
+		// console.log(values)
 
 		const response = await fetch(`${PUBLIC_SERVER}/films`, {
 			method: 'POST',

@@ -244,6 +244,7 @@
 
 		<div class="form-field" >
 			<div class="just-bold">Genres <span aria-label='required field' class="form-field-required"></span></div>
+			<p class="form-field-info">If this film is a student film, make sure to select 'Academic' as one of the genres.</p>
 			<div class="form-checkbox-label-container">
 				<label class="form-checkbox-label">
 					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="science fiction" />
@@ -344,6 +345,10 @@
 				<label class="form-checkbox-label">
 					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="sports" />
 					<span>Sports</span>
+				</label>
+				<label class="form-checkbox-label">
+					<input bind:group={$values.genres} disabled={loading} name="genres" type="checkbox" value="academic" />
+					<span>Academic (Student Film)</span>
 				</label>
 			</div>
 		</div>

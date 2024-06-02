@@ -74,7 +74,7 @@
 		<EmptyState text="We tried but found nothing, sorry I guess?" height="20rem" />
 	{/if}
 
-	<div class={$results.length === 0 ? 'hide' : 'results'} >
+	<div class={$results.length === 0 || loading ? 'hide' : 'results'} >
 		{#if $results.length > 0 }
 			<section class="searchRoles">
 				<ul>
@@ -117,7 +117,7 @@
 		{/if}
 	</div>
 
-	{#if $results.length < 15}
+	{#if $results.length < 15 && !loading}
 		<div class="newEntity">
 			<a href={`/${collection}/new?redirect_url=${encodeURIComponent($page.url.pathname)}${collection === 'people' ? `&redirect_category=${$page.url.searchParams.get('category')}` : ''}`} class="button-regular">
 				Add a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : ''}`}
