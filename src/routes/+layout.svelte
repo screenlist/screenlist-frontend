@@ -4,7 +4,6 @@
 	import UserButton from 'clerk-sveltekit/client/UserButton.svelte'
   // import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte';
 	import SignOutButton from 'clerk-sveltekit/client/SignOutButton.svelte'
-    import SignIn from 'clerk-sveltekit/client/SignIn.svelte';
 	export let data;
 </script>
 
@@ -140,7 +139,7 @@
 		</nav>
 		<div class="copy">
 			<p>Made with lots of ❤ by <a href="https://alexkokobane.com" class="underline" title="Alex Kokobane" target="_blank" rel="noreferrer">Alex Kokobane</a></p>
-			<!-- <p class="copyright">&copy; {new Date().getFullYear()}, Makamuta. All rights resevered.</p> -->
+			<p class="copyright">&copy; Makamuta (Pty) Ltd. All rights resevered.</p>
 		</div>
 	</footer>
 </div>
