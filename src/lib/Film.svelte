@@ -71,7 +71,7 @@
 	const languages = [
 		'Sepedi', 'Tshivenda', 'Xitsonga', 
 		'Setswana', 'Sesotho', 'isiZulu', 
-		'isiNdebele', 'isiXhosa', 'isiSwati', 
+		'isiNdebele', 'isiXhosa', 'siSwati', 
 		'English', 'Afrikaans', 'South African Sign Language'
 	]
 
