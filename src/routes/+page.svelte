@@ -29,7 +29,7 @@
 	<meta property="og:site_name" content="Screen List" />
 	<meta property="og:locale" content="en_ZA" />
 
-	<meta name="keywords" content="South African, Films, Actors, Studios, Crew" />
+	<meta name="keywords" content="South African, Films, Actors, Studios, Crew, Latest, Upcoming, Recent, Trending" />
 </svelte:head>
 
 <HeroCard />
