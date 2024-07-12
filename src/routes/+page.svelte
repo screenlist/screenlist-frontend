@@ -12,8 +12,13 @@
 <svelte:head>
 	<title>Screen List - South African films, studios, actors and filmmakers</title>
 	<meta name="description" content="The first database of information relating to South African cinema. Find your favourite films, actors and filmmakers, right here!" />
+
 	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Screen List - South African films, studios, actors and filmmakers" />
+	<meta name="twitter:description" content="The first database of information relating to South African cinema. Find your favourite films, actors and filmmakers, right here!" />
+	<meta name="twitter:image" content="/photos/display-art.webp" />
 	<meta name="twitter:site" content="@OnScreenList" />
+
 	<meta property="og:title" content="Screen List - South African films, studios, actors and filmmakers" />
 	<meta property="og:description" content="The first database of information relating to South African cinema. Find your favourite films, actors and filmmakers, right here!" />
 	<meta property="og:image" content="/photos/display-art.webp" />
@@ -23,6 +28,8 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Screen List" />
 	<meta property="og:locale" content="en_ZA" />
+
+	<meta name="keywords" content="South African, Films, Actors, Studios, Crew, Latest, Upcoming, Recent, Trending" />
 </svelte:head>
 
 <HeroCard />
