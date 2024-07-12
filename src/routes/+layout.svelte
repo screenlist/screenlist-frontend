@@ -363,10 +363,10 @@
 		color: var(--base-color);
 	}
 
-	/* .copyright {
+	.copyright {
 		font-size: 0.8rem;
 		color: var(--base-color-alt);
-	} */
+	}
 
 	.underline { 
 		text-decoration: underline;
