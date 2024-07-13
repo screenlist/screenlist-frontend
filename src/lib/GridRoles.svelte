@@ -92,15 +92,14 @@
 	</section>
 {:else if type === 'personRole' && !onParent}
 	<section class={loading ? 'container tasked' : 'container'}>
-		{#each data as item, index (item.id)} 
+		{#each data as item, index (item.id)}
 			<article class={index > 9 && shortened === true ? 'hide' : 'itemContainer'}>
 				<a href={`/people/${item.parentId}`} title={item.parentName}>
 					<figure class="imageContainer">
-						<img 
-							src={item.photoUrl ?? '/photos/picture.png'} 
+						<img
+							src={item.photoUrl ?? '/photos/picture.avif'}
 							alt={item.photoUrl ? `${item.parentName} portrait` : 'Placeholder'}
 							loading="lazy"
-							placeholder="/photos/picture.png"
 							height="300px"
 							weight="300px"
 						/>
@@ -168,7 +167,7 @@
 						{/if}
 					</div>
 				</div>
-			</article>	
+			</article>
 		{/each}
 	</section>
 {:else if type === 'companyRole' && !onParent}
@@ -177,11 +176,10 @@
 			<article itemprop="productionCompany" itemscope itemtype="https://schema.org/Organization" class={index > 9 && shortened === true ? 'hide' : 'itemContainer'}>
 				<a href={`/companies/${item.parentId}`} title={item.parentName}>
 					<figure class="imageContainer">
-						<img 
-							src={item.photoUrl ?? '/photos/picture.png'} 
+						<img
+							src={item.photoUrl ?? '/photos/picture.avif'}
 							alt={item.photoUrl ? `${item.parentName} logo` : 'Placeholder'}
 							loading="lazy"
-							placeholder="/photos/picture.png"
 							height="300px"
 							weight="300px"
 						/>
@@ -287,7 +285,7 @@
 		background: var(--base-color);
 		padding: 0.5rem;
 		margin: 0.5rem 0;
-		width: 100%; 
+		width: 100%;
 	/*	border-bottom: 0.1rem var(--brand-color) solid;*/
 	}
 
