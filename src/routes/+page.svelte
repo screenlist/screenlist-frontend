@@ -33,7 +33,7 @@
 </svelte:head>
 
 <HeroCard />
-<FilmsCard films={data.trending} heading="Trending Films" viewMorePath="/list/films:trending" />
+<FilmsCard loadFirst={true} films={data.trending} heading="Trending Films" viewMorePath="/list/films:trending" />
 <IntroCard />
 <FilmsCard films={data.latest} heading="Latest Films" viewMorePath="/list/films:latest" />
 <SocialCard />

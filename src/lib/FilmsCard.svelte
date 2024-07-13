@@ -5,6 +5,7 @@
 	export let heading = ''
 	export let viewMorePath = ''
 	export let films = []
+	export let loadFirst = false
 
 	const firstGroupFilms = films.slice(0, 30)
 	const lastGroupFilms = films.slice(30)
@@ -26,7 +27,7 @@
 					<a class="innerShell" title={film.name} href={`/films/${film.id}`}>
 						<div class="container">
 							<figure>
-								<img loading="lazy" placeholder="/photos/poster.png" src={film.posterUrl ? film.posterUrl : '/photos/poster.png'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
+								<img fetchpriority={loadFirst ? 'high' : 'auto'} loading={loadFirst ? 'eager' : 'lazy'} src={film.posterUrl ? film.posterUrl : '/photos/poster.avif'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
 							</figure>
 							<div class="info">
 								<p class="yearText">{film.year}</p>
@@ -53,7 +54,7 @@
 				<a class="innerShell" title={film.name} href={`/films/${film.id}`}>
 					<div class="container">
 						<figure>
-							<img src={film.posterUrl ? film.posterUrl : '/photos/poster.png'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
+							<img src={film.posterUrl ? film.posterUrl : '/photos/poster.avif'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
 						</figure>
 						<div class="info">
 							<p class="yearText">{film.year}</p>

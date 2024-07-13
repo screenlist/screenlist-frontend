@@ -54,4 +54,4 @@
 	<meta property="og:locale" content="en_ZA" />
 </svelte:head>
 
-<FilmsCard films={entries} heading={heading} />
+<FilmsCard loadFirst={true} films={entries} heading={heading} />
