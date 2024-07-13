@@ -1,10 +1,10 @@
 <section class="display">
 	<figure>
 		<img 
-			src='/photos/catchingfeelingsstill.webp'
+			src='/photos/catchingfeelingsstill.avif'
 			alt={`A still image from the film, Catching Feelings (2017)`}
-			width="1920px"
-			height="1080px"
+			width="1000px"
+			height="375px"
 			loading="lazy"
 		/>
 	</figure>
@@ -20,7 +20,7 @@
 			<a href='/content/about' class="aboutLink" title='About Screen List'>
 				<figure>
 					<img 
-						src='/photos/sl-socials.png'
+						src='/photos/sl-socials.avif'
 						alt={`An encircled logo of Screen List`}
 						loading="lazy"
 					/>

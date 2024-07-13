@@ -7,7 +7,7 @@
 	<SignInButton redirectUrl={$page.url.pathname} mode="modal" class="buttonStyles">
 		<div class="iconContainer">
 			<img
-				src='/photos/sl-socials.png'
+				src='/photos/sl-socials.avif'
 				alt='Screen List icon'
 				width="100px"
 				height="100px"

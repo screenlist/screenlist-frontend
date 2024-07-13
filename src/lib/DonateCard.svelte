@@ -8,7 +8,7 @@
 			<div>
 				<div class="mAboutLink">
 					<figure>
-						<img object-fit="contain" src="/photos/g-savings.svg" alt="A sketched graphic a sketched human figure on top of a piggy bank" />
+						<img object-fit="contain" loading="lazy" src="/photos/g-savings.svg" alt="A sketched graphic a sketched human figure on top of a piggy bank" />
 					</figure>
 				</div>
 			</div>
