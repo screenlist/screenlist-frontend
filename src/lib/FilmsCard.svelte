@@ -27,7 +27,7 @@
 					<a class="innerShell" title={film.name} href={`/films/${film.id}`}>
 						<div class="container">
 							<figure>
-								<img fetchpriority={loadFirst ? 'high' : 'auto'} loading={loadFirst ? 'eager' : 'lazy'} src={film.posterUrl ? film.posterUrl : '/photos/poster.avif'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
+								<img fetchpriority={loadFirst ? 'high' : 'auto'} loading={loadFirst ? 'eager' : 'lazy'} src={film.posterUrl ? film.posterUrl : '/photos/poster.avif'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="200px" height="300px" />
 							</figure>
 							<div class="info">
 								<p class="yearText">{film.year}</p>
@@ -54,7 +54,7 @@
 				<a class="innerShell" title={film.name} href={`/films/${film.id}`}>
 					<div class="container">
 						<figure>
-							<img src={film.posterUrl ? film.posterUrl : '/photos/poster.avif'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="500px" height="750px" />
+							<img src={film.posterUrl ? film.posterUrl : '/photos/poster.avif'} alt={film.posterUrl ? `${film.name} film poster` : 'Poster placeholder'} width="200px" height="300px" />
 						</figure>
 						<div class="info">
 							<p class="yearText">{film.year}</p>
