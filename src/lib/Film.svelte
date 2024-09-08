@@ -205,7 +205,7 @@
 					<li><span >{country}</span></li>
 				{/each}
 			</ul>
-			<button on:click={() => coprod = !coprod} type="button" class="button-regular">{coprod === false ? 'Show' : 'Hide'} {'Co-Production Countries'}</button>
+			<button on:click={() => coprod = !coprod} type="button" class="button-regular">{coprod === false ? 'Show' : 'Hide'} {'Co-production Countries'}</button>
 			<div class={coprod === true  ? "form-checkbox-label-container" : "hide"}>	
 				<input type="hidden" name="countries" value="South Africa" />
 				{#each countries as item (item) }
