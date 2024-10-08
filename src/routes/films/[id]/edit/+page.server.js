@@ -15,7 +15,6 @@ export const actions = {
 		if(values.budget){ values.budget = ~~values.budget }
 		if(values.releaseDate){ 
 			values.releaseDate = new Date(values.releaseDate)
-			if(values.year !== new Date(values.releaseDate).getFullYear()){ return fail(400, 'Year and Release Date must be the same year') }
 		}
 
 		const remove = []
