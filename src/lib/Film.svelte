@@ -1,6 +1,6 @@
 <script>
 	import iso3311a2 from 'iso-3166-1-alpha-2'
-	import { writable } from 'svelte/store'
+	import { writable, derived } from 'svelte/store'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
 	import ErrorState from './ErrorState.svelte'
@@ -65,8 +65,33 @@
 
 	let loading = false
 	let coprod = false
+	
+	const allCountries = iso3311a2.getCountries()
+	const searchCountries = writable('')
+	const countries = derived(
+		[searchCountries],
+		([$searchCountries]) => allCountries.filter(val => val !== 'South Africa').filter(val => val.toLowerCase().includes($searchCountries.toLowerCase()))
+	)
 
-	const countries = iso3311a2.getCountries()
+	const updateCountries = (selected, forRemoval) => {
+		values.update((val) => {
+			let newCountries
+			if(forRemoval){
+				newCountries = val.countries.filter(item => item !== selected)
+			} else {
+			 	if (!val.countries.includes(selected)) {
+					newCountries = [...val.countries, selected];
+				} else {
+					newCountries = val.countries;
+				}
+			}
+			return {
+				...val,
+				countries: newCountries
+			}
+		})
+	}
+	
 
 	const languages = [
 		'Sepedi', 'Tshivenda', 'Xitsonga', 
@@ -202,24 +227,37 @@
 			<p class="form-field-info">By default, all films are required to be of South African origin, the option is pre selected, and if they are international {`co-productions`}, additional countries may be selected.</p>
 			<ul class="form-field-list">
 				{#each $values.countries as country (country) }
-					<li><span >{country}</span></li>
+					<li>
+						<span >{country}</span>
+						{#if country !== 'South Africa'}
+							<button on:click={() => updateCountries(country, true)} type="button" class="button-icon">
+								<img 
+									src='/close-icon.svg'
+									alt='Remove icon'
+									width="25px"
+									height="25px"
+								/>
+								<span class="hide">Remove country</span>
+							</button>
+						{/if}
+					</li>
 				{/each}
 			</ul>
-			<button on:click={() => coprod = !coprod} type="button" class="button-regular">{coprod === false ? 'Show' : 'Hide'} {'Co-production Countries'}</button>
-			<div class={coprod === true  ? "form-checkbox-label-container" : "hide"}>	
-				<input type="hidden" name="countries" value="South Africa" />
-				{#each countries as item (item) }
-					{#if item === 'South Africa'}
-						<label class="form-checkbox-label">
-							<input bind:group={$values.countries} required name="countries" disabled={true} type="checkbox" value={item} />
-							<span>{item}</span>
-						</label>
-					{:else}
-						<label class="form-checkbox-label">
-							<input bind:group={$values.countries} disabled={loading} name="countries" type="checkbox" value={item} />
-							<span>{item}</span>
-						</label>
-					{/if}
+			<button on:click={() => coprod = !coprod} type="button" class="button-regular">{coprod === false ? 'Show' : 'Hide'} co-production countries</button>
+			<input type="hidden" name="countries" id="countries" value={JSON.stringify($values.countries)} />
+			{#if coprod ===  true}
+				<input bind:value={$searchCountries} placeholder="Search for a country" autocomplete="off" id="search-countries" type="search" />
+			{/if}
+			
+
+			<div class={coprod === true  ? "form-checkbox-label-container" : "hide"}>
+
+				{#each $countries as item (item) }
+					<label class="form-checkbox-label">
+						<button on:click={() => updateCountries(item, false)} disabled={loading} class="button-regular" name="countries" type="button" value={item}>
+							{item}
+						</button>
+					</label>
 				{/each}					
 			</div>
 		</div>

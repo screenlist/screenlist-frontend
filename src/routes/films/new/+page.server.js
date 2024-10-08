@@ -8,7 +8,7 @@ export const actions = {
 		const values = Object.fromEntries( Object.entries( Object.fromEntries(data.entries()) ).filter(([_, value]) => value != "") )
 		values.languages = data.getAll('languages')
 		values.genres = data.getAll('genres')
-		values.countries = data.getAll('countries')
+		values.countries = JSON.parse(data.getAll('countries'))
 		if(values.year){ values.year = ~~values.year }
 		if(values.runtime){ values.runtime = ~~values.runtime }
 		if(values.boxOffice){ values.boxOffice = ~~values.boxOffice }
@@ -17,7 +17,7 @@ export const actions = {
 			values.releaseDate = new Date(values.releaseDate)
 		}
 		// console.log(Object.fromEntries(data.entries()))
-		// console.log(values)
+		// console.log(values.countries)
 
 		const response = await fetch(`${PUBLIC_SERVER}/films`, {
 			method: 'POST',
