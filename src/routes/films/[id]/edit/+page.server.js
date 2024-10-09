@@ -16,6 +16,9 @@ export const actions = {
 		if(values.releaseDate){ 
 			values.releaseDate = new Date(values.releaseDate)
 		}
+		if(values.premiereDate){ 
+			values.premiereDate = new Date(values.premiereDate)
+		}
 
 		const remove = []
 		const rawMutation = Object.fromEntries(data.entries())

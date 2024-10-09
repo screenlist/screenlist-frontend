@@ -214,6 +214,12 @@
 							<p><span>{new Date(data.details.releaseDate).toLocaleDateString('en-za')}</span></p>
 						</div>
 					{/if}
+					{#if data.details.releasePlatform}
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">Release Platform</h3>
+							<p><span>{data.details.releasePlatform}</span></p>
+						</div>
+					{/if}
 					{#if data.details.runtime}
 						<div class="datailDataContainerFlexChild">
 							<h3 class="">Runtime</h3>
@@ -238,9 +244,15 @@
 							<p><span>{data.details.productionStage[0].toUpperCase()+data.details.productionStage.substring(1)}</span></p>
 						</div>
 					{/if}
+					{#if data.details.premiereDate}
+						<div class="datailDataContainerFlexChild">
+							<h3 class="">Premiere Date</h3>
+							<p><span>{new Date(data.details.releaseDate).toLocaleDateString('en-za')}</span></p>
+						</div>
+					{/if}
 					{#if data.details.initialPlatform}
 						<div class="datailDataContainerFlexChild">
-							<h3 class="">Premiere Platform</h3>
+							<h3 class="">Premiere Place</h3>
 							<p><span>{data.details.initialPlatform}</span></p>
 						</div>
 					{/if}

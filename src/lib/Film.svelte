@@ -23,6 +23,8 @@
 		budget: data?.details?.budget ?? '',
 		logline: data?.details?.logline ?? '',
 		plotSummary: data?.details?.plotSummary ?? '',
+		premiereDate: data?.details?.premiereDate ? data.details.premiereDate.split('T')[0] : '',
+		releasePlatform: data?.details?.releasePlatform ?? '',
 		releaseDate: data?.details?.releaseDate ? data.details.releaseDate.split('T')[0] : '',
 		initialPlatform: data?.details?.initialPlatform ?? '',
 		countries: data?.details?.countries ?? ['South Africa'],
@@ -46,6 +48,8 @@
 			budget: form.budget ?? $values.budget,
 			logline: form.logline ?? $values.logline,
 			plotSummary: form.plotSummary ?? $values.plotSummary,
+			premiereDate: form.premiereDate ?? $values.premiereDate,
+			releasePlatform: form.releasePlatform ?? $values.releasePlatform,
 			releaseDate: form.releaseDate ?? $values.releaseDate,
 			initialPlatform: form.initialPlatform ?? $values.initialPlatform,
 			countries: form.countries ?? $values.countries,
@@ -213,13 +217,27 @@
 		</div>
 
 		<div class="form-field" >
+			<label for="premiereDate">Premiere Date</label>
+			<p class="form-field-info">The date it was first officially screened. Premieres usually take place at film festivals or special screenings for invited guests and the filmmakers attend.</p>
+			<input bind:value={$values.premiereDate} id="premiereDate" name="premiereDate" type="date" />
+		</div>
+
+		<div class="form-field" >
+			<label for="initialPlatform">Premiere Place</label>
+			<p class="form-field-info">The place where it premiered, which is usually a film festival or special screening.</p>
+			<input bind:value={$values.initialPlatform} id="initialPlatform" name="initialPlatform" type="text" />			
+		</div>
+
+		<div class="form-field" >
 			<label for="releaseDate">Release Date</label>
+			<p class="form-field-info">The date it was first officially screened to the public at large where anyone could pay to view or watch for free if they wanted to.</p>
 			<input bind:value={$values.releaseDate} id="releaseDate" name="releaseDate" type="date" />
 		</div>
 
 		<div class="form-field" >
-			<label for="initialPlatform">Initial Platform</label>
-			<input bind:value={$values.initialPlatform} id="initialPlatform" name="initialPlatform" type="text" />
+			<label for="releasePlatform">Release Platform</label>
+			<p class="form-field-info">The platform where it was first released to the public, this could cinemas or a specific streaming service.</p>
+			<input bind:value={$values.releasePlatform} id="releasePlatform" name="releasePlatform" type="text" />
 		</div>
 
 		<div class="form-field" >
