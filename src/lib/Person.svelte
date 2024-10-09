@@ -140,18 +140,11 @@
 		<div class="form-field">
 			<label for="countryOfOrigin">Country of Origin</label>
 			<p class="form-field-info">South Africa is selected by default for convenience but make sure to select approriately if the person was born in a foreign country.</p>
-			<ul class="form-field-list">
-				<li><span >{$values.countryOfOrigin}</span></li>
-			</ul>
-			<button on:click={() => otherBirthCountries = !otherBirthCountries} type="button" class="button-regular">{otherBirthCountries === false ? 'Show' : 'Hide'} other countries</button>
-			<div class={otherBirthCountries === true  ? "form-checkbox-label-container" : "hide"}>
+			<select bind:value={$values.countryOfOrigin} name="countryOfOrigin" id="countryOfOrigin">
 				{#each countries as country (country)}
-					<label class="form-checkbox-label">
-						<input bind:group={$values.countryOfOrigin} type="radio" name="countryOfOrigin" disabled={loading} value={country} />
-						<span>{country}</span>
-					</label>
+					<option value={country}>{country}</option>
 				{/each}
-			</div>
+			</select>
 		</div>
 		
 		<div class="form-field">
