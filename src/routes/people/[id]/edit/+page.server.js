@@ -6,7 +6,7 @@ export const actions = {
 		const token = cookies.get('__session')
 		const data = await request.formData()
 		const values = Object.fromEntries( Object.entries( Object.fromEntries(data.entries()) ).filter(([_, value]) => value != "") )
-		if(values.nationality){ values.nationality = data.getAll('nationality') }
+		if(values.nationality){ values.nationality = JSON.parse(data.getAll('nationality')) }
 		if(values.yearOfBirth){ values.yearOfBirth = ~~values.yearOfBirth }
 		if(values.dateMonthOfBirth){ 
 			values.dateMonthOfBirth = new Date(values.dateMonthOfBirth)

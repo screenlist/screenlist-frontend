@@ -12,10 +12,10 @@
 </script>
 
 <section class="section">
-	{#if viewMorePath.length > 0}
+	{#if viewMorePath.length > 0 && films.length >= 10}
 		<div class="title-band heading uni-pad">
 			<h2>{heading}</h2>
-			<a class="button-regular" href="{viewMorePath}">View More</a>
+			<a class="button-regular" href="{viewMorePath}">View more</a>
 		</div>
 	{:else}
 		<h2 class="title-band heading">{heading}</h2>

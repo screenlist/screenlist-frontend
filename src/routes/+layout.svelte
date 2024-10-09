@@ -111,6 +111,46 @@
 				</a>
 			</SignedIn>
 		{/if}
+		<SignedIn>
+			<ul class="links">
+				<li>
+					<a href='/films/new' title="Add film">
+						<figure>
+							<img 
+								src='/photos/figure-one-films.svg'
+								alt='Abstract red square with a short white stripe'
+								width="400px"
+								height="400px"
+							/>
+						</figure>
+					</a>
+				</li>
+				<li>
+					<a href='/people/new' title="Add person">
+						<figure>
+							<img 
+								src='/photos/figure-one-people.svg'
+								alt='Abstract red square with a short white stripe'
+								width="400px"
+								height="400px"
+							/>
+						</figure>
+					</a>
+				</li>
+				<li>
+					<a href='/companies/new' title="Add company">
+						<figure>
+							<img 
+								src='/photos/figure-one-companies.svg'
+								alt='Abstract red square with a short white stripe'
+								width="400px"
+								height="400px"
+							/>
+						</figure>
+					</a>
+				</li>
+			</ul>
+		</SignedIn>
 	</header>
 
 	<main>
@@ -423,6 +463,64 @@
 		100% {
 			background-position: -100% 0;
 		}
+	}
+
+	/* Quick Links styles */
+	.links {
+		position: fixed;
+		bottom: 2rem;
+		right: 0.5rem;
+		width: 50px;
+		background: var(--base-color);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border: 0.15rem solid var(--base-color-alt);
+		z-index: 10;
+		list-style: none;
+		padding: 0.8rem 0.2rem;
+		border-radius: 1rem;
+		/*display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-auto-flow: row;
+		grid-gap: 0.5rem;
+		width: 100%;
+		max-width: 900px;
+		
+		*/
+	}
+
+	.links > li {
+		width: 100%;
+	}
+
+	.links > li > a > figure {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+	}
+
+	.links > li > a > figure > img {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+	}
+
+	.links > li > a > figure > p {
+		position: absolute;
+		color: var(--base-color);
+		bottom: 0;
+		right: 0;
+		z-index: 5;
+		writing-mode: vertical-rl;
+		text-orientation: mixed;
+		transform: rotate(180deg);
+		font-size: 2rem;
+		font-weight: 600;
+		margin: 0;
+		padding: 1rem;
 	}
 
 	@media(min-width: 600px){

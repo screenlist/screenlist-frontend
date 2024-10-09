@@ -8,22 +8,19 @@ export const actions = {
 		const values = Object.fromEntries( Object.entries( Object.fromEntries(data.entries()) ).filter(([_, value]) => value != "") )
 		values.languages = data.getAll('languages')
 		values.genres = data.getAll('genres')
-		values.countries = data.getAll('countries')
+		values.countries = JSON.parse(data.getAll('countries'))
 		if(values.year){ values.year = ~~values.year }
 		if(values.runtime){ values.runtime = ~~values.runtime }
 		if(values.boxOffice){ values.boxOffice = ~~values.boxOffice }
 		if(values.budget){ values.budget = ~~values.budget }
 		if(values.releaseDate){ 
 			values.releaseDate = new Date(values.releaseDate)
-			if(values.year !== new Date(values.releaseDate).getFullYear()){ 
-				return fail(400, {
-					error: 'Year and Release Date must be the same year',
-					...Object.fromEntries(data.entries())
-				})
-			}
+		}
+		if(values.premiereDate){ 
+			values.premiereDate = new Date(values.premiereDate)
 		}
 		// console.log(Object.fromEntries(data.entries()))
-		// console.log(values)
+		// console.log(values.countries)
 
 		const response = await fetch(`${PUBLIC_SERVER}/films`, {
 			method: 'POST',

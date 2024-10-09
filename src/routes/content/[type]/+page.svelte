@@ -33,7 +33,7 @@
 				<a href='/films/new' title="Add film">
 					<figure>
 						<img 
-							src='/photos/figure-one.svg'
+							src='/photos/figure-one-films.svg'
 							alt='Abstract red square with a short white stripe'
 							width="400px"
 							height="400px"
@@ -46,7 +46,7 @@
 				<a href='/people/new' title="Add person">
 					<figure>
 						<img 
-							src='/photos/figure-one.svg'
+							src='/photos/figure-one-people.svg'
 							alt='Abstract red square with a short white stripe'
 							width="400px"
 							height="400px"
@@ -59,7 +59,7 @@
 				<a href='/companies/new' title="Add company">
 					<figure>
 						<img 
-							src='/photos/figure-one.svg'
+							src='/photos/figure-one-companies.svg'
 							alt='Abstract red square with a short white stripe'
 							width="400px"
 							height="400px"

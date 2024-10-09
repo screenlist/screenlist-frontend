@@ -6,9 +6,10 @@
 	import EmptyState from '$lib/EmptyState.svelte'
 	import LoadingState from '$lib/LoadingState.svelte'
 	import ErrorState from '$lib/ErrorState.svelte'
-	import { selected } from '$lib/index.js'
+	import { selected, continueOn } from '$lib/index.js'
 
 	export let collection = ''
+	export let isJustForSearch = false
 	// export let selected = {
 	// 	name: '', id: ''
 	// }
@@ -48,6 +49,10 @@
 			loading = false
 		}
 	}
+
+	function viewItem(id, collection){
+		window.open(`/${collection}/${id}`, '_blank')
+	}
 </script>
 
 <div class="page">
@@ -80,18 +85,35 @@
 				<ul>
 					{#each $results as val (val.document.id) }
 						<li>
-							<button on:click={() => { selected.set({
-								name: val.document.name,
-								id: val.document.id
-							}) }} >
+							<button on:click={() => { 
+								
+								if(isJustForSearch === true){ 
+									viewItem(val.document.id, collection) 
+								} else {
+									selected.set({
+										name: val.document.name,
+										id: val.document.id
+									}) 
+								}
+							}} >
 								<figure>
-									<img 
-										src={val.document.photoUrl ? val.document.photoUrl : '/photos/picture.png'} 
-										alt={val.document.photoUrl ? `${val.document.name}`: 'Placeholder'}
-										width="200px"
-										height="200px"
-										loading="lazy"
-									/>
+									{#if collection === 'films'}
+										<img 
+										src={val.document.posterUrl ? val.document.posterUrl : '/photos/poster.png'} 
+											alt={val.document.posterUrl ? `${val.document.name} poster`: 'Poster placeholder'}
+											width="200px"
+											height="300px"
+											loading="lazy"
+										/>
+									{:else}
+										<img 
+											src={val.document.photoUrl ? val.document.photoUrl : '/photos/picture.png'} 
+											alt={val.document.photoUrl ? `${val.document.name}`: 'Placeholder'}
+											width="200px"
+											height="200px"
+											loading="lazy"
+										/>
+									{/if}									
 								</figure>
 								<div>
 									{#if collection === 'people'}
@@ -106,8 +128,14 @@
 										{:else if !val.document.city && val.document.country}
 											<span>Based in {val.document.country}</span>
 										{/if}
-									{/if}
-									
+									{:else}
+										<h3>{val.document.name} {`(${val.document.year})`}</h3>
+										{#if val.document.directors?.length > 0}
+											<span>
+												Directed by {val.document.directors.join(', ')}
+											</span> 
+										{/if}
+									{/if}									
 								</div>
 							</button>
 						</li>
@@ -118,11 +146,18 @@
 	</div>
 
 	{#if $results.length < 15 && !loading}
-		<div class="newEntity">
-			<a href={`/${collection}/new?redirect_url=${encodeURIComponent($page.url.pathname)}${collection === 'people' ? `&redirect_category=${$page.url.searchParams.get('category')}` : ''}`} class="button-regular">
-				Add a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : ''}`}
-			</a>
-		</div>
+		{#if isJustForSearch === true}
+			<div style="display: flex; flex-direction: column; align-items: center; border: 0.3rem solid var(--base-color-alt); padding: 0.5rem 1rem; border-radius: 0.5rem;">
+				<p>Only create a new item if what you are looking for isn't already available, seriously.</p>
+				<button on:click={() => continueOn.set(true)} type="button" class="button-good">Create a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : collection === 'films' ? 'film' : ''}`}</button>
+			</div>
+		{:else}
+			<div class="newEntity">
+				<a href={`/${collection}/new?redirect_url=${encodeURIComponent($page.url.pathname)}${collection === 'people' ? `&redirect_category=${$page.url.searchParams.get('category')}` : ''}`} class="button-regular">
+					Add a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : collection === 'films' ? 'film' : ''}`}
+				</a>
+			</div>
+		{/if}		
 	{/if}
 </div>
 
@@ -230,7 +265,7 @@
 
 	.searchRoles > ul > li > button > figure {
 		margin: 0;
-		width: 10%;
+		width: 15%;
 	}
 
 	.searchRoles > ul > li > button > figure > img {
@@ -239,7 +274,7 @@
 	}
 
 	.searchRoles > ul > li > button > div {
-		width: 88%;
+		width: 83%;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -249,13 +284,14 @@
 	.searchRoles > ul > li > button > div > h3 {
 		text-wrap: wrap;
 		font-size: 1rem;
+		text-align: left;
 		font-weight: 400;
 		margin: 0;
 		color: var(--brand-color);
 	}
 
 	.searchRoles > ul > li > button > div > span {
-		margin-top: 0.8rem;
+	/*margin-top: 0.4rem;*/
 		font-size: 0.8rem;
 		color: var(--accent-color-alt);
 	}
