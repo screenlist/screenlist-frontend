@@ -1,6 +1,6 @@
 <script>
 	import iso3311a2 from 'iso-3166-1-alpha-2'
-	import { writable } from 'svelte/store'
+	import { writable, derived } from 'svelte/store'
 	import { page } from '$app/stores'
 	import { enhance } from '$app/forms'
 	import LoadingState from './LoadingState.svelte'
@@ -60,9 +60,32 @@
 
 	let loading = false
 	let otherNationalities = false
-	let otherBirthCountries = false
 
-	const countries = iso3311a2.getCountries()
+	const allCountries = iso3311a2.getCountries()
+	const searchCountries = writable('')
+	const countries = derived(
+		[searchCountries],
+		([$searchCountries]) => allCountries.filter(val => val.toLowerCase().includes($searchCountries.toLowerCase()))
+	)
+
+	const updateCountries = (selected, forRemoval) => {
+		values.update((val) => {
+			let newCountries
+			if(forRemoval){
+				newCountries = val.nationality.filter(item => item !== selected)
+			} else {
+			 	if (!val.nationality.includes(selected)) {
+					newCountries = [...val.nationality, selected];
+				} else {
+					newCountries = val.nationality;
+				}
+			}
+			return {
+				...val,
+				nationality: newCountries
+			}
+		})
+	}
 
 	function autoResize(event){
 		const textarea = event.target
@@ -141,7 +164,7 @@
 			<label for="countryOfOrigin">Country of Origin</label>
 			<p class="form-field-info">South Africa is selected by default for convenience but make sure to select approriately if the person was born in a foreign country.</p>
 			<select bind:value={$values.countryOfOrigin} name="countryOfOrigin" id="countryOfOrigin">
-				{#each countries as country (country)}
+				{#each allCountries as country (country)}
 					<option value={country}>{country}</option>
 				{/each}
 			</select>
@@ -158,17 +181,35 @@
 			<p class="form-field-info">South Africa is selected by default for convenience but make sure to select approriately for people of other nationalities.</p>
 			<ul class="form-field-list">
 				{#each $values.nationality as country (country) }
-					<li><span >{country}</span></li>
+					<li>
+						<span >{country}</span>
+						<button on:click={() => updateCountries(country, true)} type="button" class="button-icon">
+							<img 
+								src='/close-icon.svg'
+								alt='Remove icon'
+								width="25px"
+								height="25px"
+							/>
+							<span class="hide">Remove country</span>
+						</button>
+					</li>
 				{/each}
 			</ul>
 			<button on:click={() => otherNationalities = !otherNationalities} type="button" class="button-regular">{otherNationalities === false ? 'Show' : 'Hide'} other nationalities</button>
+
+			<input type="hidden" name="nationality" id="nationality" value={JSON.stringify($values.nationality)} />
+			{#if otherNationalities ===  true}
+				<input bind:value={$searchCountries} placeholder="Search for a country" autocomplete="off" id="search-countries" type="search" />
+			{/if}
+
 			<div class={otherNationalities === true  ? "form-checkbox-label-container" : "hide"}>
-				{#each countries as country (country)}
+				{#each $countries as item (item) }
 					<label class="form-checkbox-label">
-						<input bind:group={$values.nationality} type="checkbox" name="nationality" disabled={loading} value={country} />
-						<span>{country}</span>
+						<button on:click={() => updateCountries(item, false)} disabled={loading} class="button-regular" name="countries" type="button" value={item}>
+							{item}
+						</button>
 					</label>
-				{/each}
+				{/each}		
 			</div>
 		</div>
 

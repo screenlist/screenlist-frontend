@@ -9,7 +9,7 @@ export const actions = {
 
 		delete values.redirectUrl
 		delete values.redirectCategory
-		if(values.nationality){ values.nationality = data.getAll('nationality') }
+		if(values.nationality){ values.nationality = JSON.parse(data.getAll('nationality')) }
 		if(values.yearOfBirth){ values.yearOfBirth = ~~values.yearOfBirth }
 		if(values.dateMonthOfBirth){ 
 			values.dateMonthOfBirth = new Date(values.dateMonthOfBirth)
