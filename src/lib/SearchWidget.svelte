@@ -265,7 +265,7 @@
 
 	.searchRoles > ul > li > button > figure {
 		margin: 0;
-		width: 10%;
+		width: 15%;
 	}
 
 	.searchRoles > ul > li > button > figure > img {
@@ -274,7 +274,7 @@
 	}
 
 	.searchRoles > ul > li > button > div {
-		width: 88%;
+		width: 83%;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -284,13 +284,14 @@
 	.searchRoles > ul > li > button > div > h3 {
 		text-wrap: wrap;
 		font-size: 1rem;
+		text-align: left;
 		font-weight: 400;
 		margin: 0;
 		color: var(--brand-color);
 	}
 
 	.searchRoles > ul > li > button > div > span {
-		margin-top: 0.8rem;
+	/*margin-top: 0.4rem;*/
 		font-size: 0.8rem;
 		color: var(--accent-color-alt);
 	}

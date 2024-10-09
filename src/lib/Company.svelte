@@ -67,7 +67,7 @@
 
 <section class="form-page">
 	{#if $continueOn === false && !data.details}
-		<div style="min-width: 100%; min-height: 100vh; padding: 0 1rem; text-align: center;">
+		<div style="min-width: 100%; min-height: 100vh; text-align: center;">
 			<div>
 				<h2 class="h3" style="color: var(--brand-color);">Search for if a company is already available</h2>
 			</div>
