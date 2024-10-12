@@ -14,7 +14,7 @@
 	// console.log(category)
 	let contributer = $selected
 	// selected.subscribe(value => { contributer = value })	
-	$: $selected, contributer = $selected, console.log($selected)
+	$: $selected, contributer = $selected
 	let newContributer = false
 	let department = ''
 	let loading = false
