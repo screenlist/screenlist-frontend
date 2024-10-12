@@ -7,9 +7,12 @@
 	import SearchWidget from './SearchWidget.svelte'
 	import { continueOn } from './index.js'
 	import { onMount, onDestroy } from 'svelte'
+	import { page } from '$app/stores'
 
 	export let data
 	export let form
+
+	const onSearch = $page.url.searchParams.get('on_search')
 
 	onMount(() => { continueOn.set(false) })
 	onDestroy(() => { continueOn.set(false) })
@@ -117,8 +120,8 @@
 	}
 </script>
 
-<section class="form-page">
-	{#if $continueOn === false && !data.details}
+<section style="width: 100%; max-width: 100%;" class="form-page">
+	{#if $continueOn === false && !data.details && onSearch !== 'skip' }
 		<div style="min-width: 100%; min-height: 100vh; text-align: center;">
 			<div>
 				<h2 class="h3" style="color: var(--brand-color);">Search for if a film is already available</h2>
