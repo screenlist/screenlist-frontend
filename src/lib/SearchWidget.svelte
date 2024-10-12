@@ -147,9 +147,9 @@
 
 	{#if $results.length < 15 && !loading}
 		{#if isJustForSearch === true}
-			<div style="display: flex; flex-direction: column; align-items: center; border: 0.3rem solid var(--base-color-alt); padding: 0.5rem 1rem; border-radius: 0.5rem;">
+			<div style="display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; border-radius: 0 0 1rem 1rem;background: var(--brand-color);color: var(--base-color);max-width: 600px;">
 				<p>Only create a new item if what you are looking for isn't already available, seriously.</p>
-				<button on:click={() => continueOn.set(true)} type="button" class="button-good">Create a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : collection === 'films' ? 'film' : ''}`}</button>
+				<button on:click={() => continueOn.set(true)} type="button" class="button-regular">Create a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : collection === 'films' ? 'film' : ''}`}</button>
 			</div>
 		{:else}
 			<div class="newEntity">
