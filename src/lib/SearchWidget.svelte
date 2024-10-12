@@ -153,7 +153,7 @@
 			</div>
 		{:else}
 			<div class="newEntity">
-				<a href={`/${collection}/new?redirect_url=${encodeURIComponent($page.url.pathname)}${collection === 'people' ? `&redirect_category=${$page.url.searchParams.get('category')}` : ''}`} class="button-regular">
+				<a href={`/${collection}/new?redirect_url=${encodeURIComponent($page.url.pathname)}${collection === 'people' ? `&redirect_category=${$page.url.searchParams.get('category')}` : ''}&on_search=skip`} class="button-regular">
 					Add a new {`${collection === 'people' ? 'person' : collection === 'companies' ? 'company' : collection === 'films' ? 'film' : ''}`}
 				</a>
 			</div>

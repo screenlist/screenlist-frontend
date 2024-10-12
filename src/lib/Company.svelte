@@ -13,6 +13,8 @@
 	export let data
 	export let form
 
+	const onSearch = $page.url.searchParams.get('on_search')
+
 	onMount(() => { continueOn.set(false) })
 	onDestroy(() => { continueOn.set(false) })
 
@@ -66,7 +68,7 @@
 </script>
 
 <section style="width: 100%; max-width: 100%;" class="form-page">
-	{#if $continueOn === false && !data.details}
+	{#if $continueOn === false && !data.details && onSearch !== 'skip'}
 		<div style="min-width: 100%; min-height: 100vh; text-align: center;">
 			<div>
 				<h2 class="h3" style="color: var(--brand-color);">Search for if a company is already available</h2>
