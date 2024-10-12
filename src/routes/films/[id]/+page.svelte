@@ -247,7 +247,7 @@
 					{#if data.details.premiereDate}
 						<div class="datailDataContainerFlexChild">
 							<h3 class="">Premiere Date</h3>
-							<p><span>{new Date(data.details.releaseDate).toLocaleDateString('en-za')}</span></p>
+							<p><span>{new Date(data.details.premiereDate).toLocaleDateString('en-za')}</span></p>
 						</div>
 					{/if}
 					{#if data.details.initialPlatform}
