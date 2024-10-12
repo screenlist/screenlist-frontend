@@ -117,7 +117,7 @@
 	}
 </script>
 
-<section class="form-page">
+<section style="width: 100%; max-width: 100%;" class="form-page">
 	{#if $continueOn === false && !data.details}
 		<div style="min-width: 100%; min-height: 100vh; text-align: center;">
 			<div>
