@@ -100,7 +100,7 @@
 				{#if data.details.deathDate}
 					<div class="detailDataContainerFlexChild">
 						<h3 class="h4">Died</h3>
-						<p>{data.details.deathDate}</p>
+						<p>{new Date(data.details.deathDate).toLocaleDateString('en-ZA')}</p>
 					</div>
 				{/if}
 				{#if data.details.nationality}
